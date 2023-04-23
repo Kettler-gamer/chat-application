@@ -1,11 +1,13 @@
 import userService from "../services/userService.js";
+import jwtUtil from "../util/jwtUtil.js";
 
 function login(req, res) {
   const { username, password } = req.body;
 
   userService.comparePassword(username, password).then((match) => {
     if (match) {
-      res.send("You logged in!");
+      const jwtToken = jwtUtil.createToken({ username });
+      res.send({ jwtToken, message: "You logged in!" });
     } else {
       res.status(401).send("Incorrect username or password!");
     }
