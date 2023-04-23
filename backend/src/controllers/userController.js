@@ -1,35 +1,15 @@
 import userService from "../services/userService.js";
-import jwtUtil from "../util/jwtUtil.js";
 
-function login(req, res) {
-  const { username, password } = req.body;
-
-  userService.comparePassword(username, password).then((match) => {
-    if (match) {
-      const jwtToken = jwtUtil.createToken({ username });
-      res.send({ jwtToken, message: "You logged in!" });
-    } else {
-      res.status(401).send("Incorrect username or password!");
-    }
-  });
-}
-
-function register(req, res) {
-  const { username, password } = req.body;
-
+function getProfile(req, res) {
   userService
-    .addUser({ username, password })
-    .then((result) => {
-      res.status(201).send("The user was created!");
+    .getUser(req.jwtPayload.username)
+    .then((user) => {
+      return userService.getUsersFromIdList(user.contactIds);
     })
-    .catch((error) => {
-      console.log(error.code);
-      if (error.code === 11000) {
-        res.status(409).send("That username is already taken!");
-      } else {
-        res.status(500).send("Server error!");
-      }
+    .then((contacts) => {
+      console.log(contacts);
+      res.send({ username: req.jwtPayload.username, contacts });
     });
 }
 
-export default { login, register };
+export default { getProfile };

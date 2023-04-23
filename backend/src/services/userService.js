@@ -1,20 +1,11 @@
 import User from "../db/models/User.js";
-import bcrypt from "bcrypt";
 
-async function addUser(user) {
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(process.env.SALT_ROUNDS)
-  );
-  return User.insertMany([user]);
+async function getUser(username) {
+  return User.findOne({ username }, "username contactIds messageIds");
 }
 
-async function comparePassword(username, password) {
-  const user = await User.findOne({ username });
-
-  if (!user) return false;
-
-  return bcrypt.compare(password, user.password);
+async function getUsersFromIdList(list) {
+  return User.find({ _id: { $in: list } }, "username");
 }
 
-export default { addUser, comparePassword };
+export default { getUser, getUsersFromIdList };
