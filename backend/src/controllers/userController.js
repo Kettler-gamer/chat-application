@@ -15,9 +15,19 @@ function login(req, res) {
 function register(req, res) {
   const { username, password } = req.body;
 
-  userService.addUser({ username, password }).then((result) => {
-    res.status(201).send("The user was created!");
-  });
+  userService
+    .addUser({ username, password })
+    .then((result) => {
+      res.status(201).send("The user was created!");
+    })
+    .catch((error) => {
+      console.log(error.code);
+      if (error.code === 11000) {
+        res.status(409).send("That username is already taken!");
+      } else {
+        res.status(500).send("Server error!");
+      }
+    });
 }
 
 export default { login, register };
