@@ -11,6 +11,9 @@ router.put("/auth/register", userCheck.checkUserInput, authController.register);
 
 router.use(checkToken);
 
-router.route("/user").get(userController.getProfile);
+router
+  .route("/user")
+  .get(userController.getProfile)
+  .put(userController.addContact);
 
 export default router;
