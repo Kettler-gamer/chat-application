@@ -6,11 +6,13 @@ import io from "socket.io-client";
 import { Calling } from "../components/Calling";
 import { Call } from "../components/Call";
 import { onStartCall } from "../scripts/startCall";
+import { Caller } from "../components/Caller";
 
 export const info = {
   audioRecorder: undefined,
   mute: false,
   socket: undefined,
+  audio: new Audio(),
 };
 
 export function MainPage() {
@@ -58,8 +60,8 @@ export function MainPage() {
       setCaller(caller);
     });
     newSocket.on("voice", (data) => {
-      const audio = new Audio(data);
-      audio.play();
+      info.audio.src = data;
+      info.audio.play();
     });
     newSocket.on("serverMessage", (message) => {
       console.log(message);
@@ -84,11 +86,13 @@ export function MainPage() {
         profile={profile}
         selectedContact={selectedContact}
         socket={info.socket}
+        setCall={setCall}
       />
       {caller !== "" && !call && (
         <Calling socket={info.socket} caller={caller} setCaller={setCaller} />
       )}
-      {call && (
+      {call && caller === "" && <Caller />}
+      {call && caller !== "" && (
         <Call
           socket={info.socket}
           caller={caller}
@@ -96,6 +100,10 @@ export function MainPage() {
           setCall={setCall}
         />
       )}
+      {/* <audio
+        src="/sounds/plain_stupid.mp3"
+        onPause={() => console.log("Pause")}
+        autoPlay></audio> */}
     </main>
   );
 }

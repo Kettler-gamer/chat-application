@@ -4,6 +4,7 @@ export function Contact(props) {
       "call",
       props.profile.contacts[props.selectedContact].username
     );
+    props.setCall(true);
   }
 
   return (
