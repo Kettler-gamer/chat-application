@@ -1,0 +1,9 @@
+@use "../abstract/variables" as *;
+
+.call {
+  background-color: $C2;
+  margin-top: 10em;
+  padding: 2em;
+  border-radius: 0.5em;
+  height: fit-content;
+}

@@ -122,6 +122,15 @@ form button {
   margin: 0 0.5em;
 }
 
+.call {
+  background-color: #1b263b;
+  margin-top: 10em;
+  padding: 2em;
+  border-radius: 0.5em;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
 * {
   margin: 0;
   padding: 0;

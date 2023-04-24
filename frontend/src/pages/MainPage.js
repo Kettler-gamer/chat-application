@@ -4,11 +4,19 @@ import { useRef, useEffect, useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
 import io from "socket.io-client";
 import { Calling } from "../components/Calling";
+import { Call } from "../components/Call";
+import { onStartCall } from "../scripts/startCall";
+
+export const info = {
+  audioRecorder: undefined,
+  mute: false,
+  socket: undefined,
+};
 
 export function MainPage() {
-  const [socket, setSocket] = useState(undefined);
   const [profile, setProfile] = useState(undefined);
   const [caller, setCaller] = useState("");
+  const [call, setCall] = useState(false);
   const [selectedContact, setSelectedContact] = useState(undefined);
   const ref = useRef(false);
 
@@ -23,60 +31,37 @@ export function MainPage() {
     }
   }
 
-  function onStartCall(socket) {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const audioRecorder = new MediaRecorder(stream);
-
-      console.log(audioRecorder);
-      audioRecorder.ondataavailable = (blob) => {
-        const fileReader = new FileReader();
-
-        fileReader.onloadend = (event) => {
-          console.log(event.target.result);
-          socket.emit("voice", event.target.result);
-          audioRecorder.start();
-          setTimeout(() => {
-            audioRecorder.stop();
-          }, 500);
-        };
-
-        fileReader.readAsDataURL(blob.data);
-      };
-
-      audioRecorder.start();
-      setTimeout(() => {
-        audioRecorder.stop();
-      }, 500);
-    });
+  function onEndCall() {
+    setCaller("");
+    setCall(false);
+    info.mute = true;
+    setTimeout(() => {
+      info.mute = false;
+    }, 1000);
   }
 
   async function setupSocket() {
-    const socket = io("/", {
+    const newSocket = io("/", {
       extraHeaders: { jwtToken: sessionStorage.getItem("jwtToken") },
     });
-    socket.on("connect", () => {
+    newSocket.on("connect", () => {
       console.log("Connect");
-      setSocket(socket);
+      info.socket = newSocket;
     });
-    socket.on("connect_error", (message) => {
-      console.log(message);
+    newSocket.on("startCall", (person) => {
+      setCaller(person);
+      setCall(true);
+      onStartCall(info.socket);
     });
-    socket.on("disconnect", (message) => {
-      console.log(message);
-    });
-    socket.on("disconnecting", (message) => {
-      console.log(message);
-    });
-    socket.on("startCall", () => onStartCall(socket));
-    socket.on("call", (caller) => {
-      console.log(caller, " is calling!");
+    newSocket.on("endCall", onEndCall);
+    newSocket.on("call", (caller) => {
       setCaller(caller);
     });
-    socket.on("voice", (data) => {
+    newSocket.on("voice", (data) => {
       const audio = new Audio(data);
       audio.play();
     });
-    socket.on("serverMessage", (message) => {
+    newSocket.on("serverMessage", (message) => {
       console.log(message);
     });
   }
@@ -86,8 +71,11 @@ export function MainPage() {
       ref.current = true;
       getUserProfile();
       setupSocket();
+      navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+        info.audioRecorder = new MediaRecorder(stream);
+      });
     }
-  }, []);
+  });
 
   return (
     <main className="main-page">
@@ -95,9 +83,19 @@ export function MainPage() {
       <Contact
         profile={profile}
         selectedContact={selectedContact}
-        socket={socket}
+        socket={info.socket}
       />
-      {caller !== "" && <Calling socket={socket} caller={caller} />}
+      {caller !== "" && !call && (
+        <Calling socket={info.socket} caller={caller} setCall={setCall} />
+      )}
+      {call && (
+        <Call
+          socket={info.socket}
+          caller={caller}
+          setCaller={setCaller}
+          setCall={setCall}
+        />
+      )}
     </main>
   );
 }

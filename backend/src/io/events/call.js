@@ -24,8 +24,8 @@ export function onAnswer(ws, answer) {
       (room) => room.recipient == ws.jwtPayload.username
     );
     room.recipient = ws;
-    room.caller.emit("startCall");
-    room.recipient.emit("startCall");
+    room.caller.emit("startCall", ws.jwtPayload.username);
+    room.recipient.emit("startCall", room.caller.jwtPayload.username);
   } else {
     callRooms.splice(
       callRooms.indexOf(
