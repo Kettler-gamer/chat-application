@@ -3,13 +3,7 @@ import { onStartCall } from "../scripts/startCall";
 
 export function Call(props) {
   function onEndCall() {
-    props.setCaller("");
-    props.setCall(false);
-    info.mute = true;
     info.socket.emit("endCall");
-    setTimeout(() => {
-      info.mute = false;
-    }, 1000);
   }
 
   function onMute() {

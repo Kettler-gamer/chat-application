@@ -17,8 +17,6 @@ export function onCall(ws, contact) {
 }
 
 export function onAnswer(ws, answer) {
-  console.log(answer);
-  console.log(ws.jwtPayload.username);
   if (answer) {
     const room = callRooms.find(
       (room) => room.recipient == ws.jwtPayload.username
@@ -46,5 +44,33 @@ export function onVoice(ws, voiceData) {
     } else {
       room.caller.emit("voice", voiceData);
     }
+  }
+}
+
+export function onEndCall(ws) {
+  console.log("end call!");
+  const room = callRooms.find(
+    (room) => room.caller == ws || room.recipient == ws
+  );
+  if (room) {
+    room.caller.emit("endCall");
+    room.recipient.emit("endCall");
+    callRooms.splice(callRooms.indexOf(room), 1);
+    console.log("Callrooms: ", callRooms.length);
+  }
+}
+
+export function checkCallRooms(ws) {
+  const foundRoom = callRooms.find(
+    (room) => room.caller == ws || room.recipient == ws
+  );
+
+  if (foundRoom) {
+    if (foundRoom.caller == ws) {
+      foundRoom.recipient.emit("endCall");
+    } else {
+      foundRoom.caller.emit("endCall");
+    }
+    callRooms.splice(callRooms.indexOf(foundRoom), 1);
   }
 }

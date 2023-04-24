@@ -86,7 +86,7 @@ export function MainPage() {
         socket={info.socket}
       />
       {caller !== "" && !call && (
-        <Calling socket={info.socket} caller={caller} setCall={setCall} />
+        <Calling socket={info.socket} caller={caller} setCaller={setCaller} />
       )}
       {call && (
         <Call
