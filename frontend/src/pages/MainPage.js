@@ -2,6 +2,7 @@ import { Contacts } from "../components/Contacts";
 import { Contact } from "../components/Contact";
 import { useRef, useEffect, useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
+import io from "socket.io-client";
 
 export function MainPage() {
   const [profile, setProfile] = useState(undefined);
@@ -19,10 +20,16 @@ export function MainPage() {
     }
   }
 
+  async function setupSocket() {
+    const socket = io("/");
+    // socket.on()
+  }
+
   useEffect(() => {
     if (!ref.current) {
       ref.current = true;
       getUserProfile();
+      setupSocket();
     }
   }, []);
 

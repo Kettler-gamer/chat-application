@@ -2,7 +2,7 @@ import { AddContact } from "./AddContact";
 import { useState } from "react";
 
 export function Contacts(props) {
-  const [add, setAdd] = useState(true);
+  const [add, setAdd] = useState(false);
 
   return (
     <>
