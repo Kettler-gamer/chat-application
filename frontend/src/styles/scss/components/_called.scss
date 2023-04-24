@@ -1,0 +1,19 @@
+@use "../abstract/variables" as *;
+
+.called {
+  background-color: $C1;
+  height: fit-content;
+  padding: 2em 2em;
+  margin-top: 10em;
+  border-radius: 0.5em;
+  h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 2em;
+  }
+  button {
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    margin: 0 0.5em;
+  }
+}

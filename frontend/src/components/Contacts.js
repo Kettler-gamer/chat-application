@@ -14,7 +14,9 @@ export function Contacts(props) {
         <ul className="contacts-list">
           {props.profile !== undefined && props.profile.contacts.length > 0 ? (
             props.profile.contacts.map((contact, index) => (
-              <li onClick={() => props.setSelectedContact(index)}>
+              <li
+                key={`contact-${index}`}
+                onClick={() => props.setSelectedContact(index)}>
                 {contact.username}
               </li>
             ))

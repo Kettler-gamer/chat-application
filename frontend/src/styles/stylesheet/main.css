@@ -103,6 +103,25 @@ form button {
   margin-top: 8em;
 }
 
+.called {
+  background-color: #0d1b2a;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 2em 2em;
+  margin-top: 10em;
+  border-radius: 0.5em;
+}
+.called h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2em;
+}
+.called button {
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  margin: 0 0.5em;
+}
+
 * {
   margin: 0;
   padding: 0;

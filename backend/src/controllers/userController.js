@@ -7,7 +7,6 @@ function getProfile(req, res) {
       return userService.getUsersFromIdList(user.contactIds);
     })
     .then((contacts) => {
-      console.log(contacts);
       res.send({ username: req.jwtPayload.username, contacts });
     });
 }
