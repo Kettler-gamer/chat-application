@@ -8,6 +8,7 @@ form {
   min-width: 350px;
   max-width: 500px;
   font-size: 1.25rem;
+  height: fit-content;
   border-radius: 0.25em;
   box-shadow: 0 0 25px black;
   color: $C5;
@@ -22,7 +23,6 @@ form {
   button {
     box-shadow: 0 0 5px black;
     border-radius: 0.33em;
-    font-size: 1.15rem;
     padding: 0.5em 1em;
   }
   input {
@@ -30,6 +30,7 @@ form {
     color: $C5;
     border: none;
     width: 45%;
+    font-size: 1.1rem;
   }
   button:not(:first-of-type),
   input:not(:first-of-type) {
@@ -37,12 +38,6 @@ form {
   }
 
   button {
-    background-color: $C2;
-    color: $C5;
     width: 40%;
-  }
-
-  button:hover {
-    background-color: $C3;
   }
 }

@@ -2,6 +2,7 @@
 @use "./components/form" as *;
 @use "./pages/login" as *;
 @use "./pages/mainPage" as *;
+@use "./components/popup" as *;
 
 * {
   margin: 0;
@@ -11,4 +12,14 @@
 body {
   background-color: $C1;
   color: $C5;
+}
+
+button {
+  background-color: $C2;
+  color: $C5;
+  font-size: 1.15rem;
+}
+
+button:hover {
+  background-color: $C3;
 }

@@ -1,0 +1,13 @@
+.black-background {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  form {
+    margin-top: 8em;
+  }
+}

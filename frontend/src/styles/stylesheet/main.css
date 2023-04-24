@@ -5,6 +5,8 @@ form {
   min-width: 350px;
   max-width: 500px;
   font-size: 1.25rem;
+  height: -moz-fit-content;
+  height: fit-content;
   border-radius: 0.25em;
   box-shadow: 0 0 25px black;
   color: #e0e1dd;
@@ -20,7 +22,6 @@ form input,
 form button {
   box-shadow: 0 0 5px black;
   border-radius: 0.33em;
-  font-size: 1.15rem;
   padding: 0.5em 1em;
 }
 form input {
@@ -28,18 +29,14 @@ form input {
   color: #e0e1dd;
   border: none;
   width: 45%;
+  font-size: 1.1rem;
 }
 form button:not(:first-of-type),
 form input:not(:first-of-type) {
   margin-top: -1.25em;
 }
 form button {
-  background-color: #1b263b;
-  color: #e0e1dd;
   width: 40%;
-}
-form button:hover {
-  background-color: #415a77;
 }
 
 .login {
@@ -92,6 +89,20 @@ form button:hover {
   display: flex;
 }
 
+.black-background {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+.black-background form {
+  margin-top: 8em;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -100,4 +111,14 @@ form button:hover {
 body {
   background-color: #0d1b2a;
   color: #e0e1dd;
+}
+
+button {
+  background-color: #1b263b;
+  color: #e0e1dd;
+  font-size: 1.15rem;
+}
+
+button:hover {
+  background-color: #415a77;
 }/*# sourceMappingURL=main.css.map */
