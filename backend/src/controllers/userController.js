@@ -15,7 +15,6 @@ function getProfile(req, res) {
 function addContact(req, res) {
   const { username } = req.jwtPayload;
   const { contactName } = req.body;
-  console.log("Add contact!");
 
   userService
     .getUser(contactName)
@@ -25,7 +24,6 @@ function addContact(req, res) {
       return userService.addContact(username, contact._id);
     })
     .then((result) => {
-      console.log(result);
       if (result.modifiedCount > 0) {
         res.status(201).send("The contact was added!");
       } else if (result.matchedCount == 1) {
