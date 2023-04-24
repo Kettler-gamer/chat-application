@@ -3,6 +3,7 @@ export function fetchJson(url, method, body) {
     method,
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("jwtToken")}`,
     },
   };
 

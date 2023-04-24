@@ -1,9 +1,12 @@
 import { Form } from "../components/Form";
 import { fetchJson } from "../scripts/Fetch";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Login() {
   const [serverMessage, setServerMessage] = useState("");
+  const navigate = useNavigate();
+
   async function onSubmit(event) {
     event.preventDefault();
     setServerMessage("");
@@ -19,6 +22,7 @@ export function Login() {
       console.log(data);
       sessionStorage.setItem("jwtToken", data.jwtToken);
       setServerMessage(data.message);
+      navigate("/main");
     } else {
       setServerMessage(await response.text());
     }
