@@ -14,11 +14,15 @@ export function AddContact(props) {
     const response = await fetchJson("/user", "PUT", body);
 
     if (response.status < 400) {
-      const data = await response.json();
-      console.log(data);
-    } else {
-      setServerMessage(await response.text());
+      props.setProfile((oldValue) => {
+        const newVal = JSON.parse(JSON.stringify(oldValue));
+
+        newVal.contacts = [...newVal.contacts, { username: body.contactName }];
+
+        return newVal;
+      });
     }
+    setServerMessage(await response.text());
   }
 
   function onBlackClick(event) {

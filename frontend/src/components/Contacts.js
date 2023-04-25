@@ -25,7 +25,7 @@ export function Contacts(props) {
           )}
         </ul>
       </div>
-      {add && <AddContact setAdd={setAdd} />}
+      {add && <AddContact setAdd={setAdd} setProfile={props.setProfile} />}
     </>
   );
 }

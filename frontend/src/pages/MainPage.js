@@ -98,7 +98,11 @@ export function MainPage() {
 
   return (
     <main className="main-page">
-      <Contacts profile={profile} setSelectedContact={setSelectedContact} />
+      <Contacts
+        profile={profile}
+        setSelectedContact={setSelectedContact}
+        setProfile={setProfile}
+      />
       <Contact
         profile={profile}
         selectedContact={selectedContact}
