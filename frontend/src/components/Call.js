@@ -6,6 +6,7 @@ export function Call(props) {
 
   function onEndCall() {
     console.log("End call");
+    setMute(false);
     info.conn.close();
     info.currentCall.close();
   }
