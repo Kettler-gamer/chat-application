@@ -5,14 +5,17 @@ import { fetchJson } from "../scripts/Fetch";
 import io from "socket.io-client";
 import { Calling } from "../components/Calling";
 import { Call } from "../components/Call";
-import { onStartCall } from "../scripts/startCall";
 import { Caller } from "../components/Caller";
+import { Peer } from "peerjs";
 
 export const info = {
+  peer: undefined,
   audioRecorder: undefined,
   mute: false,
   socket: undefined,
   audio: new Audio(),
+  conn: undefined,
+  currentCall: undefined,
 };
 
 export function MainPage() {
@@ -28,44 +31,61 @@ export function MainPage() {
     if (response.status < 400) {
       const data = await response.json();
       setProfile(data);
+      setUpMicrophone(data.username);
     } else {
       console.log(await response.text());
     }
   }
 
-  function onEndCall() {
-    setCaller("");
-    setCall(false);
-    info.mute = true;
-    setTimeout(() => {
-      info.mute = false;
-    }, 1000);
+  function setUpMicrophone(username) {
+    info.peer = new Peer(username, {
+      host: window.location.hostname,
+      debug: 1,
+      path: "/peer",
+    });
+    info.peer.on("connection", (connection) => {
+      console.log("Peer connection!");
+      info.conn = connection;
+      connection.on("close", () => {
+        console.log("Close connection!");
+        setCall(false);
+        setCaller("");
+      });
+    });
+    info.peer.on("error", (error) => {
+      console.log(error);
+    });
+    info.peer.on("call", (call) => {
+      setCaller(call.peer);
+      info.currentCall = call;
+    });
+    window.peer = info.peer;
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      window.localStream = stream;
+      window.localAudio.srcObject = stream;
+      info.audioRecorder = new MediaRecorder(stream);
+    });
   }
 
   async function setupSocket() {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
     const newSocket = io("/", {
       extraHeaders: { jwtToken: sessionStorage.getItem("jwtToken") },
     });
     newSocket.on("connect", () => {
-      console.log("Connect");
       info.socket = newSocket;
     });
-    newSocket.on("startCall", (person) => {
-      setCaller(person);
-      setCall(true);
-      onStartCall(info.socket);
-    });
-    newSocket.on("endCall", onEndCall);
-    newSocket.on("call", (caller) => {
-      setCaller(caller);
-    });
-    newSocket.on("voice", (data) => {
-      info.audio.src = data;
-      info.audio.play();
+    newSocket.on("connection_error", () => {
+      console.log("Connection error!");
     });
     newSocket.on("serverMessage", (message) => {
       console.log(message);
     });
+    return promise;
   }
 
   useEffect(() => {
@@ -73,9 +93,6 @@ export function MainPage() {
       ref.current = true;
       getUserProfile();
       setupSocket();
-      navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-        info.audioRecorder = new MediaRecorder(stream);
-      });
     }
   });
 
@@ -87,9 +104,16 @@ export function MainPage() {
         selectedContact={selectedContact}
         socket={info.socket}
         setCall={setCall}
+        setCaller={setCaller}
+        setupSocket={setupSocket}
       />
       {caller !== "" && !call && (
-        <Calling socket={info.socket} caller={caller} setCaller={setCaller} />
+        <Calling
+          socket={info.socket}
+          caller={caller}
+          setCaller={setCaller}
+          setCall={setCall}
+        />
       )}
       {call && caller === "" && <Caller />}
       {call && caller !== "" && (
@@ -100,10 +124,8 @@ export function MainPage() {
           setCall={setCall}
         />
       )}
-      {/* <audio
-        src="/sounds/plain_stupid.mp3"
-        onPause={() => console.log("Pause")}
-        autoPlay></audio> */}
+      <audio id="localAudio"></audio>
+      <audio id="remoteAudio"></audio>
     </main>
   );
 }

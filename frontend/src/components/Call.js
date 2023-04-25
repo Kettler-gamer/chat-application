@@ -3,7 +3,9 @@ import { onStartCall } from "../scripts/startCall";
 
 export function Call(props) {
   function onEndCall() {
-    info.socket.emit("endCall");
+    console.log("End call");
+    info.conn.close();
+    info.currentCall.close();
   }
 
   function onMute() {

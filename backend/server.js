@@ -5,6 +5,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { onSocketConnection } from "./src/io/ioHandler.js";
 import { jwtCheck } from "./src/io/filter/jwtCheck.js";
+import { ExpressPeerServer } from "peer";
 
 const app = express();
 
@@ -14,6 +15,14 @@ app.use(router);
 
 const server = createServer(app);
 const io = new Server(server);
+const peerServer = ExpressPeerServer(server, {
+  proxied: true,
+  debug: true,
+  path: "/peer",
+  ssl: {},
+});
+
+app.use(peerServer);
 
 io.use(jwtCheck);
 io.on("connection", onSocketConnection);

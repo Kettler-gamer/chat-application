@@ -1,11 +1,26 @@
+import { info } from "../pages/MainPage";
+
 export function Calling(props) {
   function onAnswer() {
-    props.socket.emit("answer", true);
+    info.currentCall.answer(window.localStream);
+    info.currentCall.on("stream", (stream) => {
+      console.log("stream");
+      window.remoteAudio.srcObject = stream;
+      window.remoteAudio.autoplay = true;
+      window.peerStream = stream;
+    });
+    info.currentCall.on("close", () => {
+      console.log("Call close");
+      props.setCall(false);
+      props.setCaller("");
+    });
+    props.setCall(true);
   }
 
   function onDecline() {
-    props.socket.emit("answer", false);
+    info.currentCall.close();
     props.setCaller("");
+    info.conn.close();
   }
 
   return (
