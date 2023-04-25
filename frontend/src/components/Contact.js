@@ -2,10 +2,7 @@ import { info } from "../pages/MainPage";
 
 export function Contact(props) {
   async function callClick() {
-    if (!props.socket) {
-      await props.setupSocket();
-    }
-    info.conn = info.peer.connect(
+    info.conn = window.peer.connect(
       props.profile.contacts[props.selectedContact].username
     );
     info.currentCall = info.peer.call(
@@ -13,7 +10,7 @@ export function Contact(props) {
       window.localStream
     );
     info.currentCall.on("stream", (stream) => {
-      console.log("Stream click");
+      console.log("stream");
       window.remoteAudio.srcObject = stream;
       window.remoteAudio.autoplay = true;
       window.peerStream = stream;

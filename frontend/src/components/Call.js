@@ -1,6 +1,9 @@
 import { info } from "../pages/MainPage";
+import { useState } from "react";
 
 export function Call(props) {
+  const [mute, setMute] = useState(false);
+
   function onEndCall() {
     console.log("End call");
     info.conn.close();
@@ -8,10 +11,10 @@ export function Call(props) {
   }
 
   function onMute() {
-    info.mute = !info.mute;
+    const track = window.localStream.getTracks()[0];
 
-    if (!info.mute) {
-    }
+    track.enabled = !track.enabled;
+    setMute((oldValue) => !oldValue);
   }
 
   return (
@@ -19,7 +22,9 @@ export function Call(props) {
       <div className="call">
         <p>{props.caller}</p>
         <button onClick={onEndCall}>End call</button>
-        <button onClick={onMute}>Mute</button>
+        <button style={mute ? { backgroundColor: "red" } : {}} onClick={onMute}>
+          Mute
+        </button>
       </div>
     </div>
   );

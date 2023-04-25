@@ -10,7 +10,6 @@ import { Peer } from "peerjs";
 
 export const info = {
   peer: undefined,
-  audioRecorder: undefined,
   mute: false,
   socket: undefined,
   audio: new Audio(),
@@ -38,12 +37,12 @@ export function MainPage() {
   }
 
   function setUpMicrophone(username) {
-    info.peer = new Peer(username, {
+    window.peer = new Peer(username, {
       host: window.location.hostname,
       debug: 1,
       path: "/peer",
     });
-    info.peer.on("connection", (connection) => {
+    window.peer.on("connection", (connection) => {
       console.log("Peer connection!");
       info.conn = connection;
       connection.on("close", () => {
@@ -52,32 +51,27 @@ export function MainPage() {
         setCaller("");
       });
     });
-    info.peer.on("error", (error) => {
+    window.peer.on("error", (error) => {
       console.log(error.message);
       if (error.message.includes("Could not connect to peer")) {
         setCall(false);
         setCaller("");
       }
     });
-    info.peer.on("call", (call) => {
+    window.peer.on("call", (call) => {
       setCaller(call.peer);
       info.currentCall = call;
     });
-    window.peer = info.peer;
+    info.peer = window.peer;
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       window.localStream = stream;
       window.localAudio.srcObject = stream;
-      info.audioRecorder = new MediaRecorder(stream);
     });
   }
 
-  async function setupSocket() {
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    });
+  function setupSocket() {
     const newSocket = io("/", {
+      pingInterval: 25000,
       extraHeaders: { jwtToken: sessionStorage.getItem("jwtToken") },
     });
     newSocket.on("connect", () => {
@@ -89,7 +83,7 @@ export function MainPage() {
     newSocket.on("serverMessage", (message) => {
       console.log(message);
     });
-    return promise;
+    info.socket = newSocket;
   }
 
   useEffect(() => {
@@ -113,7 +107,6 @@ export function MainPage() {
         socket={info.socket}
         setCall={setCall}
         setCaller={setCaller}
-        setupSocket={setupSocket}
       />
       {caller !== "" && !call && (
         <Calling
