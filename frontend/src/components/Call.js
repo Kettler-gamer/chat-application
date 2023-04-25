@@ -1,5 +1,4 @@
 import { info } from "../pages/MainPage";
-import { onStartCall } from "../scripts/startCall";
 
 export function Call(props) {
   function onEndCall() {
@@ -12,7 +11,6 @@ export function Call(props) {
     info.mute = !info.mute;
 
     if (!info.mute) {
-      onStartCall(props.socket);
     }
   }
 

@@ -1,9 +1,9 @@
-import { Form } from "../components/Form";
 import { fetchJson } from "../scripts/Fetch";
+import { Form } from "../components/Form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function Login() {
+export function SignUp() {
   const [serverMessage, setServerMessage] = useState("");
   const navigate = useNavigate();
 
@@ -15,24 +15,16 @@ export function Login() {
 
     const body = Object.fromEntries(formData);
 
-    const response = await fetchJson("/auth/login", "POST", body);
+    const response = await fetchJson("/auth/register", "PUT", body);
 
-    if (response.status < 400) {
-      const data = await response.json();
-      console.log(data);
-      sessionStorage.setItem("jwtToken", data.jwtToken);
-      setServerMessage(data.message);
-      navigate("/main");
-    } else {
-      setServerMessage(await response.text());
-    }
+    setServerMessage(await response.text());
   }
 
   return (
     <main className="login">
       <h1>Chat application</h1>
       <Form
-        title="Login"
+        title="Sign Up"
         onSubmit={onSubmit}
         content={
           <>
@@ -47,9 +39,9 @@ export function Login() {
         }
         buttons={
           <>
-            <button type="submit">Login</button>
-            <button type="button" onClick={() => navigate("/register")}>
-              Sign up
+            <button type="submit">Sign up</button>
+            <button type="button" onClick={() => navigate("/")}>
+              Cancel
             </button>
           </>
         }
