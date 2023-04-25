@@ -53,7 +53,11 @@ export function MainPage() {
       });
     });
     info.peer.on("error", (error) => {
-      console.log(error);
+      console.log(error.message);
+      if (error.message.includes("Could not connect to peer")) {
+        setCall(false);
+        setCaller("");
+      }
     });
     info.peer.on("call", (call) => {
       setCaller(call.peer);
