@@ -1,6 +1,10 @@
 import userService from "../services/userService.js";
 
 function getProfile(req, res) {
+  const { contactName } = req.query;
+
+  if (contactName) return getContactInfo(contactName, res);
+
   userService
     .getUser(req.jwtPayload.username)
     .then((user) => {
@@ -34,6 +38,22 @@ function addContact(req, res) {
     .catch((error) => {
       console.log(error);
       res.status(500).send(error.message);
+    });
+}
+
+function getContactInfo(contactName, res) {
+  userService
+    .getContactInfo(contactName)
+    .then((user) => {
+      if (user) {
+        res.send(user);
+      } else {
+        res.status(404).send("User not found!");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send("Server Error");
     });
 }
 

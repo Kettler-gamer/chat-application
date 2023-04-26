@@ -12,4 +12,8 @@ async function addContact(username, contactId) {
   return User.updateOne({ username }, { $addToSet: { contactIds: contactId } });
 }
 
-export default { getUser, getUsersFromIdList, addContact };
+async function getContactInfo(username) {
+  return User.findOne({ username }, "username profilePicture");
+}
+
+export default { getUser, getUsersFromIdList, addContact, getContactInfo };
