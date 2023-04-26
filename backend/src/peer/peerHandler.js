@@ -8,8 +8,6 @@ export function setUpPeerEvents(peerServer) {
 }
 
 function onConnection(peer) {
-  console.log("Connection to peer...");
-
   jwtUtil
     .verifyToken(peer.token)
     .then((payload) => {

@@ -16,4 +16,14 @@ async function getContactInfo(username) {
   return User.findOne({ username }, "username profilePicture");
 }
 
-export default { getUser, getUsersFromIdList, addContact, getContactInfo };
+async function updateProfilePicture(username, profilePicture) {
+  return User.updateOne({ username }, { profilePicture });
+}
+
+export default {
+  getUser,
+  getUsersFromIdList,
+  addContact,
+  getContactInfo,
+  updateProfilePicture,
+};

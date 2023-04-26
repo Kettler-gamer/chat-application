@@ -17,6 +17,8 @@ router
   .get(userController.getProfile)
   .put(userController.addContact);
 
+router.put("/profilePicture", userController.setProfilePicture);
+
 router
   .route("/message")
   .get(messageController.getMessages)

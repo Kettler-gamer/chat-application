@@ -41,6 +41,33 @@ function addContact(req, res) {
     });
 }
 
+function setProfilePicture(req, res) {
+  const { username } = req.jwtPayload;
+  const { picture } = req.body;
+
+  if (!picture) return res.status(400).send("No picture provided!");
+
+  if (
+    !picture.startsWith("data:image/png;base64,") &&
+    !picture.startsWith("data:image/jpeg;base64,")
+  )
+    return res.status(400).send("Invalid image type!");
+
+  userService
+    .updateProfilePicture(username, picture)
+    .then((result) => {
+      if (result.modifiedCount > 0) {
+        res.send("The picture was added!");
+      } else {
+        res.status(500).send("Something went wrong!");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send("Something went wrong!");
+    });
+}
+
 function getContactInfo(contactName, res) {
   userService
     .getContactInfo(contactName)
@@ -57,4 +84,4 @@ function getContactInfo(contactName, res) {
     });
 }
 
-export default { getProfile, addContact };
+export default { getProfile, addContact, setProfilePicture };
