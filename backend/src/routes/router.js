@@ -1,6 +1,7 @@
 import express from "express";
 import authController from "../controllers/authController.js";
 import userController from "../controllers/userController.js";
+import messageController from "../controllers/messageController.js";
 import userCheck from "../filter/userCheck.js";
 import checkToken from "../filter/jwtCheck.js";
 
@@ -15,5 +16,10 @@ router
   .route("/user")
   .get(userController.getProfile)
   .put(userController.addContact);
+
+router
+  .route("/message")
+  .get(messageController.getMessages)
+  .post(messageController.postMessage);
 
 export default router;
