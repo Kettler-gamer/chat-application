@@ -3,7 +3,31 @@ import { fetchJson } from "../scripts/Fetch";
 
 export function Chat(props) {
   const [messages, setMessages] = useState([]);
+  const [content, setContent] = useState("");
   const ref = useRef(false);
+
+  async function sendMessage(content) {
+    const response = await fetchJson("/message", "POST", {
+      contactName: props.contactName,
+      content,
+    });
+
+    if (response.status < 400) {
+      setContent("");
+    } else {
+      console.log(await response.text());
+    }
+  }
+
+  function onKeyDown(event) {
+    if (event.code === "Enter" && content.length > 0) {
+      sendMessage(content);
+    }
+  }
+
+  function handleChange(event) {
+    setContent(event.target.value);
+  }
 
   useEffect(() => {
     if (!ref.current) {
@@ -40,7 +64,12 @@ export function Chat(props) {
       </div>
       <div className="chat-input-container">
         <button>➕</button>
-        <input placeholder="Type here..." />
+        <input
+          placeholder="Type here..."
+          value={content}
+          onChange={handleChange}
+          onKeyDown={onKeyDown}
+        />
       </div>
     </div>
   );
