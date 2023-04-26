@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import { onSocketConnection } from "./src/io/ioHandler.js";
 import { jwtCheck } from "./src/io/filter/jwtCheck.js";
 import { ExpressPeerServer } from "peer";
+import { setUpPeerEvents } from "./src/peer/peerHandler.js";
 
 const app = express();
 
@@ -19,12 +20,7 @@ const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
 
-peerServer.on("connection", (peer) => {
-  console.log(`${peer.id} Connected`);
-});
-peerServer.on("disconnect", (peer) => {
-  console.log(`${peer.id} Disconnect`);
-});
+setUpPeerEvents(peerServer);
 
 app.use("/peerjs", peerServer);
 

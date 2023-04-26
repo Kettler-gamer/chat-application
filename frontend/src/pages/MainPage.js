@@ -41,6 +41,7 @@ export function MainPage() {
       host: "/",
       debug: 1,
       port: 3001,
+      token: sessionStorage.getItem("jwtToken"),
       path: "/peerjs",
     });
     window.peer.on("connection", (connection) => {
@@ -57,6 +58,11 @@ export function MainPage() {
       if (error.message.includes("Could not connect to peer")) {
         setCall(false);
         setCaller("");
+      } else if (error.message.includes("Lost connection to server")) {
+        console.log("Lost PEER server connection!");
+        setTimeout(() => {
+          window.peer.reconnect();
+        }, 5000);
       }
     });
     window.peer.on("call", (call) => {
@@ -94,8 +100,9 @@ export function MainPage() {
   useEffect(() => {
     if (!ref.current) {
       ref.current = true;
-      getUserProfile();
-      setupSocket();
+      // getUserProfile();
+      // setupSocket();
+      setUpMicrophone("Filip");
     }
   });
 
