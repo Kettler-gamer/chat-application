@@ -2,7 +2,6 @@ import Message from "../db/models/Message.js";
 import User from "../db/models/User.js";
 
 async function getMessagesFromList(list) {
-  //To be
   return Message.find({ _id: { $in: list } });
 }
 
