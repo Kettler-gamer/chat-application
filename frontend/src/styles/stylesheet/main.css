@@ -162,6 +162,7 @@ form button {
 }
 .contact-page .contact-chat-container .chat-message-container {
   height: 90%;
+  overflow-y: scroll;
 }
 .contact-page .contact-chat-container .chat-message-container .chat-message {
   margin-left: 1em;
@@ -175,6 +176,9 @@ form button {
 }
 .contact-page .contact-chat-container .chat-message-container .chat-message p {
   margin: 0.75em 0;
+}
+.contact-page .contact-chat-container .chat-message-container::-webkit-scrollbar {
+  background-color: #1b263b;
 }
 .contact-page .contact-chat-container .chat-input-container {
   height: 8%;

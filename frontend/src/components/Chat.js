@@ -29,11 +29,19 @@ export function Chat(props) {
     setContent(event.target.value);
   }
 
+  function scrollChatToBottom() {
+    setTimeout(() => {
+      const cont = document.querySelector(".chat-message-container");
+      cont.scrollTo(0, cont.scrollHeight);
+    }, 200);
+  }
+
   useEffect(() => {
     if (!ref.current) {
       ref.current = true;
       window.socket.on("newMessage", (message) => {
         setMessages((oldValue) => [...oldValue, message]);
+        scrollChatToBottom();
       });
     }
     async function fetchMessages() {
@@ -44,6 +52,7 @@ export function Chat(props) {
 
       if (response.status < 400) {
         setMessages(await response.json());
+        scrollChatToBottom();
       } else {
         console.log(await response.text());
       }

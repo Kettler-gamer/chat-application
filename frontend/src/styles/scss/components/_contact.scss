@@ -29,6 +29,8 @@
     }
     .chat-message-container {
       height: 90%;
+      overflow-y: scroll;
+
       .chat-message {
         margin-left: 1em;
         h3,
@@ -42,6 +44,9 @@
           margin: 0.75em 0;
         }
       }
+    }
+    .chat-message-container::-webkit-scrollbar {
+      background-color: $C2;
     }
     .chat-input-container {
       height: 8%;

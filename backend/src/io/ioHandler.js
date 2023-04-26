@@ -5,7 +5,7 @@ export function onSocketConnection(ws) {
 
   if (oldConnection) {
     console.log("Old connection!");
-    sockets.splice(sockets.indexOf(oldConnection), 1);
+    delete sockets[ws.jwtPayload.username];
     console.log("Disconnect, current sockets:", Object.keys(sockets).length);
   }
 
