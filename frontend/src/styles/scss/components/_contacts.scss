@@ -27,9 +27,24 @@
   .contacts-list {
     border-top: 5px solid $C2;
     padding: 1em 2em;
-    li {
+    display: flex;
+    flex-direction: column;
+    .list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1em;
+      padding: 0.5em;
+      width: 100%;
+      img {
+        width: 64px;
+        height: 64px;
+        border-radius: 5em;
+      }
       list-style-type: none;
-      text-align: center;
+    }
+    .list-item:hover {
+      background-color: $C2;
     }
   }
 }

@@ -77,10 +77,25 @@ form button {
 .contacts-section .contacts-list {
   border-top: 5px solid #1b263b;
   padding: 1em 2em;
+  display: flex;
+  flex-direction: column;
 }
-.contacts-section .contacts-list li {
+.contacts-section .contacts-list .list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  width: 100%;
   list-style-type: none;
-  text-align: center;
+}
+.contacts-section .contacts-list .list-item img {
+  width: 64px;
+  height: 64px;
+  border-radius: 5em;
+}
+.contacts-section .contacts-list .list-item:hover {
+  background-color: #1b263b;
 }
 
 .main-page {

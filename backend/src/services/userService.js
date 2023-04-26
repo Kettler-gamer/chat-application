@@ -5,7 +5,7 @@ async function getUser(username) {
 }
 
 async function getUsersFromIdList(list) {
-  return User.find({ _id: { $in: list } }, "username");
+  return User.find({ _id: { $in: list } }, "username profilePicture");
 }
 
 async function addContact(username, contactId) {
