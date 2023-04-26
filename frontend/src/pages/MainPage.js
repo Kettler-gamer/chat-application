@@ -38,9 +38,10 @@ export function MainPage() {
 
   function setUpMicrophone(username) {
     window.peer = new Peer(username, {
-      host: window.location.hostname,
+      host: "/",
       debug: 1,
-      path: "/peer",
+      port: 3001,
+      path: "/peerjs",
     });
     window.peer.on("connection", (connection) => {
       console.log("Peer connection!");

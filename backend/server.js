@@ -16,13 +16,17 @@ app.use(router);
 const server = createServer(app);
 const io = new Server(server);
 const peerServer = ExpressPeerServer(server, {
-  proxied: true,
   debug: true,
-  path: "/peer",
-  ssl: {},
 });
 
-app.use(peerServer);
+peerServer.on("connection", (peer) => {
+  console.log(`${peer.id} Connected`);
+});
+peerServer.on("disconnect", (peer) => {
+  console.log(`${peer.id} Disconnect`);
+});
+
+app.use("/peerjs", peerServer);
 
 io.use(jwtCheck);
 io.on("connection", onSocketConnection);
