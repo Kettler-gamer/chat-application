@@ -19,7 +19,7 @@ export function Chat(props) {
   }
 
   function onKeyDown(event) {
-    if (event.code === "Enter" && content.length > 0) {
+    if (event.code.includes("Enter") && content.length > 0) {
       sendMessage(content);
     }
   }
