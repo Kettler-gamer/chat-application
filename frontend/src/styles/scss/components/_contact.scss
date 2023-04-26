@@ -1,0 +1,46 @@
+@use "../abstract/variables" as *;
+
+.contact-page {
+  width: 100%;
+  button {
+    width: 2em;
+    height: 2em;
+    border-radius: 0.25em;
+  }
+  p,
+  button {
+    font-size: 1.25rem;
+  }
+  .contact-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: 5px solid $C2;
+    border-radius: 0.5em;
+    padding: 1em;
+    height: 1.33em;
+  }
+  .contact-chat-container {
+    border: 5px solid $C2;
+    height: 90%;
+    .chat-input-container,
+    .chat-message-container {
+      border: 5px solid $C2;
+    }
+    .chat-message-container {
+      height: 90%;
+    }
+    .chat-input-container {
+      height: 8%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      input {
+        font-size: 1.25rem;
+        padding: 0.25em;
+        border-radius: 0.25em;
+        width: 70%;
+      }
+    }
+  }
+}

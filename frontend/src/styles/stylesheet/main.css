@@ -131,6 +131,51 @@ form button {
   height: fit-content;
 }
 
+.contact-page {
+  width: 100%;
+}
+.contact-page button {
+  width: 2em;
+  height: 2em;
+  border-radius: 0.25em;
+}
+.contact-page p,
+.contact-page button {
+  font-size: 1.25rem;
+}
+.contact-page .contact-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: 5px solid #1b263b;
+  border-radius: 0.5em;
+  padding: 1em;
+  height: 1.33em;
+}
+.contact-page .contact-chat-container {
+  border: 5px solid #1b263b;
+  height: 90%;
+}
+.contact-page .contact-chat-container .chat-input-container,
+.contact-page .contact-chat-container .chat-message-container {
+  border: 5px solid #1b263b;
+}
+.contact-page .contact-chat-container .chat-message-container {
+  height: 90%;
+}
+.contact-page .contact-chat-container .chat-input-container {
+  height: 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.contact-page .contact-chat-container .chat-input-container input {
+  font-size: 1.25rem;
+  padding: 0.25em;
+  border-radius: 0.25em;
+  width: 70%;
+}
+
 * {
   margin: 0;
   padding: 0;
