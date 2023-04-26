@@ -100,9 +100,8 @@ export function MainPage() {
   useEffect(() => {
     if (!ref.current) {
       ref.current = true;
-      // getUserProfile();
-      // setupSocket();
-      setUpMicrophone("Filip");
+      getUserProfile();
+      setupSocket();
     }
   });
 
