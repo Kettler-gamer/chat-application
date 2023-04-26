@@ -1,5 +1,6 @@
 import userService from "../services/userService.js";
 import messageService from "../services/messageService.js";
+import { onNewMessage } from "../io/events/message.js";
 
 function getMessages(req, res) {
   const { username } = req.jwtPayload;
@@ -41,11 +42,12 @@ function postMessage(req, res) {
         res.status(404).send("Contact does not exist!");
       }
     })
-    .then((result) => {
-      if (result.modifiedCount == 2) {
+    .then((data) => {
+      if (data.result.modifiedCount == 2) {
         res.status(201).send("Message was sent!");
+        onNewMessage(data.newMessage);
       } else {
-        console.log(result);
+        console.log(data.result);
         res.status(500).send("Something went wrong!");
       }
     })

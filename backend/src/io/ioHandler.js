@@ -1,25 +1,23 @@
-export const sockets = [];
+export const sockets = {};
 
 export function onSocketConnection(ws) {
-  const oldConnection = sockets.find(
-    (socket) => socket.jwtPayload.username == ws.jwtPayload.username
-  );
+  const oldConnection = sockets[ws.jwtPayload.username];
 
   if (oldConnection) {
     console.log("Old connection!");
     sockets.splice(sockets.indexOf(oldConnection), 1);
-    console.log("Disconnect, current sockets:", sockets.length);
+    console.log("Disconnect, current sockets:", Object.keys(sockets).length);
   }
 
   ws.on("disconnect", () => onDisconnect(ws));
 
-  sockets.push(ws);
-  console.log("Connect, current sockets:", sockets.length);
+  sockets[ws.jwtPayload.username] = ws;
+  console.log("Connect, current sockets:", Object.keys(sockets).length);
 }
 
 export function onDisconnect(ws) {
-  const index = sockets.indexOf(ws);
-  if (index == -1) return;
-  sockets.splice(sockets.indexOf(ws), 1);
-  console.log("Disconnect, current sockets:", sockets.length);
+  if (sockets[ws.jwtPayload.username] === ws) {
+    delete sockets[ws.jwtPayload.username];
+    console.log("Disconnect, current sockets:", Object.keys(sockets).length);
+  }
 }

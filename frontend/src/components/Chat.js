@@ -1,10 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchJson } from "../scripts/Fetch";
 
 export function Chat(props) {
   const [messages, setMessages] = useState([]);
+  const ref = useRef(false);
 
   useEffect(() => {
+    if (!ref.current) {
+      ref.current = true;
+      window.socket.on("newMessage", (message) => {
+        setMessages((oldValue) => [...oldValue, message]);
+      });
+    }
     async function fetchMessages() {
       const response = await fetchJson(
         `/message?contactName=${props.contactName}`,

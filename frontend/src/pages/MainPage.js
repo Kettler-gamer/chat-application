@@ -79,12 +79,16 @@ export function MainPage() {
       info.socket = newSocket;
     });
     newSocket.on("connection_error", () => {
-      console.log("Connection error!");
+      console.log("WS Connection error!");
+    });
+    newSocket.on("disconnect", () => {
+      console.log("WS disconnect");
     });
     newSocket.on("serverMessage", (message) => {
       console.log(message);
     });
     info.socket = newSocket;
+    window.socket = newSocket;
   }
 
   useEffect(() => {

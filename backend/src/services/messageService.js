@@ -17,7 +17,7 @@ async function addMessage(message) {
     { username: [message.author, message.reciever] },
     { $push: { messageIds: newMessage._id } }
   );
-  return result;
+  return { result, newMessage };
 }
 
 export default { getMessagesFromList, addMessage };
