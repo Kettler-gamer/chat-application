@@ -45,8 +45,14 @@
         }
       }
     }
+    .chat-message-container::-webkit-scrollbar-track,
     .chat-message-container::-webkit-scrollbar {
       background-color: $C2;
+      border-radius: 1em;
+    }
+    .chat-message-container::-webkit-scrollbar-thumb {
+      background-color: $C3;
+      border-radius: 1em;
     }
     .chat-input-container {
       height: 8%;
