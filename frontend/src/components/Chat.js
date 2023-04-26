@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { fetchJson } from "../scripts/Fetch";
 
 export function Chat(props) {
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
-  const ref = useRef(false);
 
   async function sendMessage(content) {
     const response = await fetchJson("/message", "POST", {
@@ -37,13 +36,18 @@ export function Chat(props) {
   }
 
   useEffect(() => {
-    if (!ref.current) {
-      ref.current = true;
-      window.socket.on("newMessage", (message) => {
+    if (window.socket._callbacks.$newMessage) {
+      window.socket._callbacks.$newMessage.pop();
+    }
+    window.socket.on("newMessage", (message) => {
+      if (
+        message.author === props.contactName ||
+        message.reciever === props.contactName
+      ) {
         setMessages((oldValue) => [...oldValue, message]);
         scrollChatToBottom();
-      });
-    }
+      }
+    });
     async function fetchMessages() {
       const response = await fetchJson(
         `/message?contactName=${props.contactName}`,
