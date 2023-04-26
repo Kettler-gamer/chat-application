@@ -8,6 +8,7 @@ export function Calling(props) {
       window.remoteAudio.srcObject = stream;
       window.remoteAudio.autoplay = true;
       window.peerStream = stream;
+      window.localStream.getTracks()[0].enabled = true;
     });
     info.currentCall.on("close", () => {
       console.log("Call close");

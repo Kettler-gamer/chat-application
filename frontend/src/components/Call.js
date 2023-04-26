@@ -7,6 +7,9 @@ export function Call(props) {
   function onEndCall() {
     console.log("End call");
     setMute(false);
+    const track = window.localStream.getTracks()[0];
+
+    track.enabled = false;
     info.conn.close();
     info.currentCall.close();
   }

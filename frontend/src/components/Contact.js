@@ -16,6 +16,7 @@ export function Contact(props) {
       window.remoteAudio.autoplay = true;
       window.peerStream = stream;
       props.setCaller(props.profile.contacts[props.selectedContact].username);
+      window.localStream.getTracks()[0].enabled = true;
     });
     info.conn.on("close", () => {
       console.log("Close connection!");
