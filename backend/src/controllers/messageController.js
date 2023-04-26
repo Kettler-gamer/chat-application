@@ -3,10 +3,15 @@ import messageService from "../services/messageService.js";
 
 function getMessages(req, res) {
   const { username } = req.jwtPayload;
+  const { contactName } = req.query;
+
+  if (!contactName)
+    return res.status(400).send("You must provide contactName!");
+
   userService
     .getUser(username)
     .then((user) => {
-      return messageService.getMessagesFromList(user.messageIds);
+      return messageService.getMessagesFromList(user.messageIds, contactName);
     })
     .then((list) => {
       res.send(list);

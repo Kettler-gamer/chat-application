@@ -1,8 +1,11 @@
 import Message from "../db/models/Message.js";
 import User from "../db/models/User.js";
 
-async function getMessagesFromList(list) {
-  return Message.find({ _id: { $in: list } });
+async function getMessagesFromList(list, contactName) {
+  return Message.find({
+    _id: { $in: list },
+    $or: [{ author: contactName }, { reciever: contactName }],
+  });
 }
 
 async function addMessage(message) {
