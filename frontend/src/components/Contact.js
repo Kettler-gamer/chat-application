@@ -1,26 +1,7 @@
 import { info } from "../pages/MainPage";
-import { useState, useEffect, useRef } from "react";
-import { fetchJson } from "../scripts/Fetch";
+import { Chat } from "./Chat";
 
 export function Contact(props) {
-  const [messages, setMessages] = useState([]);
-  const ref = useRef(false);
-
-  async function fetchMessages() {
-    const response = await fetchJson(
-      `/message?contactName=${
-        props.profile.contacts[props.selectedContact].username
-      }`,
-      "GET"
-    );
-
-    if (response.status < 400) {
-      setMessages(await response.json());
-    } else {
-      console.log(await response.text());
-    }
-  }
-
   async function callClick() {
     info.conn = window.peer.connect(
       props.profile.contacts[props.selectedContact].username
@@ -44,13 +25,6 @@ export function Contact(props) {
     props.setCall(true);
   }
 
-  useEffect(() => {
-    if (!ref.current) {
-      ref.current = true;
-      fetchMessages();
-    }
-  });
-
   return (
     <div className="contact-page">
       {props.selectedContact !== undefined && props.profile && (
@@ -61,17 +35,13 @@ export function Contact(props) {
               <button onClick={callClick}>📞</button>
             </div>
           </div>
-          <div className="contact-chat-container">
-            <div className="chat-message-container">
-              {messages.map((message) => (
-                <p>{message.content}</p>
-              ))}
-            </div>
-            <div className="chat-input-container">
-              <button>➕</button>
-              <input placeholder="Type here..." />
-            </div>
-          </div>
+          {props.profile.contacts[props.selectedContact].username && (
+            <Chat
+              contactName={
+                props.profile.contacts[props.selectedContact].username
+              }
+            />
+          )}
         </>
       )}
     </div>

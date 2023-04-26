@@ -29,6 +29,19 @@
     }
     .chat-message-container {
       height: 90%;
+      .chat-message {
+        margin-left: 1em;
+        h3,
+        h5 {
+          display: inline;
+        }
+        h5 {
+          margin-left: 1em;
+        }
+        p {
+          margin: 0.75em 0;
+        }
+      }
     }
     .chat-input-container {
       height: 8%;

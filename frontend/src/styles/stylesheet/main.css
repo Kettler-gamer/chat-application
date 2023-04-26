@@ -163,6 +163,19 @@ form button {
 .contact-page .contact-chat-container .chat-message-container {
   height: 90%;
 }
+.contact-page .contact-chat-container .chat-message-container .chat-message {
+  margin-left: 1em;
+}
+.contact-page .contact-chat-container .chat-message-container .chat-message h3,
+.contact-page .contact-chat-container .chat-message-container .chat-message h5 {
+  display: inline;
+}
+.contact-page .contact-chat-container .chat-message-container .chat-message h5 {
+  margin-left: 1em;
+}
+.contact-page .contact-chat-container .chat-message-container .chat-message p {
+  margin: 0.75em 0;
+}
 .contact-page .contact-chat-container .chat-input-container {
   height: 8%;
   display: flex;
