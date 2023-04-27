@@ -4,15 +4,21 @@ import { fetchJson } from "../scripts/Fetch";
 export function Chat(props) {
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
+  const [attachement, setAttachement] = useState(undefined);
 
   async function sendMessage(content) {
-    const response = await fetchJson("/message", "POST", {
+    const message = {
       contactName: props.contactName,
       content,
-    });
+    };
+    if (attachement) {
+      message.attachement = attachement;
+    }
+    const response = await fetchJson("/message", "POST", message);
 
     if (response.status < 400) {
       setContent("");
+      setAttachement(undefined);
     } else {
       console.log(await response.text());
     }
@@ -64,6 +70,21 @@ export function Chat(props) {
     fetchMessages();
   }, [props.contactName]);
 
+  function onFileAttachement(event) {
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+
+    fileReader.onloadend = (e) => {
+      setAttachement(e.target.result);
+    };
+
+    fileReader.readAsDataURL(file);
+  }
+
+  function removeAttachement(event) {
+    setAttachement(undefined);
+  }
+
   return (
     <div className="contact-chat-container">
       <div className="chat-message-container">
@@ -72,11 +93,22 @@ export function Chat(props) {
             <h3>{message.author}</h3>
             <h5>{`${message.date} - ${message.time}`}</h5>
             <p>{message.content}</p>
+            {message.attachement && <embed src={message.attachement} />}
           </div>
         ))}
       </div>
       <div className="chat-input-container">
-        <button>➕</button>
+        <label htmlFor="attachement-file">➕</label>
+        <input
+          id="attachement-file"
+          onChange={onFileAttachement}
+          type="file"
+          hidden
+          multiple={false}
+        />
+        {attachement !== undefined && (
+          <button onClick={removeAttachement}>-</button>
+        )}
         <input
           placeholder="Type here..."
           value={content}

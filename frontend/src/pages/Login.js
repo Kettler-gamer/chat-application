@@ -19,7 +19,6 @@ export function Login() {
 
     if (response.status < 400) {
       const data = await response.json();
-      console.log(data);
       sessionStorage.setItem("jwtToken", data.jwtToken);
       setServerMessage(data.message);
       navigate("/main");

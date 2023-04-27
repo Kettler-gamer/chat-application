@@ -25,7 +25,7 @@ function getMessages(req, res) {
 
 function postMessage(req, res) {
   const { username } = req.jwtPayload;
-  const { content, contactName } = req.body;
+  const { content, contactName, attachement } = req.body;
 
   if (!content || !contactName) return res.status(400).send("Not enough info!");
 
@@ -37,6 +37,7 @@ function postMessage(req, res) {
           author: username,
           reciever: contactName,
           content,
+          attachement,
         });
       } else {
         res.status(404).send("Contact does not exist!");

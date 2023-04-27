@@ -6,6 +6,7 @@ const Message = mongoose.model("Message", {
   content: { type: String, required: true },
   date: { type: String, required: true },
   time: { type: String, required: true },
+  attachement: { type: String, required: false },
 });
 
 export default Message;
