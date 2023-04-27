@@ -8,10 +8,15 @@ function getProfile(req, res) {
   userService
     .getUser(req.jwtPayload.username)
     .then((user) => {
-      return userService.getUsersFromIdList(user.contactIds);
+      return {
+        user,
+        contacts: userService.getUsersFromIdList(user.contactIds),
+      };
     })
-    .then((contacts) => {
-      res.send({ username: req.jwtPayload.username, contacts });
+    .then((result) => {
+      result.contacts.then((contacts) => {
+        res.send({ user: result.user, contacts });
+      });
     });
 }
 

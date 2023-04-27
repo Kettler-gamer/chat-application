@@ -1,7 +1,10 @@
 import User from "../db/models/User.js";
 
 async function getUser(username) {
-  return User.findOne({ username }, "username contactIds messageIds");
+  return User.findOne(
+    { username },
+    "username contactIds messageIds profilePicture"
+  );
 }
 
 async function getUsersFromIdList(list) {
