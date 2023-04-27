@@ -1,0 +1,47 @@
+@use "../abstract/variables" as *;
+
+.black-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2;
+  label,
+  button {
+    padding: 0.5em;
+    border-radius: 0.5em;
+  }
+  label {
+    font-size: 1.25rem;
+    border: 3px outset black;
+  }
+  label:hover {
+    background-color: $C3;
+  }
+  .settings-page {
+    background-color: $C2;
+    z-index: 5;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .picture-switch {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 1em;
+      border-bottom: 5px solid $C5;
+      padding: 0.25em 30%;
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 5em;
+      }
+      input[type="file"] {
+        display: none;
+      }
+    }
+  }
+}

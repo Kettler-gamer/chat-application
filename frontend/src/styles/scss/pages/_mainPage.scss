@@ -1,7 +1,9 @@
 @use "../components/contacts" as *;
 
 .main-page {
-  width: 95%;
-  height: 95vh;
-  display: flex;
+  .container-contact-comp {
+    width: 95%;
+    height: 85vh;
+    display: flex;
+  }
 }

@@ -8,6 +8,8 @@ import { Caller } from "../components/Caller";
 import { setupPeerConnection } from "../scripts/peer";
 import { setUpSocketConnection } from "../scripts/socket";
 import { Header } from "../components/Header";
+import { Routes, Route } from "react-router-dom";
+import { Settings } from "../components/Settings";
 
 export const info = {
   peer: undefined,
@@ -29,7 +31,6 @@ export function MainPage() {
 
     if (response.status < 400) {
       const data = await response.json();
-      console.log(data);
       setProfile(data);
       setupPeerConnection(data.username, setCall, setCaller);
     } else {
@@ -79,6 +80,12 @@ export function MainPage() {
           setCall={setCall}
         />
       )}
+      <Routes path="*">
+        <Route
+          path="/settings"
+          element={<Settings setProfile={setProfile} />}
+        />
+      </Routes>
       <audio id="localAudio"></audio>
       <audio id="remoteAudio"></audio>
     </main>

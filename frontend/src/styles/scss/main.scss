@@ -6,6 +6,8 @@
 @use "./components/called" as *;
 @use "./components/call" as *;
 @use "./components/contact" as *;
+@use "./components/header" as *;
+@use "./components/settings" as *;
 
 * {
   margin: 0;
