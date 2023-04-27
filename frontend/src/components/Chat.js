@@ -19,6 +19,7 @@ export function Chat(props) {
     if (response.status < 400) {
       setContent("");
       setAttachement(undefined);
+      document.querySelector("#attachement-file").value = null;
     } else {
       console.log(await response.text());
     }
@@ -93,12 +94,15 @@ export function Chat(props) {
             <h3>{message.author}</h3>
             <h5>{`${message.date} - ${message.time}`}</h5>
             <p>{message.content}</p>
-            {message.attachement && <embed src={message.attachement} />}
+            {message.attachement && message.attachement.includes("video") ? (
+              <video controls src={message.attachement}></video>
+            ) : (
+              <embed src={message.attachement} />
+            )}
           </div>
         ))}
       </div>
       <div className="chat-input-container">
-        <label htmlFor="attachement-file">➕</label>
         <input
           id="attachement-file"
           onChange={onFileAttachement}
@@ -106,8 +110,10 @@ export function Chat(props) {
           hidden
           multiple={false}
         />
-        {attachement !== undefined && (
+        {attachement ? (
           <button onClick={removeAttachement}>-</button>
+        ) : (
+          <label htmlFor="attachement-file">➕</label>
         )}
         <input
           placeholder="Type here..."

@@ -194,6 +194,7 @@ form button {
 .contact-page .contact-chat-container .chat-message-container .chat-message p {
   margin: 0.75em 0;
 }
+.contact-page .contact-chat-container .chat-message-container .chat-message video,
 .contact-page .contact-chat-container .chat-message-container .chat-message embed {
   width: 25%;
 }
