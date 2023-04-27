@@ -7,6 +7,7 @@ import { Call } from "../components/Call";
 import { Caller } from "../components/Caller";
 import { setupPeerConnection } from "../scripts/peer";
 import { setUpSocketConnection } from "../scripts/socket";
+import { Header } from "../components/Header";
 
 export const info = {
   peer: undefined,
@@ -46,18 +47,21 @@ export function MainPage() {
 
   return (
     <main className="main-page">
-      <Contacts
-        profile={profile}
-        setSelectedContact={setSelectedContact}
-        setProfile={setProfile}
-      />
-      <Contact
-        profile={profile}
-        selectedContact={selectedContact}
-        socket={info.socket}
-        setCall={setCall}
-        setCaller={setCaller}
-      />
+      <Header profile={profile} />
+      <div className="container-contact-comp">
+        <Contacts
+          profile={profile}
+          setSelectedContact={setSelectedContact}
+          setProfile={setProfile}
+        />
+        <Contact
+          profile={profile}
+          selectedContact={selectedContact}
+          socket={info.socket}
+          setCall={setCall}
+          setCaller={setCaller}
+        />
+      </div>
       {caller !== "" && !call && (
         <Calling
           socket={info.socket}

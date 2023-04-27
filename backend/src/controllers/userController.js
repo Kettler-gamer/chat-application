@@ -15,7 +15,11 @@ function getProfile(req, res) {
     })
     .then((result) => {
       result.contacts.then((contacts) => {
-        res.send({ user: result.user, contacts });
+        res.send({
+          username: result.user.username,
+          profilePicture: result.user.profilePicture,
+          contacts,
+        });
       });
     });
 }
