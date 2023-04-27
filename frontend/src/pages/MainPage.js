@@ -1,5 +1,4 @@
 import { Contacts } from "../components/Contacts";
-import { Contact } from "../components/Contact";
 import { useRef, useEffect, useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
 import { Calling } from "../components/Calling";
@@ -9,6 +8,7 @@ import { setUpSocketConnection } from "../scripts/socket";
 import { Header } from "../components/Header";
 import { Routes, Route } from "react-router-dom";
 import { Settings } from "../components/Settings";
+import { ChatSection } from "../components/ChatSection";
 
 export const info = {
   peer: undefined,
@@ -53,10 +53,9 @@ export function MainPage() {
           setSelectedContact={setSelectedContact}
           setProfile={setProfile}
         />
-        <Contact
+        <ChatSection
           profile={profile}
           selectedContact={selectedContact}
-          socket={info.socket}
           setCall={setCall}
           setCaller={setCaller}
         />

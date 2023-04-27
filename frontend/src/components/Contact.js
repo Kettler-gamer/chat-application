@@ -1,5 +1,4 @@
 import { info } from "../pages/MainPage";
-import { Chat } from "./Chat";
 import { onStream } from "../scripts/peer";
 
 export function Contact(props) {
@@ -24,24 +23,11 @@ export function Contact(props) {
   }
 
   return (
-    <div className="contact-page">
-      {props.selectedContact !== undefined && props.profile && (
-        <>
-          <div className="contact-top">
-            <p>{props.profile.contacts[props.selectedContact].username}</p>
-            <div className="contact-btns">
-              <button onClick={callClick}>📞</button>
-            </div>
-          </div>
-          {props.profile.contacts[props.selectedContact].username && (
-            <Chat
-              contactName={
-                props.profile.contacts[props.selectedContact].username
-              }
-            />
-          )}
-        </>
-      )}
+    <div className="contact-top">
+      <p>{props.profile.contacts[props.selectedContact].username}</p>
+      <div className="contact-btns">
+        <button onClick={callClick}>📞</button>
+      </div>
     </div>
   );
 }

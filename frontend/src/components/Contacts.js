@@ -2,7 +2,12 @@ import { AddContact } from "./AddContact";
 import { useState } from "react";
 
 export function Contacts(props) {
+  const [section, setSection] = useState("contacts");
   const [add, setAdd] = useState(false);
+
+  function onSectionClick(event) {
+    setSection(event.target.name);
+  }
 
   return (
     <>
@@ -10,6 +15,18 @@ export function Contacts(props) {
         <div className="contact-nav">
           <input placeholder="search.." />
           <button onClick={() => setAdd(true)}>+</button>
+          <button
+            name="channels"
+            onClick={onSectionClick}
+            style={section === "channels" ? { color: "green" } : {}}>
+            Channels
+          </button>
+          <button
+            name="contacts"
+            onClick={onSectionClick}
+            style={section === "contacts" ? { color: "green" } : {}}>
+            Contacts
+          </button>
         </div>
         <ul className="contacts-list">
           {props.profile !== undefined && props.profile.contacts.length > 0 ? (

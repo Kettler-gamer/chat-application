@@ -62,6 +62,7 @@ form button {
   padding: 0.5em 0;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 .contacts-section .contact-nav input,
 .contacts-section .contact-nav button {
@@ -75,6 +76,10 @@ form button {
 .contacts-section .contact-nav button {
   padding-left: 1em;
   padding-right: 1em;
+}
+.contacts-section .contact-nav button:nth-child(3),
+.contacts-section .contact-nav button:nth-child(4) {
+  margin-top: 1em;
 }
 .contacts-section .contacts-list {
   border-top: 5px solid #1b263b;
