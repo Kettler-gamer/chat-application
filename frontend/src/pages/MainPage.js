@@ -13,7 +13,6 @@ import { Settings } from "../components/Settings";
 export const info = {
   peer: undefined,
   socket: undefined,
-  audio: new Audio(),
   conn: undefined,
   currentCall: undefined,
 };

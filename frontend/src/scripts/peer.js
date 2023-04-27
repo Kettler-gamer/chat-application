@@ -41,3 +41,11 @@ export function setupPeerConnection(username, setCall, setCaller) {
     window.localAudio.srcObject = stream;
   });
 }
+
+export function onStream(stream) {
+  console.log("stream");
+  window.remoteAudio.srcObject = stream;
+  window.remoteAudio.autoplay = true;
+  window.peerStream = stream;
+  window.localStream.getTracks()[0].enabled = true;
+}

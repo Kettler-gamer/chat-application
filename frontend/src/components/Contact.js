@@ -1,5 +1,6 @@
 import { info } from "../pages/MainPage";
 import { Chat } from "./Chat";
+import { onStream } from "../scripts/peer";
 
 export function Contact(props) {
   async function callClick() {
@@ -11,12 +12,8 @@ export function Contact(props) {
       window.localStream
     );
     info.currentCall.on("stream", (stream) => {
-      console.log("stream");
-      window.remoteAudio.srcObject = stream;
-      window.remoteAudio.autoplay = true;
-      window.peerStream = stream;
+      onStream(stream);
       props.setCaller(props.profile.contacts[props.selectedContact].username);
-      window.localStream.getTracks()[0].enabled = true;
     });
     info.conn.on("close", () => {
       console.log("Close connection!");

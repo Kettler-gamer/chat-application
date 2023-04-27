@@ -1,14 +1,12 @@
 import { info } from "../pages/MainPage";
+import { onStream } from "../scripts/peer";
 
 export function Calling(props) {
   function onAnswer() {
     info.currentCall.answer(window.localStream);
-    info.currentCall.on("stream", (stream) => {
-      console.log("stream");
-      window.remoteAudio.srcObject = stream;
-      window.remoteAudio.autoplay = true;
-      window.peerStream = stream;
-      window.localStream.getTracks()[0].enabled = true;
+    info.currentCall.on("stream", onStream);
+    info.currentCall.on("track", () => {
+      console.log("Track");
     });
     info.currentCall.on("close", () => {
       console.log("Call close");
