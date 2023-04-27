@@ -15,7 +15,7 @@ function getMessages(req, res) {
       return messageService.getMessagesFromList(user.messageIds, contactName);
     })
     .then((list) => {
-      res.send(list);
+      res.send(list.reverse());
     })
     .catch((error) => {
       console.log(error);

@@ -5,7 +5,9 @@ async function getMessagesFromList(list, contactName) {
   return Message.find({
     _id: { $in: list },
     $or: [{ author: contactName }, { reciever: contactName }],
-  });
+  })
+    .sort({ _id: -1 })
+    .limit(10);
 }
 
 async function addMessage(message) {
