@@ -121,7 +121,6 @@ form button {
 }
 
 .called {
-  background-color: #0d1b2a;
   height: -moz-fit-content;
   height: fit-content;
   padding: 2em 2em;
@@ -139,13 +138,30 @@ form button {
   margin: 0 0.5em;
 }
 
+.called,
 .call {
+  position: absolute;
+  top: -5em;
+  right: 1em;
   background-color: #1b263b;
+  box-shadow: 0 0 25px black;
+}
+
+.call {
   margin-top: 10em;
-  padding: 2em;
+  padding: 1em;
   border-radius: 0.5em;
   height: -moz-fit-content;
   height: fit-content;
+  text-align: center;
+}
+.call p {
+  font-size: 1.25rem;
+}
+.call button {
+  border-radius: 0.5em;
+  margin: 1em 0.5em;
+  padding: 0.5em;
 }
 
 .contact-page {

@@ -4,7 +4,6 @@ import { useRef, useEffect, useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
 import { Calling } from "../components/Calling";
 import { Call } from "../components/Call";
-import { Caller } from "../components/Caller";
 import { setupPeerConnection } from "../scripts/peer";
 import { setUpSocketConnection } from "../scripts/socket";
 import { Header } from "../components/Header";
@@ -71,15 +70,7 @@ export function MainPage() {
           setCall={setCall}
         />
       )}
-      {call && caller === "" && <Caller />}
-      {call && caller !== "" && (
-        <Call
-          socket={info.socket}
-          caller={caller}
-          setCaller={setCaller}
-          setCall={setCall}
-        />
-      )}
+      {call && <Call caller={caller} />}
       <Routes path="*">
         <Route
           path="/settings"

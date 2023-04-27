@@ -22,14 +22,20 @@ export function Call(props) {
   }
 
   return (
-    <div className="black-background">
-      <div className="call">
-        <p>{props.caller}</p>
-        <button onClick={onEndCall}>End call</button>
-        <button style={mute ? { backgroundColor: "red" } : {}} onClick={onMute}>
-          Mute
-        </button>
-      </div>
+    <div className="call">
+      {props.caller === "" ? (
+        <p>Calling contact...</p>
+      ) : (
+        <>
+          <p>{props.caller}</p>
+          <button onClick={onEndCall}>End call</button>
+          <button
+            style={mute ? { backgroundColor: "red" } : {}}
+            onClick={onMute}>
+            Mute
+          </button>
+        </>
+      )}
     </div>
   );
 }
