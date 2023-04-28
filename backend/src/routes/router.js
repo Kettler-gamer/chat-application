@@ -2,6 +2,7 @@ import express from "express";
 import authController from "../controllers/authController.js";
 import userController from "../controllers/userController.js";
 import messageController from "../controllers/messageController.js";
+import channelController from "../controllers/channelController.js";
 import userCheck from "../filter/userCheck.js";
 import checkToken from "../filter/jwtCheck.js";
 
@@ -23,5 +24,10 @@ router
   .route("/message")
   .get(messageController.getMessages)
   .post(messageController.postMessage);
+
+router
+  .route("/channel")
+  .get(channelController.getChannel)
+  .post(channelController.createChannel);
 
 export default router;

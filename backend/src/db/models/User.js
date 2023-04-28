@@ -5,6 +5,7 @@ const User = mongoose.model("User", {
   password: { type: String, required: true },
   contactIds: { type: Array, required: true },
   messageIds: { type: Array, required: true },
+  channelIds: { type: Array, required: true },
   profilePicture: { type: String, required: false },
 });
 

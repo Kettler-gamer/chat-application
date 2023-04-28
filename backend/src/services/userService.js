@@ -23,10 +23,18 @@ async function updateProfilePicture(username, profilePicture) {
   return User.updateOne({ username }, { profilePicture });
 }
 
+async function updateUsersChannelIds(users, channelId) {
+  return User.updateMany(
+    { username: { $in: users } },
+    { $push: { channelIds: channelId } }
+  );
+}
+
 export default {
   getUser,
   getUsersFromIdList,
   addContact,
   getContactInfo,
   updateProfilePicture,
+  updateUsersChannelIds,
 };

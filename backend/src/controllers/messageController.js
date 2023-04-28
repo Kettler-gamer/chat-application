@@ -1,18 +1,25 @@
 import userService from "../services/userService.js";
 import messageService from "../services/messageService.js";
 import { onNewMessage } from "../io/events/message.js";
+import channelService from "../services/channelService.js";
+import { isValidObjectId } from "mongoose";
 
 function getMessages(req, res) {
   const { username } = req.jwtPayload;
-  const { contactName } = req.query;
+  const { contactName, channelId } = req.query;
 
-  if (!contactName)
-    return res.status(400).send("You must provide contactName!");
+  if (!contactName && !channelId)
+    return res.status(400).send("You must provide contactName or channelId!");
+
+  if (channelId && !isValidObjectId(channelId))
+    return res.status(400).send("Invalid channel id!");
 
   userService
     .getUser(username)
     .then((user) => {
-      return messageService.getMessagesFromList(user.messageIds, contactName);
+      return contactName
+        ? messageService.getMessagesFromList(user.messageIds, contactName)
+        : messageService.getMessagesFromChannel(channelId);
     })
     .then((list) => {
       res.send(list.reverse());
@@ -25,26 +32,38 @@ function getMessages(req, res) {
 
 function postMessage(req, res) {
   const { username } = req.jwtPayload;
-  const { content, contactName, attachement } = req.body;
+  const { content, contactName, attachement, channelId } = req.body;
 
-  if (!content || !contactName) return res.status(400).send("Not enough info!");
+  if (!content || (!contactName && !channelId))
+    return res.status(400).send("Not enough info!");
 
-  userService
-    .getUser(contactName)
+  if (contactName && channelId)
+    return res.status(400).send("You must provide contactName OR channelId");
+
+  if (!contactName && !isValidObjectId(channelId))
+    return res.status(400).send("The object ID provided is invalid!");
+
+  (contactName
+    ? userService.getUser(contactName)
+    : channelService.getChannel(channelId)
+  )
     .then((contact) => {
       if (contact) {
-        return messageService.addMessage({
-          author: username,
-          reciever: contactName,
-          content,
-          attachement,
-        });
+        return messageService.addMessage(
+          {
+            author: username,
+            reciever: contactName || channelId,
+            content,
+            attachement,
+          },
+          contact
+        );
       } else {
-        res.status(404).send("Contact does not exist!");
+        res.status(404).send("Contact/Channel does not exist!");
       }
     })
     .then((data) => {
-      if (data.result.modifiedCount == 2) {
+      if (data.result.modifiedCount > 0) {
         res.status(201).send("Message was sent!");
         onNewMessage(data.newMessage);
       } else {

@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 async function addUser(user) {
   user.contactIds = [];
   user.messageIds = [];
+  user.channelIds = [];
   user.password = await bcrypt.hash(
     user.password,
     Number(process.env.SALT_ROUNDS)
