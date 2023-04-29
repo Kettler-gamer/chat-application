@@ -28,6 +28,7 @@ router
 router
   .route("/channel")
   .get(channelController.getChannel)
-  .post(channelController.createChannel);
+  .post(channelController.createChannel)
+  .patch(channelController.addUsersToChannel);
 
 export default router;

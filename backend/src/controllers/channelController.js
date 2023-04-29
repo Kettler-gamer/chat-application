@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import channelService from "../services/channelService.js";
 import userService from "../services/userService.js";
-import { onNewChannel } from "../io/events/channel.js";
+import { onNewChannel, usersAddedToChannel } from "../io/events/channel.js";
 
 function createChannel(req, res) {
   const { username } = req.jwtPayload;
@@ -54,4 +54,23 @@ function getChannel(req, res) {
     });
 }
 
-export default { createChannel, getChannel };
+function addUsersToChannel(req, res) {
+  const { username } = req.jwtPayload;
+  const { channelId, users } = req.body;
+
+  if (!channelId || !users) return res.status(400).send("Bad request!");
+
+  if (!isValidObjectId(channelId))
+    return res.status(400).send("Invalid channelId!");
+
+  channelService.addUsersToChannel(channelId, users, username).then((data) => {
+    if (data.result.modifiedCount > 0) {
+      res.send("The user/s was/were added!");
+      usersAddedToChannel(data.channel, users);
+    } else {
+      res.status(500).send("Something went wrong!");
+    }
+  });
+}
+
+export default { createChannel, getChannel, addUsersToChannel };

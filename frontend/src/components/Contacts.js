@@ -25,11 +25,26 @@ export function Contacts(props) {
       })
     );
 
-    const data = await Promise.all(responses.map((resp) => resp.json()));
+    const data = await Promise.all(
+      responses.map(async (resp, index) => {
+        return { ...(await resp.json()), _id: props.profile.channelIds[index] };
+      })
+    );
 
     props.setChannels(data);
     window.socket.on("newChannel", (channel) => {
       props.setChannels((oldValue) => [...oldValue, channel]);
+    });
+    window.socket.on("newUsers", (data) => {
+      props.setChannels((oldValue) => {
+        const newValue = JSON.parse(JSON.stringify(oldValue));
+
+        newValue
+          .find((channel) => channel._id === data.channelId)
+          .users.push(...data.users);
+
+        return newValue;
+      });
     });
   }
   return (

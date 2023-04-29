@@ -11,7 +11,18 @@ export function Channel(props) {
   async function onSubmit(event) {
     event.preventDefault();
     setServerMessage("");
-    // const response = await fetchJson("/channel", "PATCH", addedUsers);
+    const body = {
+      users: addedUsers,
+      channelId: props.channelId,
+    };
+    const response = await fetchJson("/channel", "PATCH", body);
+
+    if (response.status < 400) {
+      setCurrentUsers((oldValue) => [...oldValue, ...addedUsers]);
+      setAddedUsers([]);
+    }
+
+    console.log(await response.text());
   }
 
   function onPlusClick() {
@@ -101,10 +112,11 @@ export function Channel(props) {
             }
             buttons={
               <>
-                <button>Create</button>
+                <button>Add</button>
                 <button
                   type="button"
                   onClick={() => {
+                    setAddedUsers([]);
                     setAdd(false);
                   }}>
                   Cancel
