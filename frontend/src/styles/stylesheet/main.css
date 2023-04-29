@@ -122,7 +122,6 @@ form button {
 .contacts-section .contacts-list .list-item {
   display: flex;
   align-items: center;
-  justify-content: start;
   list-style-type: none;
   padding: 0.25em 0;
   width: 100%;
@@ -342,6 +341,7 @@ header button {
   border-radius: 0.5em;
   border: none;
 }
+
 .black-background {
   position: absolute;
   top: 0;
