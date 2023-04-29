@@ -279,18 +279,15 @@ form button {
 .contact-page .contact-chat-container .chat-message-container .chat-message:first-child {
   margin-top: 1em;
 }
-.contact-page .contact-chat-container .chat-message-container .chat-message:nth-child(odd) {
+.contact-page .contact-chat-container .chat-message-container .my-message {
   background-color: #1b263b;
   color: #e0e1dd;
   margin-left: auto;
   margin-right: 6em;
   text-align: end;
 }
-.contact-page .contact-chat-container .chat-message-container .chat-message:nth-child(odd) p {
+.contact-page .contact-chat-container .chat-message-container .my-message p {
   margin: 0.75em 0 0.75em auto;
-}
-.contact-page .contact-chat-container .chat-message-container .my-message {
-  background-color: #1b263b;
 }
 .contact-page .contact-chat-container .chat-input-container {
   height: 15%;

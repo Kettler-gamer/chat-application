@@ -54,7 +54,7 @@
       .chat-message:first-child {
         margin-top: 1em;
       }
-      .chat-message:nth-child(odd) {
+      .my-message {
         background-color: $C2;
         color: $C5;
         margin-left: auto;
@@ -63,9 +63,6 @@
         p {
           margin: 0.75em 0 0.75em auto;
         }
-      }
-      .my-message {
-        background-color: $C2;
       }
     }
     .chat-input-container {

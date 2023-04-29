@@ -99,7 +99,13 @@ export function Chat(props) {
     <div className="contact-chat-container">
       <div className="chat-message-container">
         {messages.map((message, index) => (
-          <div key={`chat-message-${index}`} className="chat-message">
+          <div
+            key={`chat-message-${index}`}
+            className={
+              message.author === props.username
+                ? "chat-message my-message"
+                : "chat-message"
+            }>
             <h3>{message.author}</h3>
             <h5>{`${message.date} - ${message.time}`}</h5>
             <p>{message.content}</p>
