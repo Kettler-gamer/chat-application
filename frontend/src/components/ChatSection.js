@@ -16,7 +16,11 @@ export function ChatSection(props) {
       {props.selectedChannel !== undefined && props.profile && (
         <Channel
           name={props.channels[props.selectedChannel].name}
+          channelId={props.channels[props.selectedChannel]._id}
           channelNumber={props.selectedChannel + 1}
+          profile={props.profile}
+          channels={props.channels}
+          setChannels={props.setChannels}
         />
       )}
       {props.profile && props.selectedContact !== undefined ? (

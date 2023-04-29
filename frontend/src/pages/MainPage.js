@@ -67,6 +67,7 @@ export function MainPage() {
           setCall={setCall}
           setCaller={setCaller}
           channels={channels}
+          setChannels={setChannels}
           loading={loading}
           setLoading={setLoading}
         />
