@@ -1,7 +1,7 @@
 import { info } from "../pages/MainPage";
 import { io } from "socket.io-client";
 
-export function setUpSocketConnection() {
+export function setUpSocketConnection(setProfile) {
   const newSocket = io("/", {
     pingInterval: 25000,
     extraHeaders: { jwtToken: sessionStorage.getItem("jwtToken") },
@@ -17,6 +17,15 @@ export function setUpSocketConnection() {
   });
   newSocket.on("serverMessage", (message) => {
     console.log(message);
+  });
+  newSocket.on("newChannel", (channel) => {
+    setProfile((oldValue) => {
+      const newVal = JSON.parse(JSON.stringify(oldValue));
+
+      newVal.channelIds = [...newVal.channelIds, channel._id];
+
+      return newVal;
+    });
   });
   info.socket = newSocket;
   window.socket = newSocket;

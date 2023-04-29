@@ -1,4 +1,5 @@
 import { AddContact } from "./AddContact";
+import { AddChannel } from "./AddChannel";
 import { useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
 
@@ -27,12 +28,19 @@ export function Contacts(props) {
     const data = await Promise.all(responses.map((resp) => resp.json()));
 
     props.setChannels(data);
+    window.socket.on("newChannel", (channel) => {
+      props.setChannels((oldValue) => [...oldValue, channel]);
+    });
   }
   return (
     <>
       <div className="contacts-section">
         <div className="contact-nav">
-          <input placeholder="search contact.." />
+          <input
+            placeholder={
+              section === "contacts" ? "search contact.." : "search channel..."
+            }
+          />
           <button className="add-btn" onClick={() => setAdd(true)}>
             +
           </button>
@@ -92,7 +100,23 @@ export function Contacts(props) {
           </ul>
         )}
       </div>
-      {add && <AddContact setAdd={setAdd} setProfile={props.setProfile} />}
+      {add && section === "contacts" ? (
+        <AddContact
+          setAdd={setAdd}
+          setProfile={props.setProfile}
+          section={section}
+        />
+      ) : (
+        add && (
+          <AddChannel
+            setAdd={setAdd}
+            setProfile={props.setProfile}
+            section={section}
+            profile={props.profile}
+            setChannels={props.setChannels}
+          />
+        )
+      )}
     </>
   );
 }

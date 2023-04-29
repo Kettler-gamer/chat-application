@@ -8,7 +8,6 @@ function getProfile(req, res) {
   userService
     .getUser(req.jwtPayload.username, ["channelIds"])
     .then((user) => {
-      console.log(user.channelIds);
       return {
         user,
         contacts: userService.getUsersFromIdList(user.contactIds),

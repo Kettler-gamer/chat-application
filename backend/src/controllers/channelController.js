@@ -1,24 +1,26 @@
 import { isValidObjectId } from "mongoose";
 import channelService from "../services/channelService.js";
 import userService from "../services/userService.js";
+import { onNewChannel } from "../io/events/channel.js";
 
 function createChannel(req, res) {
   const { username } = req.jwtPayload;
-  const { users } = req.body;
+  const { users, name } = req.body;
 
   if (!users || !Array.isArray(users) || users.length === 0)
-    return res.status.send("You must provide a list of users!");
+    return res.status(400).send("You must provide a list of users!");
 
   users.push(username);
 
   channelService
-    .addChannel(users)
+    .addChannel(users, name)
     .then((channel) => {
       return userService
         .updateUsersChannelIds(channel.users, channel._id)
         .then((result) => {
           if (result.modifiedCount > 0) {
             res.status(201).send("The channel was created!");
+            onNewChannel(channel);
           } else {
             res.status(500).send("Something went wrong!");
           }

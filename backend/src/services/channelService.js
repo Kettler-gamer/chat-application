@@ -1,7 +1,11 @@
 import Channel from "../db/models/Channel.js";
 
-function addChannel(users) {
-  return Channel.create({ users, messageIds: [] });
+function addChannel(users, name) {
+  const data = { users, messageIds: [] };
+  if (name) {
+    data.name = name;
+  }
+  return Channel.create(data);
 }
 
 function getChannel(channelId, username) {

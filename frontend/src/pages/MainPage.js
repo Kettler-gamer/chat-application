@@ -43,9 +43,9 @@ export function MainPage() {
     if (!ref.current) {
       ref.current = true;
       getUserProfile();
-      setUpSocketConnection();
+      setUpSocketConnection(setProfile);
     }
-  });
+  }, [setProfile]);
 
   return (
     <main className="main-page">
