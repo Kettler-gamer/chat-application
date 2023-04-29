@@ -11,6 +11,10 @@ export function onSocketConnection(ws) {
 
   ws.on("disconnect", () => onDisconnect(ws));
 
+  ws.on("channelSet", (channelId) => {
+    ws.channelSet = channelId;
+  });
+
   sockets[ws.jwtPayload.username] = ws;
   console.log("Connect, current sockets:", Object.keys(sockets).length);
 }

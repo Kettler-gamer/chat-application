@@ -22,6 +22,7 @@ export function MainPage() {
   const [caller, setCaller] = useState("");
   const [call, setCall] = useState(false);
   const [selectedContact, setSelectedContact] = useState(undefined);
+  const [selectedChannel, setSelectedChannel] = useState(undefined);
   const ref = useRef(false);
 
   async function getUserProfile() {
@@ -29,7 +30,6 @@ export function MainPage() {
 
     if (response.status < 400) {
       const data = await response.json();
-      console.log(data);
       setProfile(data);
       setupPeerConnection(data.username, setCall, setCaller);
     } else {
@@ -52,11 +52,13 @@ export function MainPage() {
         <Contacts
           profile={profile}
           setSelectedContact={setSelectedContact}
+          setSelectedChannel={setSelectedChannel}
           setProfile={setProfile}
         />
         <ChatSection
           profile={profile}
           selectedContact={selectedContact}
+          selectedChannel={selectedChannel}
           setCall={setCall}
           setCaller={setCaller}
         />

@@ -52,19 +52,17 @@ function postMessage(req, res) {
 
   (contactName
     ? userService.getUser(contactName)
-    : channelService.getChannel(channelId)
+    : channelService.getChannel(channelId, username)
   )
     .then((contact) => {
       if (contact) {
-        return messageService.addMessage(
-          {
-            author: username,
-            reciever: contactName || channelId,
-            content,
-            attachement,
-          },
-          contact
-        );
+        const info = {
+          author: username,
+          reciever: contactName || channelId,
+          content,
+          attachement,
+        };
+        return messageService.addMessage(info, contact);
       } else {
         res.status(404).send("Contact/Channel does not exist!");
       }
@@ -72,7 +70,7 @@ function postMessage(req, res) {
     .then((data) => {
       if (data.result.modifiedCount > 0) {
         res.status(201).send("Message was sent!");
-        onNewMessage(data.newMessage);
+        onNewMessage(data.newMessage, data.users, data.channelId.toString());
       } else {
         console.log(data.result);
         res.status(500).send("Something went wrong!");

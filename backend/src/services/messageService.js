@@ -24,10 +24,10 @@ async function addMessage(message, channel) {
   message.date = time.toLocaleDateString();
   message.time = time.toTimeString().slice(0, 5);
   const newMessage = await Message.create(message);
-  const result = !channel
+  const result = channel.username
     ? await updateContactChat(message, newMessage)
     : await updateChannelChat(channel, newMessage);
-  return { result, newMessage };
+  return { result, newMessage, users: channel.users, channelId: channel._id };
 }
 
 async function updateContactChat(message, newMessage) {

@@ -12,13 +12,15 @@ export function ChatSection(props) {
           setCaller={props.setCaller}
         />
       )}
-      {props.profile &&
-        props.selectedContact !== undefined &&
-        props.profile.contacts[props.selectedContact].username && (
-          <Chat
-            contactName={props.profile.contacts[props.selectedContact].username}
-          />
-        )}
+      {props.profile && props.selectedContact !== undefined ? (
+        <Chat
+          contactName={props.profile.contacts[props.selectedContact].username}
+        />
+      ) : (
+        props.selectedChannel !== undefined && (
+          <Chat channelId={props.profile.channelIds[props.selectedChannel]} />
+        )
+      )}
     </div>
   );
 }

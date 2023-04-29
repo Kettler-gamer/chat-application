@@ -8,9 +8,13 @@ export function Chat(props) {
 
   async function sendMessage(content) {
     const message = {
-      contactName: props.contactName,
       content,
     };
+    if (props.contactName) {
+      message.contactName = props.contactName;
+    } else {
+      message.channelId = props.channelId;
+    }
     if (attachement) {
       message.attachement = attachement;
     }
@@ -48,18 +52,23 @@ export function Chat(props) {
     }
     window.socket.on("newMessage", (message) => {
       if (
-        message.author === props.contactName ||
-        message.reciever === props.contactName
+        (!props.contactName && message.reciever === props.channelId) ||
+        (!props.channelId &&
+          (message.author === props.contactName ||
+            message.reciever === props.contactName))
       ) {
         setMessages((oldValue) => [...oldValue, message]);
         scrollChatToBottom();
       }
     });
+
+    window.socket.emit("channelSet", props.channelId || "");
+
     async function fetchMessages() {
-      const response = await fetchJson(
-        `/message?contactName=${props.contactName}`,
-        "GET"
-      );
+      const query = props.contactName
+        ? `contactName=${props.contactName}`
+        : `channelId=${props.channelId}`;
+      const response = await fetchJson(`/message?${query}`, "GET");
 
       if (response.status < 400) {
         setMessages(await response.json());
@@ -69,7 +78,7 @@ export function Chat(props) {
       }
     }
     fetchMessages();
-  }, [props.contactName]);
+  }, [props.contactName, props.channelId]);
 
   function onFileAttachement(event) {
     const file = event.target.files[0];

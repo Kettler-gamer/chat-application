@@ -1,12 +1,37 @@
 import { AddContact } from "./AddContact";
 import { useState } from "react";
+import { fetchJson } from "../scripts/Fetch";
 
 export function Contacts(props) {
   const [section, setSection] = useState("contacts");
+  const [channels, setChannels] = useState([]);
   const [add, setAdd] = useState(false);
 
   function onSectionClick(event) {
     setSection(event.target.name);
+    if (
+      event.target.name === "channels" &&
+      channels.length === 0 &&
+      props.profile.channelIds.length > 0
+    ) {
+      getChannelInfo();
+    }
+  }
+
+  async function getChannelInfo() {
+    const responses = await Promise.all(
+      props.profile.channelIds.map((channelId) => {
+        return fetchJson(`/channel?channelId=${channelId}`, "GET");
+      })
+    );
+
+    const data = await Promise.all(responses.map((resp) => resp.json()));
+
+    setChannels(data);
+  }
+
+  async function getChannelMessages(channelId, index) {
+    // props.setSelectedContact(index);
   }
 
   return (
@@ -28,24 +53,42 @@ export function Contacts(props) {
             Contacts
           </button>
         </div>
-        <ul className="contacts-list">
-          {props.profile !== undefined && props.profile.contacts.length > 0 ? (
-            props.profile.contacts.map((contact, index) => (
-              <li
-                className="list-item"
-                key={`contact-${index}`}
-                onClick={() => props.setSelectedContact(index)}>
-                <img
-                  src={contact.profilePicture || `/images/profile-pic.webp`}
-                  alt="profile"
-                />
-                <p>{contact.username}</p>
-              </li>
-            ))
-          ) : (
-            <p>You have no contacts!</p>
-          )}
-        </ul>
+        {props.profile !== undefined && (
+          <ul className="contacts-list">
+            {section === "contacts" && props.profile.contacts.length > 0
+              ? props.profile.contacts.map((contact, index) => (
+                  <li
+                    className="list-item"
+                    key={`contact-${index}`}
+                    onClick={() => {
+                      props.setSelectedContact(index);
+                      props.setSelectedChannel(undefined);
+                    }}>
+                    <img
+                      src={contact.profilePicture || `/images/profile-pic.webp`}
+                      alt="profile"
+                    />
+                    <p>{contact.username}</p>
+                  </li>
+                ))
+              : section === "contacts" && <p>You have no contacts!</p>}
+            {section === "channels" && props.profile.channelIds.length > 0
+              ? channels.map((channel, index) => (
+                  <li
+                    className="list-item"
+                    key={`channel-${index}`}
+                    onClick={() => {
+                      props.setSelectedChannel(index);
+                      props.setSelectedContact(undefined);
+                    }}>
+                    <p>
+                      {channel.name ? channel.name : `Channel ${index + 1}`}
+                    </p>
+                  </li>
+                ))
+              : section === "channels" && <p>You have no channels!</p>}
+          </ul>
+        )}
       </div>
       {add && <AddContact setAdd={setAdd} setProfile={props.setProfile} />}
     </>
