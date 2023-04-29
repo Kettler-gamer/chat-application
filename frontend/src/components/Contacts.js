@@ -30,10 +30,6 @@ export function Contacts(props) {
     setChannels(data);
   }
 
-  async function getChannelMessages(channelId, index) {
-    // props.setSelectedContact(index);
-  }
-
   return (
     <>
       <div className="contacts-section">
