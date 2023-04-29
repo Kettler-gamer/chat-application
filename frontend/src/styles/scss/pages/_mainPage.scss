@@ -1,9 +1,22 @@
+@use "../abstract/variables" as *;
 @use "../components/contacts" as *;
 
 .main-page {
+  height: 85vh;
   .container-contact-comp {
     width: 95%;
-    height: 85vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
     display: flex;
+  }
+  *::-webkit-scrollbar-track,
+  *::-webkit-scrollbar {
+    background-color: $C2;
+    border-radius: 1em;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: $C3;
+    border-radius: 1em;
   }
 }

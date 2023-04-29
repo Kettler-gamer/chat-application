@@ -15,59 +15,84 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border: 5px solid $C2;
     border-radius: 0.5em;
-    padding: 1em;
-    height: 1.33em;
+    background-color: $C2;
+    height: 10%;
   }
   .contact-chat-container {
-    border: 5px solid $C2;
     height: 90%;
-    .chat-input-container,
     .chat-message-container {
-      border: 5px solid $C2;
-    }
-    .chat-message-container {
-      height: 90%;
+      height: 85%;
       overflow-y: scroll;
-
       .chat-message {
-        margin-left: 1em;
+        margin-left: 6em;
+        background-color: $C5;
+        color: $C1;
+        width: fit-content;
+        max-width: 500px;
+        border-radius: 0.5em;
+        padding: 0.5em;
+        margin-bottom: 1em;
+        box-shadow: 0 0 15px black;
         h3,
         h5 {
           display: inline;
+          width: fit-content;
         }
         h5 {
           margin-left: 1em;
         }
         p {
-          margin: 0.75em 0;
+          width: fit-content;
+          margin: 0.75em auto 0.75em 0;
         }
         video,
         embed {
           width: 25%;
         }
       }
-    }
-    .chat-message-container::-webkit-scrollbar-track,
-    .chat-message-container::-webkit-scrollbar {
-      background-color: $C2;
-      border-radius: 1em;
-    }
-    .chat-message-container::-webkit-scrollbar-thumb {
-      background-color: $C3;
-      border-radius: 1em;
+      .chat-message:first-child {
+        margin-top: 1em;
+      }
+      .chat-message:nth-child(odd) {
+        background-color: $C2;
+        color: $C5;
+        margin-left: auto;
+        margin-right: 6em;
+        text-align: end;
+        p {
+          margin: 0.75em 0 0.75em auto;
+        }
+      }
+      .my-message {
+        background-color: $C2;
+      }
     }
     .chat-input-container {
-      height: 8%;
+      height: 15%;
+      max-height: 115px;
       display: flex;
       align-items: center;
       justify-content: space-around;
+      background-color: $C2;
+      border-radius: 0.5em;
+      label {
+        border-radius: 0.5em;
+        padding: 0.75em;
+      }
+      label:hover {
+        background-color: $C3;
+      }
       input {
+        border: none;
+        background-color: none;
+        background: none;
+        color: $C5;
         font-size: 1.25rem;
         padding: 0.25em;
         border-radius: 0.25em;
         width: 70%;
+        outline: none;
       }
     }
   }

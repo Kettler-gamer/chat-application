@@ -1,7 +1,8 @@
 @use "../abstract/variables" as *;
 
 header {
-  height: 4em;
+  height: 10vh;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-around;

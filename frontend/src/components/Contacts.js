@@ -34,7 +34,9 @@ export function Contacts(props) {
       <div className="contacts-section">
         <div className="contact-nav">
           <input placeholder="search contact.." />
-          <button onClick={() => setAdd(true)}>+</button>
+          <button className="add-btn" onClick={() => setAdd(true)}>
+            ➕
+          </button>
           <div className="section-switch">
             <button name="channels" onClick={onSectionClick}>
               Channels
