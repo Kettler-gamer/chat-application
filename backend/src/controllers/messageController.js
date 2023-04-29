@@ -4,7 +4,7 @@ import { onNewMessage } from "../io/events/message.js";
 import channelService from "../services/channelService.js";
 import { isValidObjectId } from "mongoose";
 
-function getMessages(req, res) {
+async function getMessages(req, res) {
   const { username } = req.jwtPayload;
   const { contactName, channelId } = req.query;
 
@@ -13,6 +13,13 @@ function getMessages(req, res) {
 
   if (channelId && !isValidObjectId(channelId))
     return res.status(400).send("Invalid channel id!");
+
+  if (channelId) {
+    const channel = await channelService.getChannel(channelId, username);
+    if (!channel) {
+      return res.status(404).send("Channel not found!");
+    }
+  }
 
   userService
     .getUser(username)
