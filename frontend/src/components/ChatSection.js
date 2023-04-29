@@ -23,12 +23,16 @@ export function ChatSection(props) {
         <Chat
           username={props.profile.username}
           contactName={props.profile.contacts[props.selectedContact].username}
+          setLoading={props.setLoading}
+          loading={props.loading}
         />
       ) : (
         props.selectedChannel !== undefined && (
           <Chat
             username={props.profile.username}
             channelId={props.profile.channelIds[props.selectedChannel]}
+            setLoading={props.setLoading}
+            loading={props.loading}
           />
         )
       )}

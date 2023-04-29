@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchJson } from "../scripts/Fetch";
+import { LoadingMessages } from "./LoadingMessages";
 
 export function Chat(props) {
   const [messages, setMessages] = useState([]);
@@ -43,7 +44,7 @@ export function Chat(props) {
     setTimeout(() => {
       const cont = document.querySelector(".chat-message-container");
       cont.scrollTo(0, cont.scrollHeight);
-    }, 200);
+    }, 1);
   }
 
   useEffect(() => {
@@ -73,12 +74,13 @@ export function Chat(props) {
       if (response.status < 400) {
         setMessages(await response.json());
         scrollChatToBottom();
+        props.setLoading(false);
       } else {
         console.log(await response.text());
       }
     }
     fetchMessages();
-  }, [props.contactName, props.channelId]);
+  }, [props.contactName, props.channelId, props]);
 
   function onFileAttachement(event) {
     const file = event.target.files[0];
@@ -91,11 +93,13 @@ export function Chat(props) {
     fileReader.readAsDataURL(file);
   }
 
-  function removeAttachement(event) {
+  function removeAttachement() {
     setAttachement(undefined);
   }
 
-  return (
+  return props.loading ? (
+    <LoadingMessages />
+  ) : (
     <div className="contact-chat-container">
       <div className="chat-message-container">
         {messages.map((message, index) => (

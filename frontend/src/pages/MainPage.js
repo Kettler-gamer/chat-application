@@ -24,6 +24,7 @@ export function MainPage() {
   const [selectedContact, setSelectedContact] = useState(undefined);
   const [selectedChannel, setSelectedChannel] = useState(undefined);
   const [channels, setChannels] = useState([]);
+  const [loading, setLoading] = useState(false);
   const ref = useRef(false);
 
   async function getUserProfile() {
@@ -57,6 +58,7 @@ export function MainPage() {
           setProfile={setProfile}
           channels={channels}
           setChannels={setChannels}
+          setLoading={setLoading}
         />
         <ChatSection
           profile={profile}
@@ -65,6 +67,8 @@ export function MainPage() {
           setCall={setCall}
           setCaller={setCaller}
           channels={channels}
+          loading={loading}
+          setLoading={setLoading}
         />
       </div>
       {caller !== "" && !call && (

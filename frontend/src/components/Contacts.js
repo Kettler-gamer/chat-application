@@ -60,6 +60,7 @@ export function Contacts(props) {
                     className="list-item"
                     key={`contact-${index}`}
                     onClick={() => {
+                      props.setLoading(true);
                       props.setSelectedContact(index);
                       props.setSelectedChannel(undefined);
                     }}>
@@ -78,6 +79,7 @@ export function Contacts(props) {
                     style={{ padding: "1em 0" }}
                     key={`channel-${index}`}
                     onClick={() => {
+                      props.setLoading(true);
                       props.setSelectedChannel(index);
                       props.setSelectedContact(undefined);
                     }}>

@@ -1,0 +1,67 @@
+@use "../abstract/variables" as *;
+
+.load-container {
+  .load-cont {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .load-box {
+      animation: color-move 1s infinite linear;
+      width: 60%;
+      height: 100px;
+      margin-bottom: 1em;
+      border-radius: 1em;
+      box-shadow: 0 0 25px black;
+    }
+    .load-circle {
+      animation: color-trans 0.5s infinite linear;
+      box-shadow: 0 0 25px black;
+      background-color: $CY5;
+      border-radius: 5em;
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .load-cont:first-child .load-box {
+    margin-top: 1em;
+  }
+  .load-cont:nth-child(even) .load-box {
+    background-image: linear-gradient(to bottom, $CY5, $CG5, $CY5);
+    margin-left: auto;
+    margin-right: 1em;
+  }
+  .load-cont:nth-child(odd) .load-box {
+    background-image: linear-gradient(to bottom, $CG5, $CY5, $CG5);
+    margin-left: 1em;
+    margin-right: auto;
+  }
+  .load-cont:nth-child(even) .load-circle {
+    margin-left: 1em;
+    margin-right: auto;
+  }
+  .load-cont:nth-child(odd) .load-circle {
+    margin-left: auto;
+    margin-right: 1em;
+  }
+}
+
+@keyframes color-move {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: 100px;
+  }
+}
+
+@keyframes color-trans {
+  0% {
+    background-color: $CG5;
+  }
+  50% {
+    background-color: $CY5;
+  }
+  100% {
+    background-color: $CG5;
+  }
+}
