@@ -29,8 +29,6 @@ export function Contacts(props) {
 
     setChannels(data);
   }
-  // style={section === "channels" ? { color: "green" } : {}}
-  // style={section === "contacts" ? { color: "green" } : {}}
   return (
     <>
       <div className="contacts-section">
