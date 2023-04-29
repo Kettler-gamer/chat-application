@@ -4,19 +4,21 @@
 .main-page {
   height: 85vh;
   .container-contact-comp {
+    background-color: $CP5;
     width: 95%;
     max-width: 1200px;
     margin: 0 auto;
     height: 100%;
     display: flex;
+    border-radius: 0.5em;
   }
   *::-webkit-scrollbar-track,
   *::-webkit-scrollbar {
-    background-color: $C2;
+    background-color: $CY5;
     border-radius: 1em;
   }
   *::-webkit-scrollbar-thumb {
-    background-color: $C3;
+    background-color: $CG4;
     border-radius: 1em;
   }
 }

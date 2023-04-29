@@ -6,7 +6,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: $C3;
+  background-color: $CY5;
+  color: $CY3;
   box-shadow: 0 0 25px black;
   img {
     width: 64px;
@@ -19,6 +20,6 @@ header {
     border: none;
   }
   button:hover {
-    background-color: $C4;
+    // background-color: $C4;
   }
 }

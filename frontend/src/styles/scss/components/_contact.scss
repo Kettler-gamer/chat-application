@@ -15,8 +15,9 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border-radius: 0.5em;
-    background-color: $C2;
+    background-color: $CG5;
+    box-shadow: -5px 10px 10px black;
+    color: $CY1;
     height: 10%;
   }
   .contact-chat-container {
@@ -26,8 +27,8 @@
       overflow-y: scroll;
       .chat-message {
         margin-left: 6em;
-        background-color: $C5;
-        color: $C1;
+        background-color: $CP4;
+        color: $CY1;
         width: fit-content;
         max-width: 500px;
         border-radius: 0.5em;
@@ -55,8 +56,7 @@
         margin-top: 1em;
       }
       .my-message {
-        background-color: $C2;
-        color: $C5;
+        background-color: $CG4;
         margin-left: auto;
         margin-right: 6em;
         text-align: end;
@@ -71,14 +71,17 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      background-color: $C2;
-      border-radius: 0.5em;
+      background-color: $CG5;
+      box-shadow: -5px -10px 10px black;
       label {
-        border-radius: 0.5em;
-        padding: 0.75em;
+        background-color: $CY5;
+        color: $CY1;
+        font-size: 1.75rem;
+        border-radius: 5em;
+        padding: 0.25em 0.5em;
       }
       label:hover {
-        background-color: $C3;
+        background-color: $CY4;
       }
       input {
         border: none;

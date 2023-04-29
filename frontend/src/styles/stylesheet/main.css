@@ -51,8 +51,7 @@ form button {
 
 .contacts-section {
   position: relative;
-  background-color: #415a77;
-  border-radius: 0.25em;
+  background-color: #2c2c2b;
   font-size: 1.25rem;
   max-width: 300px;
   min-width: 230px;
@@ -60,7 +59,6 @@ form button {
   height: 100%;
 }
 .contacts-section .contact-nav {
-  background-color: #1b263b;
   width: 100%;
   height: 25%;
   max-height: 110px;
@@ -83,13 +81,14 @@ form button {
 }
 .contacts-section .contact-nav .add-btn {
   text-align: center;
-  padding: 0.25em;
+  font-size: 1.2rem;
+  padding: 0.25em 0.5em;
   border: none;
   border-radius: 5em;
 }
 .contacts-section .contact-nav .section-switch {
   margin-top: 1em;
-  background-color: #0d1b2a;
+  background-color: #232423;
   border-radius: 0.5em;
   height: 1.5em;
   width: 11.5em;
@@ -108,7 +107,7 @@ form button {
   z-index: 1;
   margin-top: -1.5em;
   border-radius: 0.5em;
-  background-color: rgba(0, 128, 0, 0.7);
+  background-color: #3b5839;
   height: 100%;
   width: 50%;
   transition: transform 0.25s;
@@ -127,6 +126,7 @@ form button {
   list-style-type: none;
   padding: 0.25em 0;
   width: 100%;
+  color: #ffce00;
 }
 .contacts-section .contacts-list .list-item p {
   margin-left: 0.5em;
@@ -138,26 +138,28 @@ form button {
   border-radius: 5em;
 }
 .contacts-section .contacts-list .list-item:hover {
-  background-color: #1b263b;
+  background-color: #6d6647;
 }
 
 .main-page {
   height: 85vh;
 }
 .main-page .container-contact-comp {
+  background-color: #1e1e1f;
   width: 95%;
   max-width: 1200px;
   margin: 0 auto;
   height: 100%;
   display: flex;
+  border-radius: 0.5em;
 }
 .main-page *::-webkit-scrollbar-track,
 .main-page *::-webkit-scrollbar {
-  background-color: #1b263b;
+  background-color: #2c2c2b;
   border-radius: 1em;
 }
 .main-page *::-webkit-scrollbar-thumb {
-  background-color: #415a77;
+  background-color: #3b5839;
   border-radius: 1em;
 }
 
@@ -235,8 +237,9 @@ form button {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-radius: 0.5em;
-  background-color: #1b263b;
+  background-color: #232423;
+  box-shadow: -5px 10px 10px black;
+  color: #ffce00;
   height: 10%;
 }
 .contact-page .contact-chat-container {
@@ -248,8 +251,8 @@ form button {
 }
 .contact-page .contact-chat-container .chat-message-container .chat-message {
   margin-left: 6em;
-  background-color: #e0e1dd;
-  color: #0d1b2a;
+  background-color: #38344b;
+  color: #ffce00;
   width: -moz-fit-content;
   width: fit-content;
   max-width: 500px;
@@ -280,8 +283,7 @@ form button {
   margin-top: 1em;
 }
 .contact-page .contact-chat-container .chat-message-container .my-message {
-  background-color: #1b263b;
-  color: #e0e1dd;
+  background-color: #3b5839;
   margin-left: auto;
   margin-right: 6em;
   text-align: end;
@@ -295,15 +297,18 @@ form button {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: #1b263b;
-  border-radius: 0.5em;
+  background-color: #232423;
+  box-shadow: -5px -10px 10px black;
 }
 .contact-page .contact-chat-container .chat-input-container label {
-  border-radius: 0.5em;
-  padding: 0.75em;
+  background-color: #2c2c2b;
+  color: #ffce00;
+  font-size: 1.75rem;
+  border-radius: 5em;
+  padding: 0.25em 0.5em;
 }
 .contact-page .contact-chat-container .chat-input-container label:hover {
-  background-color: #415a77;
+  background-color: #6d6647;
 }
 .contact-page .contact-chat-container .chat-input-container input {
   border: none;
@@ -323,7 +328,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: #415a77;
+  background-color: #2c2c2b;
+  color: #ac963a;
   box-shadow: 0 0 25px black;
 }
 header img {
@@ -336,10 +342,6 @@ header button {
   border-radius: 0.5em;
   border: none;
 }
-header button:hover {
-  background-color: #778da9;
-}
-
 .black-background {
   position: absolute;
   top: 0;
@@ -392,16 +394,15 @@ header button:hover {
 }
 
 body {
-  background-color: #0d1b2a;
-  color: #e0e1dd;
+  background-color: #232423;
 }
 
 button {
-  background-color: #1b263b;
-  color: #e0e1dd;
+  background-color: #232423;
+  color: #eec104;
   font-size: 1.15rem;
 }
 
 button:hover {
-  background-color: #415a77;
+  background-color: #6d6647;
 }/*# sourceMappingURL=main.css.map */

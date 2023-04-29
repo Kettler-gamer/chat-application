@@ -34,7 +34,7 @@ export function Contacts(props) {
         <div className="contact-nav">
           <input placeholder="search contact.." />
           <button className="add-btn" onClick={() => setAdd(true)}>
-            ➕
+            +
           </button>
           <div className="section-switch">
             <button name="channels" onClick={onSectionClick}>
@@ -75,6 +75,7 @@ export function Contacts(props) {
               ? props.channels.map((channel, index) => (
                   <li
                     className="list-item"
+                    style={{ padding: "1em 0" }}
                     key={`channel-${index}`}
                     onClick={() => {
                       props.setSelectedChannel(index);

@@ -128,7 +128,7 @@ export function Chat(props) {
         {attachement ? (
           <button onClick={removeAttachement}>-</button>
         ) : (
-          <label htmlFor="attachement-file">➕</label>
+          <label htmlFor="attachement-file">+</label>
         )}
         <input
           placeholder="Type here..."
