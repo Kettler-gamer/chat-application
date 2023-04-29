@@ -32,12 +32,13 @@ function createChannel(req, res) {
 
 function getChannel(req, res) {
   const { channelId } = req.query;
+  const { username } = req.jwtPayload;
 
   if (!channelId || !isValidObjectId(channelId))
     return res.status(400).send("Invalid channelId!");
 
   channelService
-    .getChannel(channelId)
+    .getChannel(channelId, username)
     .then((channel) => {
       if (channel) {
         res.send({ name: channel.name, users: channel.users });

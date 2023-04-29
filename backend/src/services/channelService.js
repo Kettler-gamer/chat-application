@@ -4,8 +4,8 @@ function addChannel(users) {
   return Channel.create({ users, messageIds: [] });
 }
 
-function getChannel(channelId) {
-  return Channel.findOne({ _id: channelId });
+function getChannel(channelId, username) {
+  return Channel.findOne({ _id: channelId, users: { $in: username } });
 }
 
 export default { addChannel, getChannel };
