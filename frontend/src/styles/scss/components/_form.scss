@@ -1,8 +1,7 @@
 @use "../abstract/variables" as *;
 
 form {
-  //   background-color: $C2;
-  background-image: linear-gradient(to bottom right, $C2, $C1);
+  background-image: linear-gradient(to bottom right, $CG5, $CY5);
   display: flex;
   flex-direction: column;
   min-width: 350px;
@@ -11,13 +10,13 @@ form {
   height: fit-content;
   border-radius: 0.25em;
   box-shadow: 0 0 25px black;
-  color: $C5;
   padding: 2em 0;
   align-items: center;
   row-gap: 1.75em;
   h2 {
     padding: 0.5em 2.5em;
-    border-bottom: 3px solid $C5;
+    color: $CY1;
+    border-bottom: 3px solid $CY4;
   }
   input,
   button {
@@ -26,11 +25,12 @@ form {
     padding: 0.5em 1em;
   }
   input {
-    background-color: $C1;
+    background-color: $CP5;
     color: $C5;
     border: none;
     width: 45%;
     font-size: 1.1rem;
+    outline: none;
   }
   button:not(:first-of-type),
   input:not(:first-of-type) {
