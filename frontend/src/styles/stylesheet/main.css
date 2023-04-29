@@ -54,7 +54,7 @@ form button {
   border-radius: 0.25em;
   font-size: 1.25rem;
   max-width: 300px;
-  min-width: 220px;
+  min-width: 230px;
   width: 30%;
 }
 .contacts-section .contact-nav {
@@ -77,9 +77,30 @@ form button {
   padding-left: 1em;
   padding-right: 1em;
 }
-.contacts-section .contact-nav button:nth-child(3),
-.contacts-section .contact-nav button:nth-child(4) {
+.contacts-section .contact-nav .section-switch {
   margin-top: 1em;
+  background-color: #1b263b;
+  border-radius: 0.5em;
+  height: 1.5em;
+  width: 11.5em;
+}
+.contacts-section .contact-nav .section-switch button {
+  position: relative;
+  background: none;
+  background-color: none;
+  border: none;
+  border-radius: none;
+  z-index: 5;
+}
+.contacts-section .contact-nav .section-switch .green-slide {
+  position: relative;
+  z-index: 3;
+  margin-top: -1.5em;
+  border-radius: 0.5em;
+  background-color: rgba(0, 128, 0, 0.7);
+  height: 100%;
+  width: 50%;
+  transition: transform 0.25s;
 }
 .contacts-section .contacts-list {
   border-top: 5px solid #1b263b;

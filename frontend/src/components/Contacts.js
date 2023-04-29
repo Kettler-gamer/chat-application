@@ -29,25 +29,29 @@ export function Contacts(props) {
 
     setChannels(data);
   }
-
+  // style={section === "channels" ? { color: "green" } : {}}
+  // style={section === "contacts" ? { color: "green" } : {}}
   return (
     <>
       <div className="contacts-section">
         <div className="contact-nav">
-          <input placeholder="search.." />
+          <input placeholder="search contact.." />
           <button onClick={() => setAdd(true)}>+</button>
-          <button
-            name="channels"
-            onClick={onSectionClick}
-            style={section === "channels" ? { color: "green" } : {}}>
-            Channels
-          </button>
-          <button
-            name="contacts"
-            onClick={onSectionClick}
-            style={section === "contacts" ? { color: "green" } : {}}>
-            Contacts
-          </button>
+          <div className="section-switch">
+            <button name="channels" onClick={onSectionClick}>
+              Channels
+            </button>
+            <button name="contacts" onClick={onSectionClick}>
+              Contacts
+            </button>
+            <div
+              className="green-slide"
+              style={
+                section === "channels"
+                  ? { transform: "translateX(0)" }
+                  : { transform: "translateX(100%)" }
+              }></div>
+          </div>
         </div>
         {props.profile !== undefined && (
           <ul className="contacts-list">
