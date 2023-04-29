@@ -29,6 +29,7 @@ export function MainPage() {
 
     if (response.status < 400) {
       const data = await response.json();
+      console.log(data);
       setProfile(data);
       setupPeerConnection(data.username, setCall, setCaller);
     } else {

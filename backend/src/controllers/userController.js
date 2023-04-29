@@ -6,8 +6,9 @@ function getProfile(req, res) {
   if (contactName) return getContactInfo(contactName, res);
 
   userService
-    .getUser(req.jwtPayload.username)
+    .getUser(req.jwtPayload.username, ["channelIds"])
     .then((user) => {
+      console.log(user.channelIds);
       return {
         user,
         contacts: userService.getUsersFromIdList(user.contactIds),
@@ -17,6 +18,7 @@ function getProfile(req, res) {
       result.contacts.then((contacts) => {
         res.send({
           username: result.user.username,
+          channelIds: result.user.channelIds,
           profilePicture: result.user.profilePicture,
           contacts,
         });

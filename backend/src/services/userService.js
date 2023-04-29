@@ -1,10 +1,11 @@
 import User from "../db/models/User.js";
 
-async function getUser(username) {
-  return User.findOne(
-    { username },
-    "username contactIds messageIds profilePicture"
-  );
+async function getUser(username, extraProjection = []) {
+  const projection = ["username", "contactIds", "messageIds", "profilePicture"];
+  if (extraProjection) {
+    projection.push(...extraProjection);
+  }
+  return User.findOne({ username }, projection.join(" "));
 }
 
 async function getUsersFromIdList(list) {
