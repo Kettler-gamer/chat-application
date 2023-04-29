@@ -1,5 +1,6 @@
 import { Chat } from "./Chat";
 import { Contact } from "./Contact";
+import { Channel } from "./Channel";
 
 export function ChatSection(props) {
   return (
@@ -10,6 +11,12 @@ export function ChatSection(props) {
           selectedContact={props.selectedContact}
           setCall={props.setCall}
           setCaller={props.setCaller}
+        />
+      )}
+      {props.selectedChannel !== undefined && props.profile && (
+        <Channel
+          name={props.channels[props.selectedChannel].name}
+          channelNumber={props.selectedChannel + 1}
         />
       )}
       {props.profile && props.selectedContact !== undefined ? (
