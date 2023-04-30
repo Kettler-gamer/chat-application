@@ -228,6 +228,33 @@ form .channel-add-contact-list li:not(:last-child) {
 .black-background form {
   margin-top: 8em;
 }
+.black-background .confirm-page {
+  background-color: #2c2c2b;
+  color: #ffce00;
+  padding: 3em 1em 0 1em;
+  width: 10em;
+  height: 15em;
+  display: flex;
+  margin-top: 8em;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 4em;
+  border-radius: 0.25em;
+}
+.black-background .confirm-page h3 {
+  text-align: center;
+  font-size: 1.25rem;
+}
+.black-background .confirm-page div {
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+}
+.black-background .confirm-page div button {
+  width: 3em;
+  border: none;
+  padding: 0;
+}
 
 .called {
   height: -moz-fit-content;
@@ -293,10 +320,18 @@ form .channel-add-contact-list li:not(:last-child) {
   color: #ffce00;
   height: 10%;
 }
+.contact-page .contact-top .contact-btns {
+  display: flex;
+  align-items: center;
+}
 .contact-page .contact-top .contact-btns button {
   background-color: #2c2c2b;
   border-radius: 5em;
   border: none;
+  margin: 0 0.25em;
+}
+.contact-page .contact-top .contact-btns button img {
+  width: 100%;
 }
 .contact-page .contact-top .contact-btns button:hover {
   background-color: #6d6647;

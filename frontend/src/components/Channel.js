@@ -1,9 +1,11 @@
 import { fetchJson } from "../scripts/Fetch";
 import { Form } from "./Form";
 import { useState } from "react";
+import { Confirm } from "./Confirm";
 
 export function Channel(props) {
   const [add, setAdd] = useState(false);
+  const [leave, setLeave] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([]);
   const [addedUsers, setAddedUsers] = useState([]);
   const [serverMessage, setServerMessage] = useState("");
@@ -22,7 +24,20 @@ export function Channel(props) {
       setAddedUsers([]);
     }
 
-    console.log(await response.text());
+    setServerMessage(await response.text());
+  }
+
+  async function onLeaveChannel() {
+    const response = await fetchJson(
+      `/channel/leave?channelId=${props.channelId}`,
+      "GET"
+    );
+
+    if (response.status < 400) {
+      console.log("Left channel");
+    } else {
+      console.log("Something went wrong!");
+    }
   }
 
   function onPlusClick() {
@@ -46,6 +61,9 @@ export function Channel(props) {
         <div className="contact-btns">
           <button className="add-btn" onClick={onPlusClick}>
             +
+          </button>
+          <button onClick={() => setLeave(true)}>
+            <img src="/images/door.webp" alt="door" />
           </button>
         </div>
       </div>
@@ -125,6 +143,13 @@ export function Channel(props) {
             }
           />
         </div>
+      )}
+      {leave && (
+        <Confirm
+          title="Do you want to leave the channel?"
+          onConfirm={onLeaveChannel}
+          onCancel={() => setLeave(false)}
+        />
       )}
     </>
   );
