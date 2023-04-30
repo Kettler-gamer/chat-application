@@ -28,6 +28,7 @@ export function Channel(props) {
   }
 
   async function onLeaveChannel() {
+    console.log(props.channelId);
     const response = await fetchJson(
       `/channel/leave?channelId=${props.channelId}`,
       "GET"
@@ -35,6 +36,7 @@ export function Channel(props) {
 
     if (response.status < 400) {
       console.log("Left channel");
+      setLeave(false);
     } else {
       console.log("Something went wrong!");
     }
@@ -148,7 +150,10 @@ export function Channel(props) {
         <Confirm
           title="Do you want to leave the channel?"
           onConfirm={onLeaveChannel}
-          onCancel={() => setLeave(false)}
+          onCancel={() => {
+            console.log(props.channelId);
+            setLeave(false);
+          }}
         />
       )}
     </>

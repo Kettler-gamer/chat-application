@@ -1,5 +1,8 @@
 import Channel from "../db/models/Channel.js";
 import User from "../db/models/User.js";
+import mongoose from "mongoose";
+
+const ObjectId = mongoose.Types.ObjectId;
 
 function addChannel(users, name) {
   const data = { users, messageIds: [] };
@@ -36,4 +39,21 @@ async function addUsersToChannel(channelId, users, username) {
   };
 }
 
-export default { addChannel, getChannel, addUsersToChannel };
+async function removeUserFromChannel(username, channelId) {
+  const userResult = await User.updateOne(
+    { username },
+    { $pull: { channelIds: new ObjectId(channelId) } }
+  );
+  const channelResult = await Channel.updateOne(
+    { _id: channelId },
+    { $pull: { users: username } }
+  );
+  return { channelResult, userResult };
+}
+
+export default {
+  addChannel,
+  getChannel,
+  addUsersToChannel,
+  removeUserFromChannel,
+};

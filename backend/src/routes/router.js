@@ -31,4 +31,6 @@ router
   .post(channelController.createChannel)
   .patch(channelController.addUsersToChannel);
 
+router.get("/channel/leave", channelController.leaveChannel);
+
 export default router;

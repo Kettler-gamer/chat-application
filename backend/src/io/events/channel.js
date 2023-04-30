@@ -1,4 +1,5 @@
 import { sockets } from "../ioHandler.js";
+import Channel from "../../db/models/Channel.js";
 
 export function onNewChannel(channel) {
   channel.users.forEach((user) => {
@@ -21,4 +22,17 @@ export function usersAddedToChannel(channel, users) {
       sockets[user].emit("newUsers", { users, channelId: channel._id });
     }
   });
+}
+
+export function onUserLeftChannel(channelId, username) {
+  Channel.findOne({ _id: channelId }).then((channel) => {
+    if (channel) {
+      channel.users.forEach((user) => {
+        if (sockets[user]) {
+          sockets[user].emit("leftChannel", { channelId, username });
+        }
+      });
+    }
+  });
+  sockets[username].emit("leftChannel", { channelId, username });
 }

@@ -11,6 +11,7 @@ import { Settings } from "../components/Settings";
 import { ChatSection } from "../components/ChatSection";
 
 export const info = {
+  username: undefined,
   peer: undefined,
   socket: undefined,
   conn: undefined,
@@ -33,6 +34,7 @@ export function MainPage() {
     if (response.status < 400) {
       const data = await response.json();
       setProfile(data);
+      info.username = data.username;
       setupPeerConnection(data.username, setCall, setCaller);
     } else {
       console.log(await response.text());
@@ -43,7 +45,7 @@ export function MainPage() {
     if (!ref.current) {
       ref.current = true;
       getUserProfile();
-      setUpSocketConnection(setProfile);
+      setUpSocketConnection(setProfile, setChannels, setSelectedChannel);
     }
   }, [setProfile]);
 

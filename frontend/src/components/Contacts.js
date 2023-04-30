@@ -2,6 +2,7 @@ import { AddContact } from "./AddContact";
 import { AddChannel } from "./AddChannel";
 import { useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
+import { info } from "../pages/MainPage";
 
 export function Contacts(props) {
   const [section, setSection] = useState("contacts");
@@ -27,7 +28,10 @@ export function Contacts(props) {
 
     const data = await Promise.all(
       responses.map(async (resp, index) => {
-        return { ...(await resp.json()), _id: props.profile.channelIds[index] };
+        return {
+          ...(await resp.json()),
+          _id: props.profile.channelIds[index],
+        };
       })
     );
 
@@ -45,6 +49,42 @@ export function Contacts(props) {
 
         return newValue;
       });
+    });
+    window.socket.on("leftChannel", (data) => {
+      console.log("Left channel");
+      props.setChannels((oldValue) => {
+        if (info.username === data.username) {
+          return oldValue.filter((channel) => channel._id !== data.channelId);
+        } else {
+          const newValue = JSON.parse(JSON.stringify(oldValue));
+          const users = newValue.find(
+            (channel) => channel._id === data.channelId
+          ).users;
+
+          users.splice(users.indexOf(data.username), 1);
+
+          return newValue;
+        }
+      });
+      if (data.username === info.username) {
+        props.setSelectedChannel(undefined);
+        props.setProfile((oldValue) => {
+          const newValue = JSON.parse(JSON.stringify(oldValue));
+
+          const channelIds = newValue.channelIds;
+
+          const index = channelIds.indexOf(data.channelId);
+
+          channelIds.splice(index, 1);
+
+          console.log("Profile set");
+          console.log(index);
+          console.log(data.channelId);
+          console.log(channelIds);
+
+          return newValue;
+        });
+      }
     });
   }
   return (
