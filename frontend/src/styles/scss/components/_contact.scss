@@ -5,7 +5,6 @@
   button {
     width: 2em;
     height: 2em;
-    border-radius: 0.25em;
   }
   p,
   button {
@@ -19,6 +18,16 @@
     box-shadow: -5px 10px 10px black;
     color: $CY1;
     height: 10%;
+    .contact-btns {
+      button {
+        background-color: $CY5;
+        border-radius: 5em;
+        border: none;
+      }
+      button:hover {
+        background-color: $CY4;
+      }
+    }
   }
   .contact-chat-container {
     height: 90%;
@@ -80,6 +89,13 @@
         border-radius: 5em;
         padding: 0.25em 0.5em;
       }
+      button {
+        font-size: 1.5rem;
+        background-color: $CY5;
+        border-radius: 5em;
+        border: none;
+      }
+      button:hover,
       label:hover {
         background-color: $CY4;
       }

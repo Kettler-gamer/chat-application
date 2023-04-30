@@ -95,6 +95,7 @@ export function Chat(props) {
 
   function removeAttachement() {
     setAttachement(undefined);
+    document.querySelector("#attachement-file").value = null;
   }
 
   return props.loading ? (

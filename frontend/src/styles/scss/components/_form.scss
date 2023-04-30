@@ -38,6 +38,7 @@ form {
     margin-top: -1.25em;
   }
   button {
+    border: none;
     width: 40%;
   }
   .added-list,
@@ -80,5 +81,8 @@ form {
     margin-top: 3em;
     max-height: 500px;
     overflow-y: scroll;
+    button {
+      width: 100px;
+    }
   }
 }
