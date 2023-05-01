@@ -51,7 +51,6 @@ export function Contacts(props) {
       });
     });
     window.socket.on("leftChannel", (data) => {
-      console.log("Left channel");
       props.setChannels((oldValue) => {
         if (info.username === data.username) {
           return oldValue.filter((channel) => channel._id !== data.channelId);
@@ -76,11 +75,6 @@ export function Contacts(props) {
           const index = channelIds.indexOf(data.channelId);
 
           channelIds.splice(index, 1);
-
-          console.log("Profile set");
-          console.log(index);
-          console.log(data.channelId);
-          console.log(channelIds);
 
           return newValue;
         });

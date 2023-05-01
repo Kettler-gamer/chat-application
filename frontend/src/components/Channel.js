@@ -2,6 +2,7 @@ import { fetchJson } from "../scripts/Fetch";
 import { Form } from "./Form";
 import { useState } from "react";
 import { Confirm } from "./Confirm";
+import { info } from "../pages/MainPage";
 
 export function Channel(props) {
   const [add, setAdd] = useState(false);
@@ -56,6 +57,68 @@ export function Channel(props) {
     }
   }
 
+  function callClick() {
+    const users = props.channels.find(
+      (channel, index) => index === props.channelNumber - 1
+    ).users;
+
+    console.log(users);
+    info.calls = [];
+    info.remoteAudios = [];
+    info.peerStreams = [];
+    info.answeredPeople = [];
+    users.forEach((contact) => {
+      if (contact === props.profile.username) return;
+      const newConn = window.peer.connect(contact);
+      newConn.on("close", () => {
+        props.setCurrentGroup((oldValue) =>
+          oldValue.filter((user) => user.username !== newConn.peer)
+        );
+        info.conns.splice(newConn, 1);
+        console.log(info.conns);
+      });
+      newConn.on("data", (data) => {
+        console.log("Peer data!");
+        console.log(data);
+        if (data === "checkCallers") {
+          newConn.send({
+            command: "callers",
+            answeredPeople: info.answeredPeople,
+          });
+        }
+      });
+      info.conns.push(newConn);
+      const currentCall = window.peer.call(contact, window.localStream, {
+        metadata: { users, caller: props.profile.username },
+      });
+      info.calls.push(currentCall);
+      currentCall.on("stream", (stream) => {
+        console.log("Got stream from " + contact);
+        info.answeredPeople.push(contact);
+        const audioStream = new Audio();
+        audioStream.srcObject = stream;
+        audioStream.autoplay = true;
+        info.peerStreams.push(stream);
+        info.remoteAudios.push(audioStream);
+        window.localStream.getTracks()[0].enabled = true;
+        props.setCurrentGroup((oldValue) => {
+          const newValue = JSON.parse(JSON.stringify(oldValue));
+
+          newValue.find((user) => user.username === contact).answered = true;
+
+          return newValue;
+        });
+        info.conns.forEach((conn) => {
+          conn.send({ command: "answer", username: contact });
+        });
+      });
+    });
+    props.setCurrentGroup(
+      users.map((username) => ({ username, answered: false }))
+    );
+    props.setGroupCall(true);
+  }
+
   return (
     <>
       <div className="contact-top">
@@ -67,6 +130,7 @@ export function Channel(props) {
           <button onClick={() => setLeave(true)}>
             <img src="/images/door.webp" alt="door" />
           </button>
+          <button onClick={callClick}>📞</button>
         </div>
       </div>
       {add && (

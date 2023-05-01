@@ -5,7 +5,7 @@
   position: absolute;
   top: -5em;
   right: 1em;
-  background-color: $C2;
+  background-color: $CY5;
   box-shadow: 0 0 25px black;
 }
 
@@ -15,6 +15,7 @@
   border-radius: 0.5em;
   height: fit-content;
   text-align: center;
+  color: $CY1;
   p {
     font-size: 1.25rem;
   }
@@ -23,4 +24,8 @@
     margin: 1em 0.5em;
     padding: 0.5em;
   }
+}
+
+.group-calling {
+  width: 10em;
 }

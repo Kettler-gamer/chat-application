@@ -9,6 +9,7 @@ import { Header } from "../components/Header";
 import { Routes, Route } from "react-router-dom";
 import { Settings } from "../components/Settings";
 import { ChatSection } from "../components/ChatSection";
+import { GroupCalling } from "../components/GroupCalling";
 
 export const info = {
   username: undefined,
@@ -16,6 +17,8 @@ export const info = {
   socket: undefined,
   conn: undefined,
   currentCall: undefined,
+  conns: [],
+  calls: [],
 };
 
 export function MainPage() {
@@ -26,6 +29,9 @@ export function MainPage() {
   const [selectedChannel, setSelectedChannel] = useState(undefined);
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [groupCall, setGroupCall] = useState(false);
+  const [groupCalling, setGroupCalling] = useState("calling");
+  const [currentGroup, setCurrentGroup] = useState([]);
   const ref = useRef(false);
 
   async function getUserProfile() {
@@ -35,7 +41,14 @@ export function MainPage() {
       const data = await response.json();
       setProfile(data);
       info.username = data.username;
-      setupPeerConnection(data.username, setCall, setCaller);
+      setupPeerConnection(
+        data.username,
+        setCall,
+        setCaller,
+        setGroupCall,
+        setCurrentGroup,
+        setGroupCalling
+      );
     } else {
       console.log(await response.text());
     }
@@ -72,6 +85,8 @@ export function MainPage() {
           setChannels={setChannels}
           loading={loading}
           setLoading={setLoading}
+          setGroupCall={setGroupCall}
+          setCurrentGroup={setCurrentGroup}
         />
       </div>
       {caller !== "" && !call && (
@@ -83,6 +98,16 @@ export function MainPage() {
         />
       )}
       {call && <Call caller={caller} />}
+      {groupCall && (
+        <GroupCalling
+          username={profile.username}
+          users={currentGroup}
+          setUsers={setCurrentGroup}
+          groupCalling={groupCalling}
+          setGroupCalling={setGroupCalling}
+          setGroupCall={setGroupCall}
+        />
+      )}
       <Routes path="*">
         <Route
           path="/settings"

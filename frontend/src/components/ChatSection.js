@@ -21,6 +21,8 @@ export function ChatSection(props) {
           profile={props.profile}
           channels={props.channels}
           setChannels={props.setChannels}
+          setGroupCall={props.setGroupCall}
+          setCurrentGroup={props.setCurrentGroup}
         />
       )}
       {props.profile && props.selectedContact !== undefined ? (
