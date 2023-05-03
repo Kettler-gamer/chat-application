@@ -23,13 +23,8 @@ export function setupPeerConnection(
     info.conns.push(connection);
     connection.on("close", () => {
       console.log("Close connection!");
-      // if (info.currentCall && info.currentCall.peer === connection.peer) {
-      //   info.currentCall = undefined;
-      //   setVideoStreams([]);
-      // }
-      setCall(false);
-      setCaller("");
-      window.localStream.getTracks()[0].enabled = true;
+      console.log(connection);
+      if (info.currentCall) info.currentCall.close();
     });
   });
   window.peer.on("error", (error) => {
@@ -95,7 +90,7 @@ export function setupPeerConnection(
         call.on("stream", (stream) => {
           console.log("Video stream!");
           info.currentVideoStream = stream;
-          setVideoStreams([stream]);
+          setVideoStreams((oldValue) => [...oldValue, stream]);
         });
         call.answer();
       } else {

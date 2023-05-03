@@ -13,6 +13,9 @@ export function Calling(props) {
       props.setCall(false);
       props.setCaller("");
       props.setVideoStreams([]);
+      info.localVideoStream = undefined;
+      info.currentVideoStream = undefined;
+      window.localStream.getTracks()[0].enabled = true;
     });
     props.setCall(true);
   }

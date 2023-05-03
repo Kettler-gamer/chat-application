@@ -15,8 +15,15 @@ export function Contact(props) {
       onStream(stream);
       props.setCaller(props.profile.contacts[props.selectedContact].username);
     });
+    info.currentCall.on("close", () => {
+      console.log("Call close!");
+      info.currentVideoStream = undefined;
+      info.localVideoStream = undefined;
+    });
     info.conn.on("close", () => {
       console.log("Close connection!");
+      console.log(info.conn);
+      window.peer._cleanupPeer(info.conn.peer);
       props.setVideoStreams([]);
       props.setCall(false);
       props.setCaller("");
