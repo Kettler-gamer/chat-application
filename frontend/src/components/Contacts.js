@@ -125,6 +125,11 @@ export function Contacts(props) {
                       src={contact.profilePicture || `/images/profile-pic.webp`}
                       alt="profile"
                     />
+                    <div
+                      className="status"
+                      style={{
+                        backgroundColor: contact.online ? "green" : "grey",
+                      }}></div>
                     <p>{contact.username}</p>
                   </li>
                 ))

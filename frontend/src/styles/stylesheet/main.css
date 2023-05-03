@@ -173,6 +173,7 @@ form .channel-add-contact-list li:not(:last-child) {
   height: 75%;
 }
 .contacts-section .contacts-list .list-item {
+  position: relative;
   display: flex;
   align-items: center;
   list-style-type: none;
@@ -187,6 +188,14 @@ form .channel-add-contact-list li:not(:last-child) {
 .contacts-section .contacts-list .list-item img {
   width: 64px;
   height: 64px;
+  border-radius: 5em;
+}
+.contacts-section .contacts-list .list-item .status {
+  position: absolute;
+  left: 46px;
+  bottom: 8px;
+  width: 15px;
+  height: 15px;
   border-radius: 5em;
 }
 .contacts-section .contacts-list .list-item:hover {

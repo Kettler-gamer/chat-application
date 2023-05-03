@@ -12,9 +12,26 @@ export function setUpSocketConnection(
   });
   newSocket.on("connect", () => {
     info.socket = newSocket;
+    console.log(info.contacts);
+    newSocket.emit("online", {
+      username: info.username,
+      contacts: info.contacts.map((user) => user.username),
+    });
   });
   newSocket.on("connection_error", () => {
     console.log("WS Connection error!");
+  });
+  newSocket.on("userOnline", (data) => {
+    console.log("userOnline: " + data.username + " is " + data.online);
+    setProfile((oldValue) => {
+      const newValue = JSON.parse(JSON.stringify(oldValue));
+
+      newValue.contacts.find(
+        (element) => element.username === data.username
+      ).online = data.online;
+
+      return newValue;
+    });
   });
   newSocket.on("disconnect", () => {
     console.log("WS disconnect");
@@ -30,6 +47,9 @@ export function setUpSocketConnection(
 
       return newVal;
     });
+  });
+  newSocket.on("online", (data) => {
+    console.log(data);
   });
   // newSocket.on("leftChannel", (data) => {
   //   console.log("Left channel");

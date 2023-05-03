@@ -19,6 +19,7 @@ export const info = {
   currentCall: undefined,
   currentVideoCall: undefined,
   currentVideoStream: undefined,
+  contacts: [],
   conns: [],
   calls: [],
 };
@@ -44,6 +45,7 @@ export function MainPage() {
       const data = await response.json();
       setProfile(data);
       info.username = data.username;
+      info.contacts = data.contacts;
       setupPeerConnection(
         data.username,
         setCall,
