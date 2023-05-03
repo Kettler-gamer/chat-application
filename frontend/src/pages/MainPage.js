@@ -17,6 +17,8 @@ export const info = {
   socket: undefined,
   conn: undefined,
   currentCall: undefined,
+  currentVideoCall: undefined,
+  currentVideoStream: undefined,
   conns: [],
   calls: [],
 };
@@ -25,6 +27,7 @@ export function MainPage() {
   const [profile, setProfile] = useState(undefined);
   const [caller, setCaller] = useState("");
   const [call, setCall] = useState(false);
+  const [videoStreams, setVideoStreams] = useState([]);
   const [selectedContact, setSelectedContact] = useState(undefined);
   const [selectedChannel, setSelectedChannel] = useState(undefined);
   const [channels, setChannels] = useState([]);
@@ -47,7 +50,8 @@ export function MainPage() {
         setCaller,
         setGroupCall,
         setCurrentGroup,
-        setGroupCalling
+        setGroupCalling,
+        setVideoStreams
       );
     } else {
       console.log(await response.text());
@@ -87,6 +91,7 @@ export function MainPage() {
           setLoading={setLoading}
           setGroupCall={setGroupCall}
           setCurrentGroup={setCurrentGroup}
+          setVideoStreams={setVideoStreams}
         />
       </div>
       {caller !== "" && !call && (
@@ -95,9 +100,16 @@ export function MainPage() {
           caller={caller}
           setCaller={setCaller}
           setCall={setCall}
+          setVideoStreams={setVideoStreams}
         />
       )}
-      {call && <Call caller={caller} />}
+      {call && (
+        <Call
+          caller={caller}
+          videoStreams={videoStreams}
+          setVideoStreams={setVideoStreams}
+        />
+      )}
       {groupCall && (
         <GroupCalling
           username={profile.username}

@@ -12,6 +12,7 @@ export function Calling(props) {
       console.log("Call close");
       props.setCall(false);
       props.setCaller("");
+      props.setVideoStreams([]);
     });
     props.setCall(true);
   }

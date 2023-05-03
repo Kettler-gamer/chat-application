@@ -11,6 +11,7 @@ export function ChatSection(props) {
           selectedContact={props.selectedContact}
           setCall={props.setCall}
           setCaller={props.setCaller}
+          setVideoStreams={props.setVideoStreams}
         />
       )}
       {props.selectedChannel !== undefined && props.profile && (

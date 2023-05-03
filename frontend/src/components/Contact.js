@@ -8,7 +8,8 @@ export function Contact(props) {
     );
     info.currentCall = info.peer.call(
       props.profile.contacts[props.selectedContact].username,
-      window.localStream
+      window.localStream,
+      { metadata: { callType: "private" } }
     );
     info.currentCall.on("stream", (stream) => {
       onStream(stream);
@@ -16,6 +17,7 @@ export function Contact(props) {
     });
     info.conn.on("close", () => {
       console.log("Close connection!");
+      props.setVideoStreams([]);
       props.setCall(false);
       props.setCaller("");
     });

@@ -89,7 +89,11 @@ export function Channel(props) {
       });
       info.conns.push(newConn);
       const currentCall = window.peer.call(contact, window.localStream, {
-        metadata: { users, caller: props.profile.username },
+        metadata: {
+          callType: "channel",
+          users,
+          caller: props.profile.username,
+        },
       });
       info.calls.push(currentCall);
       currentCall.on("stream", (stream) => {

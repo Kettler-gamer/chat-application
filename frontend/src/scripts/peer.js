@@ -7,7 +7,8 @@ export function setupPeerConnection(
   setCaller,
   setGroupCall,
   setCurrentGroup,
-  setGroupCalling
+  setGroupCalling,
+  setVideoStreams
 ) {
   window.peer = new Peer(username, {
     host: "/",
@@ -22,6 +23,10 @@ export function setupPeerConnection(
     info.conns.push(connection);
     connection.on("close", () => {
       console.log("Close connection!");
+      // if (info.currentCall && info.currentCall.peer === connection.peer) {
+      //   info.currentCall = undefined;
+      //   setVideoStreams([]);
+      // }
       setCall(false);
       setCaller("");
       window.localStream.getTracks()[0].enabled = true;
@@ -53,8 +58,10 @@ export function setupPeerConnection(
     }
   });
   window.peer.on("call", (call) => {
-    if (call.metadata) {
-      console.log(call.metadata);
+    if (!call.metadata) return;
+    console.log(call.metadata);
+    const { callType } = call.metadata;
+    if (callType === "channel") {
       if (info.calls.length > 0) {
         if (info.answered) {
           console.log("Answered, answering...");
@@ -82,9 +89,19 @@ export function setupPeerConnection(
         info.remoteAudios = [];
         info.peerStreams = [];
       }
-    } else {
-      setCaller(call.peer);
-      info.currentCall = call;
+    } else if (callType === "private") {
+      if (call.metadata.streamType === "video" && info.currentCall) {
+        info.currentVideoCall = call;
+        call.on("stream", (stream) => {
+          console.log("Video stream!");
+          info.currentVideoStream = stream;
+          setVideoStreams([stream]);
+        });
+        call.answer();
+      } else {
+        setCaller(call.peer);
+        info.currentCall = call;
+      }
     }
   });
   info.peer = window.peer;

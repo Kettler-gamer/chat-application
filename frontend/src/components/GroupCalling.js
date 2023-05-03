@@ -1,5 +1,5 @@
 import { info } from "../pages/MainPage";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function GroupCalling(props) {
   function onAnswer() {
