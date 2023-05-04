@@ -1,11 +1,7 @@
 import { info } from "../pages/MainPage";
 import { io } from "socket.io-client";
 
-export function setUpSocketConnection(
-  setProfile,
-  setChannels,
-  setSelectedChannel
-) {
+export function setUpSocketConnection(setProfile) {
   const newSocket = io("/", {
     pingInterval: 25000,
     extraHeaders: { jwtToken: sessionStorage.getItem("jwtToken") },
@@ -50,40 +46,6 @@ export function setUpSocketConnection(
   newSocket.on("online", (data) => {
     console.log(data);
   });
-  // newSocket.on("leftChannel", (data) => {
-  //   console.log("Left channel");
-  //   setChannels((oldValue) => {
-  //     const newValue = JSON.parse(JSON.stringify(oldValue));
-
-  //     if (info.username === data.username) {
-  //       const channel = newValue.find(
-  //         (channel) => channel._id === data.channelId
-  //       );
-  //       newValue.splice(newValue.indexOf(channel), 1);
-  //       console.log(newValue);
-  //     } else {
-  //       const users = newValue.find(
-  //         (channel) => channel._id === data.channelId
-  //       ).users;
-
-  //       users.splice(users.indexOf(data.username), 1);
-  //     }
-
-  //     return newValue;
-  //   });
-  //   if (data.username === info.username) {
-  //     setSelectedChannel(undefined);
-  //     setProfile((oldValue) => {
-  //       const newValue = JSON.parse(JSON.stringify(oldValue));
-
-  //       const channelIds = newValue.channelIds;
-
-  //       channelIds.splice(channelIds.indexOf(data.channelId, 1));
-
-  //       return newValue;
-  //     });
-  //   }
-  // });
   info.socket = newSocket;
   window.socket = newSocket;
 }

@@ -64,7 +64,7 @@ export function MainPage() {
     if (!ref.current) {
       ref.current = true;
       getUserProfile();
-      setUpSocketConnection(setProfile, setChannels, setSelectedChannel);
+      setUpSocketConnection(setProfile);
     }
   }, [setProfile]);
 
