@@ -78,13 +78,28 @@ export function Channel(props) {
     info.answeredPeople = [];
     users.forEach((contact) => {
       if (contact === props.profile.username) return;
-      const newConn = window.peer.connect(contact);
+      const newConn = window.peer.connect(contact, {
+        metadata: { connectionType: "channel" },
+      });
+      newConn.on("disconnect", () => {
+        console.log("Disconnect!");
+      });
       newConn.on("close", () => {
         props.setCurrentGroup((oldValue) =>
           oldValue.filter((user) => user.username !== newConn.peer)
         );
         info.conns.splice(newConn, 1);
         console.log(info.conns);
+        if (info.conns.length === 0) {
+          info.calls = [];
+          info.peerStreams = [];
+          info.remoteAudios = [];
+          delete info.answered;
+          delete info.answeredPeople;
+          props.setCurrentGroup([]);
+          props.setGroupCall(false);
+          window.peer._connections.clear();
+        }
       });
       newConn.on("data", (data) => {
         console.log("Peer data!");
@@ -116,8 +131,14 @@ export function Channel(props) {
         window.localStream.getTracks()[0].enabled = true;
         props.setCurrentGroup((oldValue) => {
           const newValue = JSON.parse(JSON.stringify(oldValue));
+          console.log(newValue);
+          console.log(contact);
+          const foundValue = newValue.find((user) => user.username === contact);
 
-          newValue.find((user) => user.username === contact).answered = true;
+          console.log(foundValue);
+          if (foundValue) {
+            foundValue.answered = true;
+          }
 
           return newValue;
         });

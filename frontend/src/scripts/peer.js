@@ -25,15 +25,20 @@ export function setupPeerConnection(
         connection.close();
       }, 500);
       return;
+    } else if (connection.metadata.connectionType === "channel") {
+      console.log("Channel connection!");
+      info.conns.push(connection);
+    } else {
+      console.log(connection.metadata);
+      info.conn = connection;
+      connection.on("close", () => {
+        console.log("Close connection!");
+        if (info.currentCall) {
+          info.currentCall.close();
+          info.conn = undefined;
+        }
+      });
     }
-    console.log("Peer connection!");
-    info.conn = connection;
-    info.conns.push(connection);
-    connection.on("close", () => {
-      console.log("Close connection!");
-      if (info.currentCall) info.currentCall.close();
-      info.conn = undefined;
-    });
   });
   window.peer.on("error", (error) => {
     console.log(error.message);
@@ -65,8 +70,11 @@ export function setupPeerConnection(
     console.log(call.metadata);
     const { callType } = call.metadata;
     if (callType === "channel") {
+      console.log("Channel call!");
       if (info.calls.length > 0) {
+        console.log("Info.calls has calls!");
         if (info.answered) {
+          console.log("Info.answered is true!");
           console.log("Answered, answering...");
           call.answer(window.localStream);
           call.on("stream", (stream) => {
@@ -80,6 +88,8 @@ export function setupPeerConnection(
           info.calls.push(call);
         }
       } else {
+        console.log("Info.calls is empty!");
+        console.log(call.metadata);
         setGroupCalling("recieving");
         setCurrentGroup(
           call.metadata.users.map((user) => ({
