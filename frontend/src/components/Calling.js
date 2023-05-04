@@ -15,6 +15,7 @@ export function Calling(props) {
       props.setVideoStreams([]);
       info.localVideoStream = undefined;
       info.currentVideoStream = undefined;
+      info.currentCall = undefined;
       window.localStream.getTracks()[0].enabled = true;
     });
     props.setCall(true);
@@ -24,6 +25,7 @@ export function Calling(props) {
     info.currentCall.close();
     props.setCaller("");
     info.conn.close();
+    info.currentCall = undefined;
   }
 
   return (

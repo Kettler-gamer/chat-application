@@ -417,7 +417,7 @@ form .channel-add-contact-list li:not(:last-child) {
   align-items: center;
   justify-content: space-around;
   background-color: #232423;
-  box-shadow: -5px -10px 10px black;
+  box-shadow: -20px -10px 10px black;
 }
 .contact-page .contact-chat-container .chat-input-container label {
   background-color: #2c2c2b;

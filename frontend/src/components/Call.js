@@ -13,6 +13,8 @@ export function Call(props) {
     track.enabled = false;
     info.currentCall.close();
     info.conn.close();
+    window.peer._connections.clear();
+    info.currentCall = undefined;
   }
 
   function onMute() {

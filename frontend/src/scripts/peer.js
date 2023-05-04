@@ -18,13 +18,23 @@ export function setupPeerConnection(
     path: "/peerjs",
   });
   window.peer.on("connection", (connection) => {
+    if (info.conn) {
+      console.log("Already in a call!");
+      console.log(connection);
+      // window.peer._connections.get(connection.peer)[0].close();
+      setTimeout(() => {
+        connection.close();
+      }, 500);
+      // return connection.close();
+      return;
+    }
     console.log("Peer connection!");
     info.conn = connection;
     info.conns.push(connection);
     connection.on("close", () => {
       console.log("Close connection!");
-      console.log(connection);
       if (info.currentCall) info.currentCall.close();
+      info.conn = undefined;
     });
   });
   window.peer.on("error", (error) => {
@@ -53,7 +63,7 @@ export function setupPeerConnection(
     }
   });
   window.peer.on("call", (call) => {
-    if (!call.metadata) return;
+    if (!call.metadata || info.currentCall) return call.close();
     console.log(call.metadata);
     const { callType } = call.metadata;
     if (callType === "channel") {

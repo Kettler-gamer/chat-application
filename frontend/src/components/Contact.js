@@ -6,6 +6,15 @@ export function Contact(props) {
     info.conn = window.peer.connect(
       props.profile.contacts[props.selectedContact].username
     );
+    info.conn.on("close", () => {
+      console.log("Close connection!");
+      console.log(info.conn);
+      window.peer._connections.clear();
+      props.setVideoStreams([]);
+      props.setCall(false);
+      props.setCaller("");
+      info.conn = undefined;
+    });
     info.currentCall = info.peer.call(
       props.profile.contacts[props.selectedContact].username,
       window.localStream,
@@ -20,14 +29,7 @@ export function Contact(props) {
       info.currentVideoStream = undefined;
       info.localVideoStream = undefined;
     });
-    info.conn.on("close", () => {
-      console.log("Close connection!");
-      console.log(info.conn);
-      window.peer._cleanupPeer(info.conn.peer);
-      props.setVideoStreams([]);
-      props.setCall(false);
-      props.setCaller("");
-    });
+
     props.setCall(true);
   }
 

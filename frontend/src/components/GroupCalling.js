@@ -57,6 +57,7 @@ export function GroupCalling(props) {
           oldValue.filter((user) => user.username !== data.username)
         );
       } else if (data.command === "answer") {
+        console.log(data);
         props.setUsers((oldValue) => {
           const newValue = JSON.parse(JSON.stringify(oldValue));
 
@@ -105,7 +106,11 @@ export function GroupCalling(props) {
         props.users.map((user) => (
           <p
             key={`group-chat-names-${user.username}`}
-            style={!user.answered ? { color: "grey" } : {}}>
+            style={
+              !user.answered && props.username !== user.username
+                ? { color: "grey" }
+                : {}
+            }>
             {user.username}
             {props.username !== user.username &&
               (user.answered ? " On Call" : " Calling...")}
