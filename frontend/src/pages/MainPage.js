@@ -74,7 +74,9 @@ export function MainPage() {
       <div className="container-contact-comp">
         <Contacts
           profile={profile}
+          selectedContact={selectedContact}
           setSelectedContact={setSelectedContact}
+          selectedChannel={selectedChannel}
           setSelectedChannel={setSelectedChannel}
           setProfile={setProfile}
           channels={channels}

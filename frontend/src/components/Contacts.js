@@ -114,7 +114,11 @@ export function Contacts(props) {
             {section === "contacts" && props.profile.contacts.length > 0
               ? props.profile.contacts.map((contact, index) => (
                   <li
-                    className="list-item"
+                    className={
+                      props.selectedContact === index
+                        ? "list-item selected"
+                        : "list-item"
+                    }
                     key={`contact-${index}`}
                     onClick={() => {
                       props.setLoading(true);
@@ -137,7 +141,11 @@ export function Contacts(props) {
             {section === "channels" && props.profile.channelIds.length > 0
               ? props.channels.map((channel, index) => (
                   <li
-                    className="list-item"
+                    className={
+                      props.selectedChannel === index
+                        ? "list-item selected"
+                        : "list-item"
+                    }
                     style={{ padding: "1em 0" }}
                     key={`channel-${index}`}
                     onClick={() => {

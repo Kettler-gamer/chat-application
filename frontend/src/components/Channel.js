@@ -62,6 +62,7 @@ export function Channel(props) {
   function onBlackClick(event) {
     if (event.target.className === "black-background") {
       setAdd(false);
+      setServerMessage("");
     }
   }
 
@@ -213,6 +214,7 @@ export function Channel(props) {
                   type="button"
                   onClick={() => {
                     setAddedUsers([]);
+                    setServerMessage("");
                     setAdd(false);
                   }}>
                   Cancel

@@ -198,6 +198,9 @@ form .channel-add-contact-list li:not(:last-child) {
   height: 15px;
   border-radius: 5em;
 }
+.contacts-section .contacts-list .selected {
+  background-color: #38344b;
+}
 .contacts-section .contacts-list .list-item:hover {
   background-color: #6d6647;
 }

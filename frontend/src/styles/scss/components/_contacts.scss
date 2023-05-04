@@ -94,6 +94,9 @@
         border-radius: 5em;
       }
     }
+    .selected {
+      background-color: $CP4;
+    }
     .list-item:hover {
       background-color: $CY4;
     }
