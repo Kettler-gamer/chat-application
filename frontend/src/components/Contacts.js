@@ -5,6 +5,7 @@ import { fetchJson } from "../scripts/Fetch";
 import { info } from "../pages/MainPage";
 
 export function Contacts(props) {
+  const [search, setSearch] = useState("");
   const [section, setSection] = useState("contacts");
   const [add, setAdd] = useState(false);
 
@@ -17,6 +18,7 @@ export function Contacts(props) {
     ) {
       getChannelInfo();
     }
+    setSearch("");
   }
 
   async function getChannelInfo() {
@@ -89,6 +91,8 @@ export function Contacts(props) {
             placeholder={
               section === "contacts" ? "search contact.." : "search channel..."
             }
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <button className="add-btn" onClick={() => setAdd(true)}>
             +
@@ -112,52 +116,73 @@ export function Contacts(props) {
         {props.profile !== undefined && (
           <ul className="contacts-list">
             {section === "contacts" && props.profile.contacts.length > 0
-              ? props.profile.contacts.map((contact, index) => (
-                  <li
-                    className={
-                      props.selectedContact === index
-                        ? "list-item selected"
-                        : "list-item"
-                    }
-                    key={`contact-${index}`}
-                    onClick={() => {
-                      props.setLoading(true);
-                      props.setSelectedContact(index);
-                      props.setSelectedChannel(undefined);
-                    }}>
-                    <img
-                      src={contact.profilePicture || `/images/profile-pic.webp`}
-                      alt="profile"
-                    />
-                    <div
-                      className="status"
-                      style={{
-                        backgroundColor: contact.online ? "green" : "grey",
-                      }}></div>
-                    <p>{contact.username}</p>
-                  </li>
-                ))
+              ? props.profile.contacts
+                  .filter((contact) =>
+                    contact.username
+                      .toLowerCase()
+                      .startsWith(search.toLowerCase())
+                  )
+                  .map((contact, index) => (
+                    <li
+                      className={
+                        props.selectedContact === index
+                          ? "list-item selected"
+                          : "list-item"
+                      }
+                      key={`contact-${index}`}
+                      onClick={() => {
+                        props.setLoading(true);
+                        props.setSelectedContact(index);
+                        props.setSelectedChannel(undefined);
+                      }}>
+                      <img
+                        src={
+                          contact.profilePicture || `/images/profile-pic.webp`
+                        }
+                        alt="profile"
+                      />
+                      <div
+                        className="status"
+                        style={{
+                          backgroundColor: contact.online ? "green" : "grey",
+                        }}></div>
+                      <p>{contact.username}</p>
+                    </li>
+                  ))
               : section === "contacts" && <p>You have no contacts!</p>}
             {section === "channels" && props.profile.channelIds.length > 0
-              ? props.channels.map((channel, index) => (
-                  <li
-                    className={
-                      props.selectedChannel === index
-                        ? "list-item selected"
-                        : "list-item"
-                    }
-                    style={{ padding: "1em 0" }}
-                    key={`channel-${index}`}
-                    onClick={() => {
-                      props.setLoading(true);
-                      props.setSelectedChannel(index);
-                      props.setSelectedContact(undefined);
-                    }}>
-                    <p>
-                      {channel.name ? channel.name : `Channel ${index + 1}`}
-                    </p>
-                  </li>
-                ))
+              ? props.channels
+                  .filter((channel, index) =>
+                    channel.name
+                      ? channel.name
+                          .toLowerCase()
+                          .startsWith(search.toLowerCase())
+                      : `channel ${index + 1}`.startsWith(search.toLowerCase())
+                  )
+                  .map((channel, index) => (
+                    <li
+                      className={
+                        props.selectedChannel ===
+                        props.channels.indexOf(channel)
+                          ? "list-item selected"
+                          : "list-item"
+                      }
+                      style={{ padding: "1em 0" }}
+                      key={`channel-${index}`}
+                      onClick={() => {
+                        props.setLoading(true);
+                        props.setSelectedChannel(
+                          props.channels.indexOf(channel)
+                        );
+                        props.setSelectedContact(undefined);
+                      }}>
+                      <p>
+                        {channel.name
+                          ? channel.name
+                          : `Channel ${props.channels.indexOf(channel) + 1}`}
+                      </p>
+                    </li>
+                  ))
               : section === "channels" && <p>You have no channels!</p>}
           </ul>
         )}
