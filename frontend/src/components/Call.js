@@ -23,14 +23,19 @@ export function Call(props) {
   }
 
   function videoClick() {
-    console.log("Video Click!");
     if (info.localVideoStream) {
       const videoTrack = info.localVideoStream.getTracks()[0];
 
-      videoTrack.enabled = !videoTrack.enabled;
+      videoTrack.stop();
+      props.setVideoStreams((oldValue) =>
+        oldValue.filter((video) => {
+          const track = video.getVideoTracks()[0];
+          return track.readyState !== "ended";
+        })
+      );
+      info.localVideoStream = undefined;
     } else {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-        console.log(stream);
         info.localVideoStream = stream;
         info.currentVideoCall = window.peer.call(props.caller, stream, {
           metadata: { callType: "private", streamType: "video" },
@@ -57,7 +62,11 @@ export function Call(props) {
           <div className="videos">
             {props.videoStreams.map((stream, index) => {
               const track = stream.getVideoTracks()[0];
-              track.onmute = () => console.log("event mute");
+              track.onmute = () => {
+                props.setVideoStreams((oldValue) =>
+                  oldValue.filter((video) => video !== stream)
+                );
+              };
               return (
                 <video
                   key={`video-${index}`}
