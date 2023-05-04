@@ -21,11 +21,9 @@ export function setupPeerConnection(
     if (info.conn) {
       console.log("Already in a call!");
       console.log(connection);
-      // window.peer._connections.get(connection.peer)[0].close();
       setTimeout(() => {
         connection.close();
       }, 500);
-      // return connection.close();
       return;
     }
     console.log("Peer connection!");
