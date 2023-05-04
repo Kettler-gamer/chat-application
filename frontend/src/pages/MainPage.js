@@ -83,12 +83,14 @@ export function MainPage() {
         />
         <ChatSection
           profile={profile}
+          setProfile={setProfile}
           selectedContact={selectedContact}
           selectedChannel={selectedChannel}
           setCall={setCall}
           setCaller={setCaller}
           channels={channels}
           setChannels={setChannels}
+          setSelectedChannel={setSelectedChannel}
           loading={loading}
           setLoading={setLoading}
           setGroupCall={setGroupCall}

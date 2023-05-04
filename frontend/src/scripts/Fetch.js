@@ -7,6 +7,8 @@ export function fetchJson(url, method, body) {
     },
   };
 
+  console.log(url);
+
   if (method !== "GET") fetchOptions.body = JSON.stringify(body);
 
   return fetch(url, fetchOptions);

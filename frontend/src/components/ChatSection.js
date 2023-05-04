@@ -20,6 +20,8 @@ export function ChatSection(props) {
           channelId={props.profile.channelIds[props.selectedChannel]}
           channelNumber={props.selectedChannel + 1}
           profile={props.profile}
+          setProfile={props.setProfile}
+          setSelectedChannel={props.setSelectedChannel}
           channels={props.channels}
           setChannels={props.setChannels}
           setGroupCall={props.setGroupCall}

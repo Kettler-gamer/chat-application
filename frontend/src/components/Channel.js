@@ -37,6 +37,14 @@ export function Channel(props) {
 
     if (response.status < 400) {
       console.log("Left channel");
+      props.setProfile((oldValue) => {
+        oldValue.channelIds.filter((id) => id !== props.channelId);
+        return oldValue;
+      });
+      props.setChannels((oldValue) =>
+        oldValue.filter((channel) => channel._id !== props.channelId)
+      );
+      props.setSelectedChannel(undefined);
       setLeave(false);
     } else {
       console.log("Something went wrong!");
@@ -219,7 +227,6 @@ export function Channel(props) {
           title="Do you want to leave the channel?"
           onConfirm={onLeaveChannel}
           onCancel={() => {
-            console.log(props.channelId);
             setLeave(false);
           }}
         />

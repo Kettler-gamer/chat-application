@@ -12,7 +12,6 @@ export function setUpSocketConnection(
   });
   newSocket.on("connect", () => {
     info.socket = newSocket;
-    console.log(info.contacts);
     newSocket.emit("online", {
       username: info.username,
       contacts: info.contacts.map((user) => user.username),
