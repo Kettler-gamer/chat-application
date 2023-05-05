@@ -45,3 +45,51 @@ function onNewChannel(channel, setProfile) {
     return newVal;
   });
 }
+
+export function onNewUsers(data, setChannels) {
+  setChannels((oldValue) => {
+    const newValue = JSON.parse(JSON.stringify(oldValue));
+
+    newValue
+      .find((channel) => channel._id === data.channelId)
+      .users.push(...data.users);
+
+    return newValue;
+  });
+}
+
+export function onLeftChannel(
+  data,
+  setChannels,
+  setSelectedChannel,
+  setProfile
+) {
+  setChannels((oldValue) => {
+    if (info.username === data.username) {
+      return oldValue.filter((channel) => channel._id !== data.channelId);
+    } else {
+      const newValue = JSON.parse(JSON.stringify(oldValue));
+      const users = newValue.find(
+        (channel) => channel._id === data.channelId
+      ).users;
+
+      users.splice(users.indexOf(data.username), 1);
+
+      return newValue;
+    }
+  });
+  if (data.username === info.username) {
+    setSelectedChannel(undefined);
+    setProfile((oldValue) => {
+      const newValue = JSON.parse(JSON.stringify(oldValue));
+
+      const channelIds = newValue.channelIds;
+
+      const index = channelIds.indexOf(data.channelId);
+
+      channelIds.splice(index, 1);
+
+      return newValue;
+    });
+  }
+}

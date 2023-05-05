@@ -8,14 +8,12 @@ export function Contact(props) {
     );
     info.conn.on("close", () => {
       console.log("Close connection!");
-      console.log(info.conn);
       window.peer._connections.clear();
       props.setVideoStreams([]);
       props.setCall(false);
       props.setCaller("");
       info.conn = undefined;
       info.currentCall = undefined;
-      console.log(info);
     });
     info.currentCall = info.peer.call(
       props.profile.contacts[props.selectedContact].username,

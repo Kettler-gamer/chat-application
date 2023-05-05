@@ -1,4 +1,4 @@
-import { Contacts } from "../components/Contacts";
+import { Contacts } from "../components/Contacts/Contacts";
 import { useRef, useEffect, useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
 import { Calling } from "../components/Calling";
