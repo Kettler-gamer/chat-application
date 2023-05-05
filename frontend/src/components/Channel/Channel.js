@@ -1,13 +1,15 @@
-import { fetchJson } from "../scripts/Fetch";
-import { Form } from "./Form";
+import { fetchJson } from "../../scripts/Fetch";
+import { Form } from "../Form";
 import { useState } from "react";
-import { Confirm } from "./Confirm";
-import info from "../scripts/userinfo";
+import { Confirm } from "../Confirm";
+import info from "../../scripts/userinfo";
 import {
   onChannelCallClose,
   onChannelCallData,
   onChannelCallStream,
-} from "../scripts/peer";
+} from "../../scripts/peer";
+import { AddedUsers } from "../AddChannel/AddedUsers";
+import { ContactsChannelList } from "./ContactsChannelList";
 
 export function Channel(props) {
   const [add, setAdd] = useState(false);
@@ -139,48 +141,16 @@ export function Channel(props) {
                     </li>
                   ))}
                 </ul>
-                <p>Added users: {addedUsers.length}</p>
-                <ul className="added-list">
-                  {addedUsers.map((user, index) => (
-                    <li key={`addedUser-${index}`}>
-                      <p>{user}</p>
-                      <button
-                        className="add-btn"
-                        type="button"
-                        onClick={() =>
-                          setAddedUsers((oldValue) =>
-                            oldValue.filter((name) => name !== user)
-                          )
-                        }>
-                        -
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <p>Contacts</p>
-                <ul className="channel-add-contact-list">
-                  {props.profile.contacts
-                    .filter(
-                      (contact) => !currentUsers.includes(contact.username)
-                    )
-                    .filter((contact) => !addedUsers.includes(contact.username))
-                    .map((contact, index) => (
-                      <li key={`addUser-${index}`}>
-                        <p>{contact.username}</p>
-                        <button
-                          className="add-btn"
-                          type="button"
-                          onClick={() =>
-                            setAddedUsers((oldValue) => [
-                              ...oldValue,
-                              contact.username,
-                            ])
-                          }>
-                          +
-                        </button>
-                      </li>
-                    ))}
-                </ul>
+                <AddedUsers
+                  addedUsers={addedUsers}
+                  setAddedUsers={setAddedUsers}
+                />
+                <ContactsChannelList
+                  profile={props.profile}
+                  currentUsers={currentUsers}
+                  addedUsers={addedUsers}
+                  setAddedUsers={setAddedUsers}
+                />
               </>
             }
             buttons={

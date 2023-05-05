@@ -1,6 +1,6 @@
 import { Chat } from "./Chat";
 import { Contact } from "./Contact";
-import { Channel } from "./Channel";
+import { Channel } from "./Channel/Channel";
 
 export function ChatSection(props) {
   return (

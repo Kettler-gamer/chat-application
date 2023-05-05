@@ -36,8 +36,12 @@ export function AddChannel(props) {
         content={
           <>
             <input name="name" placeholder="Channel name (Optional)" />
-            <AddedUsers addedUsers setAddedUsers />
-            <ContactsList props addedUsers setAddedUsers />
+            <AddedUsers addedUsers={addedUsers} setAddedUsers={setAddedUsers} />
+            <ContactsList
+              props={props}
+              addedUsers={addedUsers}
+              setAddedUsers={setAddedUsers}
+            />
           </>
         }
         buttons={
