@@ -1,4 +1,4 @@
-import { info } from "../pages/MainPage";
+import info from "../scripts/userinfo";
 import { onStream } from "../scripts/peer";
 
 export function Contact(props) {

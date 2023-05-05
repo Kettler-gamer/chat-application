@@ -1,4 +1,4 @@
-import { info } from "../pages/MainPage";
+import info from "../scripts/userinfo";
 import { Peer } from "peerjs";
 
 export function setupPeerConnection(
@@ -20,7 +20,6 @@ export function setupPeerConnection(
   window.peer.on("connection", (connection) => {
     if (info.conn) {
       console.log("Already in a call!");
-      console.log(connection);
       setTimeout(() => {
         connection.close();
       }, 500);

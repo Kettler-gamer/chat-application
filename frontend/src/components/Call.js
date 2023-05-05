@@ -1,4 +1,4 @@
-import { info } from "../pages/MainPage";
+import info from "../scripts/userinfo";
 import { useState } from "react";
 import React from "react";
 

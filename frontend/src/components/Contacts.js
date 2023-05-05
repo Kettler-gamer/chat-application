@@ -2,7 +2,7 @@ import { AddContact } from "./AddContact";
 import { AddChannel } from "./AddChannel";
 import { useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
-import { info } from "../pages/MainPage";
+import info from "../scripts/userinfo";
 
 export function Contacts(props) {
   const [search, setSearch] = useState("");

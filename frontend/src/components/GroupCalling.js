@@ -1,4 +1,4 @@
-import { info } from "../pages/MainPage";
+import info from "../scripts/userinfo";
 import { useEffect, useState } from "react";
 
 export function GroupCalling(props) {

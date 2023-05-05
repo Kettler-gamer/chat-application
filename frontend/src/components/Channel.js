@@ -2,7 +2,7 @@ import { fetchJson } from "../scripts/Fetch";
 import { Form } from "./Form";
 import { useState } from "react";
 import { Confirm } from "./Confirm";
-import { info } from "../pages/MainPage";
+import info from "../scripts/userinfo";
 
 export function Channel(props) {
   const [add, setAdd] = useState(false);

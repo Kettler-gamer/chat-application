@@ -10,19 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import { Settings } from "../components/Settings";
 import { ChatSection } from "../components/ChatSection";
 import { GroupCalling } from "../components/GroupCalling";
-
-export const info = {
-  username: undefined,
-  peer: undefined,
-  socket: undefined,
-  conn: undefined,
-  currentCall: undefined,
-  currentVideoCall: undefined,
-  currentVideoStream: undefined,
-  contacts: [],
-  conns: [],
-  calls: [],
-};
+import info from "../scripts/userinfo";
 
 export function MainPage() {
   const [profile, setProfile] = useState(undefined);
