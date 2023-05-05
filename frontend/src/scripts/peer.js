@@ -157,3 +157,57 @@ export function onStream(stream) {
   window.peerStream = stream;
   window.localStream.getTracks()[0].enabled = true;
 }
+
+export function onChannelCallClose(props, newConn) {
+  props.setCurrentGroup((oldValue) =>
+    oldValue.filter((user) => user.username !== newConn.peer)
+  );
+  info.conns.splice(newConn, 1);
+  console.log(info.conns);
+  if (info.conns.length === 0) {
+    info.calls = [];
+    info.peerStreams = [];
+    info.remoteAudios = [];
+    delete info.answered;
+    delete info.answeredPeople;
+    props.setCurrentGroup([]);
+    props.setGroupCall(false);
+    window.peer._connections.clear();
+  }
+}
+
+export function onChannelCallData(data, newConn) {
+  console.log("Peer data!");
+  console.log(data);
+  if (data === "checkCallers") {
+    newConn.send({
+      command: "callers",
+      answeredPeople: info.answeredPeople,
+    });
+  }
+}
+
+export function onChannelCallStream(stream, props, contact) {
+  console.log("Got stream from " + contact);
+  info.answeredPeople.push(contact);
+  const audioStream = new Audio();
+  audioStream.srcObject = stream;
+  audioStream.autoplay = true;
+  info.peerStreams.push(stream);
+  info.remoteAudios.push(audioStream);
+  window.localStream.getTracks()[0].enabled = true;
+  props.setCurrentGroup((oldValue) => {
+    const newValue = JSON.parse(JSON.stringify(oldValue));
+
+    const foundValue = newValue.find((user) => user.username === contact);
+
+    if (foundValue) {
+      foundValue.answered = true;
+    }
+
+    return newValue;
+  });
+  info.conns.forEach((conn) => {
+    conn.send({ command: "answer", username: contact });
+  });
+}

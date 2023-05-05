@@ -3,6 +3,11 @@ import { Form } from "./Form";
 import { useState } from "react";
 import { Confirm } from "./Confirm";
 import info from "../scripts/userinfo";
+import {
+  onChannelCallClose,
+  onChannelCallData,
+  onChannelCallStream,
+} from "../scripts/peer";
 
 export function Channel(props) {
   const [add, setAdd] = useState(false);
@@ -71,7 +76,6 @@ export function Channel(props) {
       (channel, index) => index === props.channelNumber - 1
     ).users;
 
-    console.log(users);
     info.calls = [];
     info.remoteAudios = [];
     info.peerStreams = [];
@@ -81,36 +85,10 @@ export function Channel(props) {
       const newConn = window.peer.connect(contact, {
         metadata: { connectionType: "channel" },
       });
-      newConn.on("disconnect", () => {
-        console.log("Disconnect!");
-      });
-      newConn.on("close", () => {
-        props.setCurrentGroup((oldValue) =>
-          oldValue.filter((user) => user.username !== newConn.peer)
-        );
-        info.conns.splice(newConn, 1);
-        console.log(info.conns);
-        if (info.conns.length === 0) {
-          info.calls = [];
-          info.peerStreams = [];
-          info.remoteAudios = [];
-          delete info.answered;
-          delete info.answeredPeople;
-          props.setCurrentGroup([]);
-          props.setGroupCall(false);
-          window.peer._connections.clear();
-        }
-      });
-      newConn.on("data", (data) => {
-        console.log("Peer data!");
-        console.log(data);
-        if (data === "checkCallers") {
-          newConn.send({
-            command: "callers",
-            answeredPeople: info.answeredPeople,
-          });
-        }
-      });
+      newConn.on("close", () => onChannelCallClose(props, newConn));
+
+      newConn.on("data", (data) => onChannelCallData(data, newConn));
+
       info.conns.push(newConn);
       const currentCall = window.peer.call(contact, window.localStream, {
         metadata: {
@@ -120,32 +98,9 @@ export function Channel(props) {
         },
       });
       info.calls.push(currentCall);
-      currentCall.on("stream", (stream) => {
-        console.log("Got stream from " + contact);
-        info.answeredPeople.push(contact);
-        const audioStream = new Audio();
-        audioStream.srcObject = stream;
-        audioStream.autoplay = true;
-        info.peerStreams.push(stream);
-        info.remoteAudios.push(audioStream);
-        window.localStream.getTracks()[0].enabled = true;
-        props.setCurrentGroup((oldValue) => {
-          const newValue = JSON.parse(JSON.stringify(oldValue));
-          console.log(newValue);
-          console.log(contact);
-          const foundValue = newValue.find((user) => user.username === contact);
-
-          console.log(foundValue);
-          if (foundValue) {
-            foundValue.answered = true;
-          }
-
-          return newValue;
-        });
-        info.conns.forEach((conn) => {
-          conn.send({ command: "answer", username: contact });
-        });
-      });
+      currentCall.on("stream", (stream) =>
+        onChannelCallStream(stream, props, contact)
+      );
     });
     props.setCurrentGroup(
       users.map((username) => ({ username, answered: false }))
