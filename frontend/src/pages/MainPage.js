@@ -9,7 +9,7 @@ import { Header } from "../components/Header";
 import { Routes, Route } from "react-router-dom";
 import { Settings } from "../components/Settings";
 import { ChatSection } from "../components/ChatSection";
-import { GroupCalling } from "../components/GroupCalling";
+import { GroupCall } from "../components/GroupCall/GroupCall";
 import info from "../scripts/userinfo";
 
 export function MainPage() {
@@ -105,7 +105,7 @@ export function MainPage() {
         />
       )}
       {groupCall && (
-        <GroupCalling
+        <GroupCall
           username={profile.username}
           users={currentGroup}
           setUsers={setCurrentGroup}

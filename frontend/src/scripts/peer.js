@@ -229,3 +229,11 @@ export function onPrivateCallAnswer(props) {
   });
   props.setCall(true);
 }
+
+export function onGroupCallStream(stream) {
+  const audioStream = new Audio();
+  audioStream.srcObject = stream;
+  audioStream.autoplay = true;
+  info.peerStreams.push(stream);
+  info.remoteAudios.push(audioStream);
+}
