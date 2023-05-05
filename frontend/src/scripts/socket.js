@@ -1,7 +1,7 @@
 import info from "../scripts/userinfo";
 import { io } from "socket.io-client";
 
-export function setUpSocketConnection(setProfile) {
+export function setUpSocketConnection(setProfile, setNotices) {
   const newSocket = io("/", {
     pingInterval: 25000,
     extraHeaders: { jwtToken: sessionStorage.getItem("jwtToken") },
@@ -12,8 +12,21 @@ export function setUpSocketConnection(setProfile) {
 
   newSocket.on("newChannel", (channel) => onNewChannel(channel, setProfile));
 
+  newSocket.on("newMessage", (data) => onNewMessage(data, setNotices));
+
   info.socket = newSocket;
   window.socket = newSocket;
+}
+
+function onNewMessage(data, setNotices) {
+  console.log(data);
+  if (info.currentChat === data.author || info.currentChat === data.reciever)
+    return;
+  const newNotice = { type: "message", data };
+  setNotices((oldValue) => [...oldValue, newNotice]);
+  setTimeout(() => {
+    setNotices((oldValue) => oldValue.filter((notice) => notice !== newNotice));
+  }, 5000);
 }
 
 function onConnect(newSocket) {

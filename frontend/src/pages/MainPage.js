@@ -10,6 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import { Settings } from "../components/Settings";
 import { ChatSection } from "../components/ChatSection";
 import { GroupCall } from "../components/GroupCall/GroupCall";
+import { Notifications } from "../components/Notifications";
 import info from "../scripts/userinfo";
 
 export function MainPage() {
@@ -24,6 +25,7 @@ export function MainPage() {
   const [groupCall, setGroupCall] = useState(false);
   const [groupCalling, setGroupCalling] = useState("calling");
   const [currentGroup, setCurrentGroup] = useState([]);
+  const [notices, setNotices] = useState([]);
   const ref = useRef(false);
 
   async function getUserProfile() {
@@ -52,7 +54,7 @@ export function MainPage() {
     if (!ref.current) {
       ref.current = true;
       getUserProfile();
-      setUpSocketConnection(setProfile);
+      setUpSocketConnection(setProfile, setNotices);
     }
   }, [setProfile]);
 
@@ -120,6 +122,7 @@ export function MainPage() {
           element={<Settings setProfile={setProfile} />}
         />
       </Routes>
+      <Notifications notices={notices} />
       <audio id="localAudio"></audio>
       <audio id="remoteAudio"></audio>
     </main>

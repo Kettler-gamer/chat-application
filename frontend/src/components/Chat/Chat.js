@@ -3,6 +3,7 @@ import { fetchJson } from "../../scripts/Fetch";
 import { LoadingMessages } from "../LoadingMessages";
 import { MessageContainer } from "./MessageContainer";
 import { ChatInputContainer } from "./ChatInputContainer";
+import info from "../../scripts/userinfo";
 
 export function Chat(props) {
   const [messages, setMessages] = useState([]);
@@ -50,7 +51,7 @@ export function Chat(props) {
   }
 
   useEffect(() => {
-    if (window.socket._callbacks.$newMessage) {
+    if (window.socket._callbacks.$newMessage.length > 1) {
       window.socket._callbacks.$newMessage.pop();
     }
     window.socket.on("newMessage", (message) => {
@@ -66,6 +67,8 @@ export function Chat(props) {
     });
 
     window.socket.emit("channelSet", props.channelId || "");
+
+    info.currentChat = props.channelId || props.contactName;
 
     async function fetchMessages() {
       const query = props.contactName

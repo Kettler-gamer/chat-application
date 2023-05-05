@@ -515,6 +515,35 @@ header button {
   display: none;
 }
 
+.notifications-container {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+}
+.notifications-container div {
+  animation: slide-in 1s;
+  background-color: #232423;
+  display: flex;
+  align-items: center;
+  row-gap: 1em;
+  flex-direction: column;
+  color: #ffce00;
+  width: 12em;
+  padding: 1em;
+  border-radius: 0.5em;
+  font-size: 1.25rem;
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
 .load-container .load-cont {
   display: flex;
   justify-content: space-between;
