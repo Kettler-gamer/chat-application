@@ -1,4 +1,4 @@
-import { Chat } from "./Chat";
+import { Chat } from "./Chat/Chat";
 import { Contact } from "./Contact";
 import { Channel } from "./Channel/Channel";
 

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { fetchJson } from "../scripts/Fetch";
-import { LoadingMessages } from "./LoadingMessages";
+import { fetchJson } from "../../scripts/Fetch";
+import { LoadingMessages } from "../LoadingMessages";
+import { MessageContainer } from "./MessageContainer";
+import { ChatInputContainer } from "./ChatInputContainer";
 
 export function Chat(props) {
   const [messages, setMessages] = useState([]);
@@ -102,46 +104,15 @@ export function Chat(props) {
     <LoadingMessages />
   ) : (
     <div className="contact-chat-container">
-      <div className="chat-message-container">
-        {messages.map((message, index) => (
-          <div
-            key={`chat-message-${index}`}
-            className={
-              message.author === props.username
-                ? "chat-message my-message"
-                : "chat-message"
-            }>
-            <h3>{message.author}</h3>
-            <h5>{`${message.date} - ${message.time}`}</h5>
-            <p>{message.content}</p>
-            {message.attachement && message.attachement.includes("video") ? (
-              <video controls src={message.attachement}></video>
-            ) : (
-              <embed src={message.attachement} />
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="chat-input-container">
-        <input
-          id="attachement-file"
-          onChange={onFileAttachement}
-          type="file"
-          hidden
-          multiple={false}
-        />
-        {attachement ? (
-          <button onClick={removeAttachement}>-</button>
-        ) : (
-          <label htmlFor="attachement-file">+</label>
-        )}
-        <input
-          placeholder="Type here..."
-          value={content}
-          onChange={handleChange}
-          onKeyDown={onKeyDown}
-        />
-      </div>
+      <MessageContainer messages={messages} props={props} />
+      <ChatInputContainer
+        attachement={attachement}
+        content={content}
+        onFileAttachement={onFileAttachement}
+        removeAttachement={removeAttachement}
+        handleChange={handleChange}
+        onKeyDown={onKeyDown}
+      />
     </div>
   );
 }
