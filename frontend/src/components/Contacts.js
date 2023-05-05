@@ -1,5 +1,5 @@
 import { AddContact } from "./AddContact";
-import { AddChannel } from "./AddChannel";
+import { AddChannel } from "./AddChannel/AddChannel";
 import { useState } from "react";
 import { fetchJson } from "../scripts/Fetch";
 import info from "../scripts/userinfo";
