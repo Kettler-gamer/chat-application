@@ -32,7 +32,13 @@ export function GroupCall(props) {
     const newCall = window.peer.call(user, window.localStream, {
       metadata: { group: "Test" },
     });
+    newConn.on("error", (error) => {
+      console.log(error);
+    });
     newCall.on("stream", onGroupCallStream);
+    newCall.on("error", (error) => {
+      console.log(error);
+    });
     info.calls.push(newCall);
   }
 
@@ -59,6 +65,7 @@ export function GroupCall(props) {
   }
 
   function onUserDisconnectedCommand(data) {
+    console.log("User DC");
     props.setUsers((oldValue) =>
       oldValue.filter((user) => user.username !== data.username)
     );

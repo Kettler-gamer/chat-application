@@ -68,13 +68,14 @@ function onError(error, setCurrentGroup, setGroupCall, setCall, setCaller) {
   console.log(error.message);
   if (info.conns && info.conns.length > 0) {
     const username = error.message.split(" ")[5];
-    info.conns.splice(info.conns.indexOf(username), 1);
+    const conn = info.conns.find((connection) => connection.peer === username);
+    info.conns.splice(info.conns.indexOf(conn), 1);
     setCurrentGroup((oldValue) =>
       oldValue.filter((user) => user.username !== username)
     );
     if (info.conns.length === 0) return setGroupCall(false);
-
     info.conns.forEach((conn) => {
+      console.log("sending dc info to: " + conn.peer);
       conn.send({ command: "userDC", username });
     });
   } else {
