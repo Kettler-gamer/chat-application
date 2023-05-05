@@ -211,3 +211,21 @@ export function onChannelCallStream(stream, props, contact) {
     conn.send({ command: "answer", username: contact });
   });
 }
+
+export function onPrivateCallAnswer(props) {
+  info.currentCall.answer(window.localStream);
+
+  info.currentCall.on("stream", onStream);
+
+  info.currentCall.on("close", () => {
+    console.log("Call close");
+    props.setCall(false);
+    props.setCaller("");
+    props.setVideoStreams([]);
+    info.localVideoStream = undefined;
+    info.currentVideoStream = undefined;
+    info.currentCall = undefined;
+    window.localStream.getTracks()[0].enabled = true;
+  });
+  props.setCall(true);
+}
