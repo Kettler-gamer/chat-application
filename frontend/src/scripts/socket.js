@@ -19,7 +19,6 @@ export function setUpSocketConnection(setProfile, setNotices) {
 }
 
 function onNewMessage(data, setNotices) {
-  console.log(data);
   if (info.currentChat === data.author || info.currentChat === data.reciever)
     return;
   const newNotice = { type: "message", data };
