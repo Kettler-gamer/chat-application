@@ -73,6 +73,29 @@ export function Channel(props) {
     }
   }
 
+  function setupContact(contact, users) {
+    if (contact === props.profile.username) return;
+    const newConn = window.peer.connect(contact, {
+      metadata: { connectionType: "channel" },
+    });
+    newConn.on("close", () => onChannelCallClose(props, newConn));
+
+    newConn.on("data", (data) => onChannelCallData(data, newConn));
+
+    info.conns.push(newConn);
+    const currentCall = window.peer.call(contact, window.localStream, {
+      metadata: {
+        callType: "channel",
+        users,
+        caller: props.profile.username,
+      },
+    });
+    info.calls.push(currentCall);
+    currentCall.on("stream", (stream) =>
+      onChannelCallStream(stream, props, contact)
+    );
+  }
+
   function callClick() {
     const users = props.channels.find(
       (channel, index) => index === props.channelNumber - 1
@@ -82,28 +105,7 @@ export function Channel(props) {
     info.remoteAudios = [];
     info.peerStreams = [];
     info.answeredPeople = [];
-    users.forEach((contact) => {
-      if (contact === props.profile.username) return;
-      const newConn = window.peer.connect(contact, {
-        metadata: { connectionType: "channel" },
-      });
-      newConn.on("close", () => onChannelCallClose(props, newConn));
-
-      newConn.on("data", (data) => onChannelCallData(data, newConn));
-
-      info.conns.push(newConn);
-      const currentCall = window.peer.call(contact, window.localStream, {
-        metadata: {
-          callType: "channel",
-          users,
-          caller: props.profile.username,
-        },
-      });
-      info.calls.push(currentCall);
-      currentCall.on("stream", (stream) =>
-        onChannelCallStream(stream, props, contact)
-      );
-    });
+    users.forEach((contact) => setupContact(contact, users));
     props.setCurrentGroup(
       users.map((username) => ({ username, answered: false }))
     );
