@@ -15,6 +15,8 @@ export function Call(props) {
     info.conn.close();
     window.peer._connections.clear();
     info.currentCall = undefined;
+    info.conn = undefined;
+    console.log(info);
   }
 
   function onMute() {

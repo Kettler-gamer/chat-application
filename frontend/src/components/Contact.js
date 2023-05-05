@@ -14,6 +14,8 @@ export function Contact(props) {
       props.setCall(false);
       props.setCaller("");
       info.conn = undefined;
+      info.currentCall = undefined;
+      console.log(info);
     });
     info.currentCall = info.peer.call(
       props.profile.contacts[props.selectedContact].username,
