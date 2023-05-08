@@ -1,4 +1,5 @@
 import authService from "../services/authService.js";
+import userService from "../services/userService.js";
 import jwtUtil from "../util/jwtUtil.js";
 
 function login(req, res) {
@@ -32,4 +33,27 @@ function register(req, res) {
     });
 }
 
-export default { login, register };
+async function changePassword(req, res) {
+  const { username } = req.jwtPayload;
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+
+  if (!oldPassword || !newPassword || !confirmPassword)
+    return res.status(400).send("Insufficient credentials!");
+
+  if (newPassword !== confirmPassword)
+    return res.status(400).send("New passwords do not match!");
+
+  const match = await authService.comparePassword(username, oldPassword);
+
+  if (!match) return res.status(400).send("Incorrect password!");
+
+  const result = await userService.updateUserPassword(username, newPassword);
+
+  if (result.modifiedCount > 0) return res.send("The password was changed!");
+  console.log(result);
+  res
+    .status(500)
+    .send("Something went wrong when trying to change your password!");
+}
+
+export default { login, register, changePassword };

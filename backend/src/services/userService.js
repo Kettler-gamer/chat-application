@@ -1,4 +1,5 @@
 import User from "../db/models/User.js";
+import bcrypt from "bcrypt";
 
 async function getUser(username, extraProjection = []) {
   const projection = ["username", "contactIds", "messageIds", "profilePicture"];
@@ -31,6 +32,19 @@ async function updateUsersChannelIds(users, channelId) {
   );
 }
 
+async function updateUserPassword(username, newPassword) {
+  const newPasswordHash = await bcrypt.hash(
+    newPassword,
+    Number(process.env.SALT_ROUNDS)
+  );
+  return User.updateOne(
+    { username },
+    {
+      password: newPasswordHash,
+    }
+  );
+}
+
 export default {
   getUser,
   getUsersFromIdList,
@@ -38,4 +52,5 @@ export default {
   getContactInfo,
   updateProfilePicture,
   updateUsersChannelIds,
+  updateUserPassword,
 };

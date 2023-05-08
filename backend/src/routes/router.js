@@ -13,6 +13,8 @@ router.put("/auth/register", userCheck.checkUserInput, authController.register);
 
 router.use(checkToken);
 
+router.patch("/auth/changepassword", authController.changePassword);
+
 router
   .route("/user")
   .get(userController.getProfile)
