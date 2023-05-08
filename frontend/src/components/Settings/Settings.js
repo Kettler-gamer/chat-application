@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { Profile } from "./Profile";
+import { Account } from "./Account";
 
 export function Settings(props) {
   const navigate = useNavigate();
@@ -28,6 +29,15 @@ export function Settings(props) {
               path="profile"
               element={
                 <Profile
+                  profile={props.profile}
+                  setProfile={props.setProfile}
+                />
+              }
+            />
+            <Route
+              path="account"
+              element={
+                <Account
                   profile={props.profile}
                   setProfile={props.setProfile}
                 />

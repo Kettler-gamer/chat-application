@@ -43,7 +43,7 @@ export function Profile(props) {
         <img
           src={
             picture ||
-            props.profile.profilePicture ||
+            props.profile?.profilePicture ||
             "/images/profile-pic.webp"
           }
           alt="preview"
