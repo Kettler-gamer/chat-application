@@ -29,3 +29,18 @@ button {
 button:hover {
   background-color: $CY4;
 }
+
+.finnished-state {
+  background-color: $CP5;
+  position: absolute;
+  margin-top: 1em;
+  display: flex;
+  color: $CY1;
+  width: 18em;
+  height: 18em;
+  border-radius: 0.5em;
+  font-size: 1.5rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}

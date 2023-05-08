@@ -19,6 +19,9 @@ export function Settings(props) {
   return (
     <div className="black-background" onClick={onBlackClick}>
       <div className="settings-page">
+        <button className="close-btn" onClick={() => navigate("/main")}>
+          X
+        </button>
         <div className="side-bar">
           <button onClick={() => onNavigate("/profile")}>Profile</button>
           <button onClick={() => onNavigate("/account")}>Account</button>
@@ -26,7 +29,7 @@ export function Settings(props) {
         <div className="option-settings">
           <Routes>
             <Route
-              path="profile"
+              path="profile/*"
               element={
                 <Profile
                   profile={props.profile}
@@ -35,7 +38,7 @@ export function Settings(props) {
               }
             />
             <Route
-              path="account"
+              path="account/*"
               element={
                 <Account
                   profile={props.profile}

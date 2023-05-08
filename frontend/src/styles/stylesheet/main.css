@@ -493,6 +493,7 @@ header button {
   background-color: #6d6647;
 }
 .black-background .settings-page {
+  position: relative;
   margin-top: 2em;
   background-color: #232423;
   z-index: 5;
@@ -502,22 +503,43 @@ header button {
   align-items: center;
   border-radius: 0.5em;
 }
+.black-background .settings-page .close-btn {
+  position: absolute;
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0;
+  border-radius: 0.2em;
+  top: 0;
+  right: 0;
+  z-index: 20;
+}
 .black-background .settings-page .side-bar {
   display: flex;
   flex-direction: column;
   width: 33%;
   height: 100%;
   background-color: #1e1e1f;
+  border-radius: 0.5em;
   overflow-y: scroll;
 }
 .black-background .settings-page .side-bar button {
-  margin: 0.25em 0;
+  margin: 0.5em 0;
+  width: 75%;
+  align-self: center;
 }
 .black-background .settings-page .option-settings {
   height: 100%;
   width: 66%;
   display: flex;
   flex-direction: column;
+}
+.black-background .settings-page .option-settings .option-btn {
+  width: 75%;
+  align-self: center;
+  margin-top: 1.5em;
+}
+.black-background .settings-page .option-settings .change-password {
+  margin-top: 1em;
 }
 .black-background .settings-page .option-settings .picture-switch {
   position: relative;
@@ -660,4 +682,19 @@ button {
 
 button:hover {
   background-color: #6d6647;
+}
+
+.finnished-state {
+  background-color: #1e1e1f;
+  position: absolute;
+  margin-top: 1em;
+  display: flex;
+  color: #ffce00;
+  width: 18em;
+  height: 18em;
+  border-radius: 0.5em;
+  font-size: 1.5rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }/*# sourceMappingURL=main.css.map */

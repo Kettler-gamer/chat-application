@@ -23,6 +23,7 @@
     background-color: $CY4;
   }
   .settings-page {
+    position: relative;
     margin-top: 2em;
     background-color: $CG5;
     z-index: 5;
@@ -31,15 +32,28 @@
     display: flex;
     align-items: center;
     border-radius: 0.5em;
+    .close-btn {
+      position: absolute;
+      width: 1.5em;
+      height: 1.5em;
+      padding: 0;
+      border-radius: 0.2em;
+      top: 0;
+      right: 0;
+      z-index: 20;
+    }
     .side-bar {
       display: flex;
       flex-direction: column;
       width: 33%;
       height: 100%;
       background-color: $CP5;
+      border-radius: 0.5em;
       overflow-y: scroll;
       button {
-        margin: 0.25em 0;
+        margin: 0.5em 0;
+        width: 75%;
+        align-self: center;
       }
     }
     .option-settings {
@@ -47,6 +61,14 @@
       width: 66%;
       display: flex;
       flex-direction: column;
+      .option-btn {
+        width: 75%;
+        align-self: center;
+        margin-top: 1.5em;
+      }
+      .change-password {
+        margin-top: 1em;
+      }
       .picture-switch {
         position: relative;
         display: flex;
