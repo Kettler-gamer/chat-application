@@ -1,11 +1,8 @@
-import { fetchJson } from "../scripts/Fetch";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { fetchJson } from "../../scripts/Fetch";
 
-export function Settings(props) {
+export function Profile(props) {
   const [picture, setPicture] = useState(undefined);
-  const navigate = useNavigate();
-
   async function updateProfilePic() {
     const response = await fetchJson("/profilePicture", "PUT", {
       picture: picture,
@@ -40,28 +37,29 @@ export function Settings(props) {
     }
   }
 
-  function onBlackClick(event) {
-    if (event.target.className === "black-background") {
-      navigate("/main");
-    }
-  }
-
   return (
-    <div className="black-background" onClick={onBlackClick}>
-      <div className="settings-page">
-        <div className="picture-switch">
-          <img src={picture || "/images/profile-pic.webp"} alt="preview" />
-          <label htmlFor="picture-upload">Choose file</label>
-          <input
-            id="picture-upload"
-            className="profile-pic-input"
-            type="file"
-            accept=".png,.jpeg,.jpg"
-            onChange={checkFile}
-          />
-          {picture && <button onClick={updateProfilePic}>Set Picture</button>}
-        </div>
+    <>
+      <div className="picture-switch">
+        <img
+          src={
+            picture ||
+            props.profile.profilePicture ||
+            "/images/profile-pic.webp"
+          }
+          alt="preview"
+        />
+        <label htmlFor="picture-upload">
+          <p>Replace</p>
+        </label>
+        <input
+          id="picture-upload"
+          className="profile-pic-input"
+          type="file"
+          accept=".png,.jpeg,.jpg"
+          onChange={checkFile}
+        />
+        {picture && <button onClick={updateProfilePic}>Set Picture</button>}
       </div>
-    </div>
+    </>
   );
 }

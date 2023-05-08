@@ -7,7 +7,7 @@ import { setupPeerConnection } from "../scripts/peer";
 import { setUpSocketConnection } from "../scripts/socket";
 import { Header } from "../components/Header";
 import { Routes, Route } from "react-router-dom";
-import { Settings } from "../components/Settings";
+import { Settings } from "../components/Settings/Settings";
 import { ChatSection } from "../components/ChatSection";
 import { GroupCall } from "../components/GroupCall/GroupCall";
 import { Notifications } from "../components/Notifications";
@@ -116,10 +116,10 @@ export function MainPage() {
           setGroupCall={setGroupCall}
         />
       )}
-      <Routes path="*">
+      <Routes>
         <Route
-          path="/settings"
-          element={<Settings setProfile={setProfile} />}
+          path="/settings/*"
+          element={<Settings profile={profile} setProfile={setProfile} />}
         />
       </Routes>
       <Notifications notices={notices} />
