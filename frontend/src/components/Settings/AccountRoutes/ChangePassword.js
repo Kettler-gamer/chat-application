@@ -34,8 +34,9 @@ export function ChangePassword(props) {
       className="change-password"
       content={
         <>
-          {inputFieldsValues.map((values) => (
+          {inputFieldsValues.map((values, index) => (
             <input
+              key={`password-field-${index}`}
               type="password"
               required
               name={values.name}
