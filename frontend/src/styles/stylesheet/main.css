@@ -308,18 +308,18 @@ form .channel-add-contact-list li:not(:last-child) {
   top: -8em;
   margin: 0;
   width: 90%;
-  height: 80vh;
+  min-height: 90vh;
+  max-height: 91vh;
+  overflow-y: scroll;
 }
 .call-max .videos {
-  overflow-y: scroll;
-  width: 95%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 .call-max .videos video {
   width: 100%;
-  max-width: 800px;
 }
 
 .call {
