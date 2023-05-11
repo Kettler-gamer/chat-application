@@ -8,9 +8,28 @@
   background-color: $CY5;
   box-shadow: 0 0 25px black;
   .videos {
+    margin: 0 auto;
     width: 20em;
     video {
       width: 100%;
+    }
+  }
+}
+
+.call-max {
+  top: -8em;
+  margin: 0;
+  width: 90%;
+  height: 80vh;
+  .videos {
+    overflow-y: scroll;
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    video {
+      width: 100%;
+      max-width: 800px;
     }
   }
 }
@@ -22,6 +41,15 @@
   height: fit-content;
   text-align: center;
   color: $CY1;
+  z-index: 15;
+  .increase-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.75em;
+    height: 1.75em;
+    padding: 0;
+  }
   p {
     font-size: 1.25rem;
   }

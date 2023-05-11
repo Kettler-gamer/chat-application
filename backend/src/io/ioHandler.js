@@ -12,7 +12,6 @@ export function onSocketConnection(ws) {
   }
 
   ws.on("online", (value) => {
-    console.log(value);
     value.contacts.forEach((contact) => {
       if (sockets[contact]) {
         sockets[contact].emit("userOnline", {
@@ -39,7 +38,6 @@ export function onSocketConnection(ws) {
 
 export function onDisconnect(ws) {
   if (sockets[ws.jwtPayload.username] === ws) {
-    console.log("Trying offline update");
     userService
       .getUser(ws.jwtPayload.username)
       .then((user) => {

@@ -4,6 +4,7 @@ import React from "react";
 
 export function Call(props) {
   const [mute, setMute] = useState(false);
+  const [max, setMax] = useState(false);
 
   function onEndCall() {
     console.log("End call");
@@ -73,13 +74,20 @@ export function Call(props) {
     }
   }
 
+  function onIncrease() {
+    setMax((oldValue) => !oldValue);
+  }
+
   return (
-    <div className="call">
+    <div className={max ? "call call-max" : "call"}>
       {props.caller === "" ? (
         <p>Calling contact...</p>
       ) : (
         <>
           <p>{props.caller}</p>
+          <button className="increase-btn" onClick={onIncrease}>
+            🔍
+          </button>
           <button onClick={onEndCall}>End call</button>
           <button
             style={mute ? { backgroundColor: "red" } : {}}

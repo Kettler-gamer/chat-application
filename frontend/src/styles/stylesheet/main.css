@@ -296,11 +296,30 @@ form .channel-add-contact-list li:not(:last-child) {
 }
 .called .videos,
 .call .videos {
+  margin: 0 auto;
   width: 20em;
 }
 .called .videos video,
 .call .videos video {
   width: 100%;
+}
+
+.call-max {
+  top: -8em;
+  margin: 0;
+  width: 90%;
+  height: 80vh;
+}
+.call-max .videos {
+  overflow-y: scroll;
+  width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.call-max .videos video {
+  width: 100%;
+  max-width: 800px;
 }
 
 .call {
@@ -311,6 +330,15 @@ form .channel-add-contact-list li:not(:last-child) {
   height: fit-content;
   text-align: center;
   color: #ffce00;
+  z-index: 15;
+}
+.call .increase-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.75em;
+  height: 1.75em;
+  padding: 0;
 }
 .call p {
   font-size: 1.25rem;
