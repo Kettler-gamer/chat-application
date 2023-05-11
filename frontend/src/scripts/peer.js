@@ -141,29 +141,20 @@ function onCall(
 
     info.conn.on("data", (data) => {
       console.log(data);
+      const commandArguments = data.split(" ");
+      if (commandArguments[0] !== "Stopped") return;
       setVideoStreams((oldValue) => {
-        let index;
-        if (data === "Stopped stream") {
-          index = oldValue.indexOf(info.currentVideoStream);
-        } else {
-          index = oldValue.indexOf(
-            oldValue.find((stream) => stream !== info.currentVideoStream)
-          );
-        }
-        console.log(index);
-        if (index !== -1) {
-          return oldValue.filter(
-            (stream, streamIndex) => index !== streamIndex
-          );
-        } else {
-          return oldValue;
-        }
+        return oldValue.filter(
+          (stream) => stream.videoId !== commandArguments[1]
+        );
       });
     });
     if (call.metadata.streamType === "video" && info.currentCall) {
       info.currentVideoCall = call;
       call.on("stream", (stream) => {
         info.currentVideoStream = stream;
+        stream.videoId = call.metadata.videoId;
+        console.log(stream);
         setVideoStreams((oldValue) => [...oldValue, stream]);
       });
       call.answer();

@@ -30,7 +30,7 @@ export function Call(props) {
   function videoClick() {
     if (info.localVideoStream) {
       const videoTrack = info.localVideoStream.getTracks()[0];
-      info.conn.send("Stopped video");
+      info.conn.send(`Stopped ${window.peer._id}-webcam`);
       videoTrack.stop();
       props.setVideoStreams((oldValue) =>
         oldValue.filter((video) => {
@@ -43,7 +43,11 @@ export function Call(props) {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
         info.localVideoStream = stream;
         info.currentVideoCall = window.peer.call(props.caller, stream, {
-          metadata: { callType: "private", streamType: "video" },
+          metadata: {
+            callType: "private",
+            streamType: "video",
+            videoId: `${window.peer._id}-webcam`,
+          },
         });
         props.setVideoStreams((oldValue) => [...oldValue, stream]);
       });
@@ -54,7 +58,7 @@ export function Call(props) {
     console.log("Screen click");
     if (info.localScreenStream) {
       const screenTrack = info.localScreenStream.getTracks()[0];
-      info.conn.send("Stopped stream");
+      info.conn.send(`Stopped ${window.peer._id}-screen`);
       screenTrack.stop();
       props.setVideoStreams((oldValue) =>
         oldValue.filter((video) => {
@@ -67,7 +71,11 @@ export function Call(props) {
       navigator.mediaDevices.getDisplayMedia({}).then((stream) => {
         info.localScreenStream = stream;
         info.currentScreenCall = window.peer.call(props.caller, stream, {
-          metadata: { callType: "private", streamType: "video" },
+          metadata: {
+            callType: "private",
+            streamType: "video",
+            videoId: `${window.peer._id}-screen`,
+          },
         });
         props.setVideoStreams((oldValue) => [...oldValue, stream]);
       });
