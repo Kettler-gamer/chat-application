@@ -29,7 +29,7 @@ export function Call(props) {
   function videoClick() {
     if (info.localVideoStream) {
       const videoTrack = info.localVideoStream.getTracks()[0];
-
+      info.conn.send("Stopped video");
       videoTrack.stop();
       props.setVideoStreams((oldValue) =>
         oldValue.filter((video) => {
@@ -42,6 +42,30 @@ export function Call(props) {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
         info.localVideoStream = stream;
         info.currentVideoCall = window.peer.call(props.caller, stream, {
+          metadata: { callType: "private", streamType: "video" },
+        });
+        props.setVideoStreams((oldValue) => [...oldValue, stream]);
+      });
+    }
+  }
+
+  function onScreenClick() {
+    console.log("Screen click");
+    if (info.localScreenStream) {
+      const screenTrack = info.localScreenStream.getTracks()[0];
+      info.conn.send("Stopped stream");
+      screenTrack.stop();
+      props.setVideoStreams((oldValue) =>
+        oldValue.filter((video) => {
+          const track = video.getVideoTracks()[0];
+          return track.readyState !== "ended";
+        })
+      );
+      info.localScreenStream = undefined;
+    } else {
+      navigator.mediaDevices.getDisplayMedia({}).then((stream) => {
+        info.localScreenStream = stream;
+        info.currentScreenCall = window.peer.call(props.caller, stream, {
           metadata: { callType: "private", streamType: "video" },
         });
         props.setVideoStreams((oldValue) => [...oldValue, stream]);
@@ -63,25 +87,18 @@ export function Call(props) {
             Mute
           </button>
           <button onClick={videoClick}>📽️</button>
+          <button onClick={onScreenClick}>🖥️</button>
           <div className="videos">
-            {props.videoStreams.map((stream, index) => {
-              const track = stream.getVideoTracks()[0];
-              track.onmute = () => {
-                props.setVideoStreams((oldValue) =>
-                  oldValue.filter((video) => video !== stream)
-                );
-              };
-              return (
-                <video
-                  key={`video-${index}`}
-                  autoPlay
-                  ref={(ref) => {
-                    if (ref) {
-                      ref.srcObject = stream;
-                    }
-                  }}></video>
-              );
-            })}
+            {props.videoStreams.map((stream, index) => (
+              <video
+                key={`video-${index}`}
+                autoPlay
+                ref={(ref) => {
+                  if (ref) {
+                    ref.srcObject = stream;
+                  }
+                }}></video>
+            ))}
           </div>
         </>
       )}

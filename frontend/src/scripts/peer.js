@@ -99,7 +99,7 @@ function onCall(
   setVideoStreams,
   setCaller
 ) {
-  if (!call.metadata || info.currentCall) return call.close();
+  if (!call.metadata) return call.close();
   console.log(call.metadata);
   const { callType } = call.metadata;
   if (callType === "channel") {
@@ -136,10 +136,33 @@ function onCall(
       info.peerStreams = [];
     }
   } else if (callType === "private") {
+    if (info.currentCall && info.currentCall.peer !== call.peer)
+      return call.close();
+
+    info.conn.on("data", (data) => {
+      console.log(data);
+      setVideoStreams((oldValue) => {
+        let index;
+        if (data === "Stopped stream") {
+          index = oldValue.indexOf(info.currentVideoStream);
+        } else {
+          index = oldValue.indexOf(
+            oldValue.find((stream) => stream !== info.currentVideoStream)
+          );
+        }
+        console.log(index);
+        if (index !== -1) {
+          return oldValue.filter(
+            (stream, streamIndex) => index !== streamIndex
+          );
+        } else {
+          return oldValue;
+        }
+      });
+    });
     if (call.metadata.streamType === "video" && info.currentCall) {
       info.currentVideoCall = call;
       call.on("stream", (stream) => {
-        console.log("Video stream!");
         info.currentVideoStream = stream;
         setVideoStreams((oldValue) => [...oldValue, stream]);
       });
