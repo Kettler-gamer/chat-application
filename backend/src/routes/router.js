@@ -22,6 +22,8 @@ router
 
 router.put("/profilePicture", userController.setProfilePicture);
 
+router.delete("/removeContact", userController.removeContact);
+
 router
   .route("/message")
   .get(messageController.getMessages)

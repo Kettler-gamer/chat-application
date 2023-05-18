@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose";
 import userService from "../services/userService.js";
 
 function getProfile(req, res) {
@@ -94,4 +95,19 @@ function getContactInfo(contactName, res) {
     });
 }
 
-export default { getProfile, addContact, setProfilePicture };
+async function removeContact(req, res) {
+  const { username } = req.jwtPayload;
+  const { contactId } = req.body;
+
+  if (!contactId || !isValidObjectId(contactId))
+    return res.status(400).send("Incorrect values provided!");
+
+  const result = await userService.removeContact(username, contactId);
+
+  if (result.modifiedCount === 0)
+    return res.status(400).send("Contact was not found!");
+
+  res.status(200).send("The contact was removed!");
+}
+
+export default { getProfile, addContact, setProfilePicture, removeContact };

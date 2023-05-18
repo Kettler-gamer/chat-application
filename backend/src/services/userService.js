@@ -1,5 +1,8 @@
 import User from "../db/models/User.js";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
+
+const ObjectId = mongoose.Types.ObjectId;
 
 async function getUser(username, extraProjection = []) {
   const projection = ["username", "contactIds", "messageIds", "profilePicture"];
@@ -45,6 +48,13 @@ async function updateUserPassword(username, newPassword) {
   );
 }
 
+async function removeContact(username, contactId) {
+  return User.updateOne(
+    { username },
+    { $pull: { contactIds: new ObjectId(contactId) } }
+  );
+}
+
 export default {
   getUser,
   getUsersFromIdList,
@@ -53,4 +63,5 @@ export default {
   updateProfilePicture,
   updateUsersChannelIds,
   updateUserPassword,
+  removeContact,
 };
