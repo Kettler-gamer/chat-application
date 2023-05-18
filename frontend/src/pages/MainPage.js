@@ -92,7 +92,7 @@ export function MainPage() {
             setVideoStreams={setVideoStreams}
           />
         ) : (
-          <ProfileOverview profile={profile} />
+          <ProfileOverview profile={profile} setProfile={setProfile} />
         )}
       </div>
       {caller !== "" && !call && (

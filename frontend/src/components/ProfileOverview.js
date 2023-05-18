@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { fetchJson } from "../scripts/Fetch";
 
-export function ProfileOverview({ profile }) {
+export function ProfileOverview({ profile, setProfile }) {
   const [cat, setCat] = useState("contacts");
   const [currentContact, setCurrentContact] = useState("");
 
@@ -34,9 +35,25 @@ export function ProfileOverview({ profile }) {
     setCurrentContact(contact);
   }
 
-  function onRemoveContactClick(contact) {
-    // to be implemented
-    console.log(contact);
+  async function onRemoveContactClick(contactId) {
+    const response = await fetchJson("/removeContact", "DELETE", {
+      contactId,
+    });
+
+    if (response.status < 400) {
+      setProfile((oldValue) => {
+        const newValue = JSON.parse(JSON.stringify(oldValue));
+
+        newValue.contacts = newValue.contacts.filter(
+          (element) => element._id !== contactId
+        );
+
+        console.log(newValue);
+
+        return newValue;
+      });
+    }
+    console.log(await response.text());
   }
 
   return (
@@ -77,7 +94,7 @@ export function ProfileOverview({ profile }) {
                         ? {}
                         : { display: "none" }
                     }>
-                    <li onClick={() => onRemoveContactClick(contact)}>
+                    <li onClick={() => onRemoveContactClick(contact._id)}>
                       <p>Remove</p>
                     </li>
                   </ul>
