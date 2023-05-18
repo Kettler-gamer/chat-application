@@ -12,6 +12,7 @@ import { ChatSection } from "../components/ChatSection";
 import { GroupCall } from "../components/GroupCall/GroupCall";
 import { Notifications } from "../components/Notifications";
 import info from "../scripts/userinfo";
+import { ProfileOverview } from "../components/ProfileOverview";
 
 export function MainPage() {
   const [profile, setProfile] = useState(undefined);
@@ -73,22 +74,26 @@ export function MainPage() {
           setChannels={setChannels}
           setLoading={setLoading}
         />
-        <ChatSection
-          profile={profile}
-          setProfile={setProfile}
-          selectedContact={selectedContact}
-          selectedChannel={selectedChannel}
-          setCall={setCall}
-          setCaller={setCaller}
-          channels={channels}
-          setChannels={setChannels}
-          setSelectedChannel={setSelectedChannel}
-          loading={loading}
-          setLoading={setLoading}
-          setGroupCall={setGroupCall}
-          setCurrentGroup={setCurrentGroup}
-          setVideoStreams={setVideoStreams}
-        />
+        {selectedChannel !== undefined || selectedContact !== undefined ? (
+          <ChatSection
+            profile={profile}
+            setProfile={setProfile}
+            selectedContact={selectedContact}
+            selectedChannel={selectedChannel}
+            setCall={setCall}
+            setCaller={setCaller}
+            channels={channels}
+            setChannels={setChannels}
+            setSelectedChannel={setSelectedChannel}
+            loading={loading}
+            setLoading={setLoading}
+            setGroupCall={setGroupCall}
+            setCurrentGroup={setCurrentGroup}
+            setVideoStreams={setVideoStreams}
+          />
+        ) : (
+          <ProfileOverview profile={profile} />
+        )}
       </div>
       {caller !== "" && !call && (
         <Calling

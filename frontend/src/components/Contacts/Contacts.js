@@ -21,6 +21,8 @@ export function Contacts(props) {
     ) {
       getChannelInfo();
     }
+    props.setSelectedContact(undefined);
+    props.setSelectedChannel(undefined);
     setSearch("");
   }
 

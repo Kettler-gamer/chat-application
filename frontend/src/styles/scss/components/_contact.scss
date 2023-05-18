@@ -34,6 +34,11 @@
         background-color: $CY4;
       }
     }
+    .profile-overview-btn {
+      width: 5em;
+      border-radius: 0.5em;
+      border: none;
+    }
   }
   .contact-chat-container {
     height: 90%;
@@ -115,6 +120,37 @@
         border-radius: 0.25em;
         width: 70%;
         outline: none;
+      }
+    }
+  }
+  .contact-list-container {
+    width: 100%;
+    height: 90%;
+    overflow-y: hidden;
+    color: $CY1;
+    .contact-list {
+      height: 100%;
+      overflow-y: scroll;
+      .list-item {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        margin: 0.75em 0.5em;
+        border-top: 1px solid $CY4;
+        padding-top: 0.75em;
+        .profile-picture {
+          background-size: cover;
+          background-position-y: center;
+          border-radius: 5em;
+          width: 5em;
+          height: 5em;
+        }
+        p {
+          margin-left: 1em;
+        }
+      }
+      .list-item:first-child {
+        margin-top: 2em;
       }
     }
   }
