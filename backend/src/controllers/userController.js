@@ -39,7 +39,9 @@ function addContact(req, res) {
     })
     .then((result) => {
       if (result.modifiedCount > 0) {
-        res.status(201).send("The contact was added!");
+        userService.getContactInfo(contactName).then((contact) => {
+          res.status(201).send({ message: "The contact was added!", contact });
+        });
       } else if (result.matchedCount == 1) {
         res.status(400).send("This contact is already added!");
       } else {

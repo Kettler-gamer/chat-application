@@ -14,13 +14,15 @@ export function AddContact(props) {
     const response = await fetchJson("/user", "PUT", body);
 
     if (response.status < 400) {
+      const json = await response.json();
       props.setProfile((oldValue) => {
         const newVal = JSON.parse(JSON.stringify(oldValue));
 
-        newVal.contacts = [...newVal.contacts, { username: body.contactName }];
+        newVal.contacts = [...newVal.contacts, json.contact];
 
         return newVal;
       });
+      return setServerMessage(json.message);
     }
     setServerMessage(await response.text());
   }
