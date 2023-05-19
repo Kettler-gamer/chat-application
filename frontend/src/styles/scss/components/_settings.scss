@@ -80,6 +80,28 @@
           border-radius: 20em;
           border: 1px solid $CG4;
         }
+        .resolution {
+          display: flex;
+          justify-content: space-between;
+          font-size: 1.5rem;
+          width: 120%;
+          .slider-container {
+            width: 80%;
+            background-color: $CY5;
+            border-radius: 1em;
+            .slider {
+              background-color: $CG4;
+              border-radius: 1em;
+              width: 25%;
+              z-index: 20;
+              height: 100%;
+            }
+          }
+          p {
+            color: $CY1;
+            width: 10%;
+          }
+        }
         .profile-pic,
         label {
           background-size: cover;

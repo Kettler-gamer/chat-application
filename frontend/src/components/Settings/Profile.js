@@ -6,8 +6,12 @@ let trackMouse = false;
 let x = 0,
   y = 0;
 
+let slideMouse = false;
+
 export function Profile(props) {
   const [picture, setPicture] = useState(undefined);
+  const [slideVal, setSlideVal] = useState(0);
+  const [resolution, setResolution] = useState(256);
   const canvasRef = useRef(null);
 
   async function updateProfilePic() {
@@ -73,10 +77,42 @@ export function Profile(props) {
     y = Math.max(0, y);
 
     x = Math.min(image.width, x);
-    y = Math.min(image.height, y);
+    y = Math.min(image.height - resolution, y);
 
     const ctx = canvasRef.current.getContext("2d");
-    ctx.clearRect(0, 0, 512, 512);
+    ctx.clearRect(0, 0, resolution, resolution);
+    ctx.drawImage(image, -x, -y);
+  }
+
+  function onSlideDown() {
+    slideMouse = true;
+  }
+
+  function onSlideUp() {
+    slideMouse = false;
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.clearRect(0, 0, resolution, resolution);
+    ctx.drawImage(image, -x, -y);
+  }
+
+  function onSlideMove(e) {
+    if (!slideMouse) return;
+    setSlideVal((oldValue) => {
+      let newValue = oldValue;
+      newValue += 0.45 * e.movementX;
+
+      newValue = Math.max(0, newValue);
+      newValue = Math.min(75, newValue);
+
+      return newValue;
+    });
+    calculateResolution();
+  }
+
+  function calculateResolution() {
+    setResolution(Math.floor(256 + ((1024 - 256) / 75) * slideVal));
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.clearRect(0, 0, resolution, resolution);
     ctx.drawImage(image, -x, -y);
   }
 
@@ -86,13 +122,25 @@ export function Profile(props) {
         {picture ? (
           <>
             <canvas
-              width={512}
-              height={512}
               ref={canvasRef}
-              onMouseDown={onMouseDown}
+              width={resolution}
+              height={resolution}
               onMouseUp={onMouseUp}
+              onMouseDown={onMouseDown}
               onMouseMove={onMouseMove}
             />
+            <div className="resolution">
+              <div className="slider-container">
+                <div
+                  className="slider"
+                  onMouseUp={onSlideUp}
+                  onMouseLeave={onSlideUp}
+                  onMouseDown={onSlideDown}
+                  onMouseMove={onSlideMove}
+                  style={{ marginLeft: `${slideVal}%` }}></div>
+              </div>
+              <p>{resolution}</p>
+            </div>
           </>
         ) : (
           <div
