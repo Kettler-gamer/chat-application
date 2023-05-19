@@ -26,32 +26,31 @@ function getProfile(req, res) {
     });
 }
 
-function addContact(req, res) {
+async function addContact(req, res) {
   const { username } = req.jwtPayload;
   const { contactName } = req.body;
 
-  userService
-    .getUser(contactName)
-    .then((contact) => {
-      if (!contact) throw new Error("Contact not found!");
+  const contact = await userService.getUser(contactName);
 
-      return userService.addContact(username, contact._id);
-    })
-    .then((result) => {
-      if (result.modifiedCount > 0) {
-        userService.getContactInfo(contactName).then((contact) => {
-          res.status(201).send({ message: "The contact was added!", contact });
-        });
-      } else if (result.matchedCount == 1) {
-        res.status(400).send("This contact is already added!");
-      } else {
-        throw new Error("Server error");
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).send(error.message);
-    });
+  if (!contact) throw new Error("Contact not found!");
+
+  const result = await userService.addContact(username, contact._id);
+
+  if (result.modifiedCount > 0) {
+    const contactInfo = await userService.getContactInfo(contactName);
+
+    res
+      .status(201)
+      .send({ message: "The contact was added!", contact: contactInfo });
+
+    const test = await userService.addRequest(username, contactName);
+
+    console.log(test);
+  } else if (result.matchedCount == 1) {
+    res.status(400).send("This contact is already added!");
+  } else {
+    throw new Error("Server error");
+  }
 }
 
 function setProfilePicture(req, res) {

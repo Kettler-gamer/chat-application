@@ -7,6 +7,8 @@ const User = mongoose.model("User", {
   messageIds: { type: Array, required: true },
   channelIds: { type: Array, required: true },
   profilePicture: { type: String, required: false },
+  requests: { type: Array, required: false },
+  blocked: { type: Array, required: false },
 });
 
 export default User;

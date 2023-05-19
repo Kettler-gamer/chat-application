@@ -48,12 +48,9 @@ export function ProfileOverview({ profile, setProfile }) {
           (element) => element._id !== contactId
         );
 
-        console.log(newValue);
-
         return newValue;
       });
     }
-    console.log(await response.text());
   }
 
   return (
@@ -64,7 +61,11 @@ export function ProfileOverview({ profile, setProfile }) {
             key={btnName}
             className="profile-overview-btn"
             onClick={() => onCatClick(btnName.toLowerCase())}>
-            {btnName}
+            {`${btnName}${
+              btnName === "Requests"
+                ? ` (${profile?.requests?.length || 0})`
+                : ""
+            }`}
           </button>
         ))}
       </div>

@@ -40,9 +40,11 @@ function onUserOnline(data, setProfile) {
   setProfile((oldValue) => {
     const newValue = JSON.parse(JSON.stringify(oldValue));
 
-    newValue.contacts.find(
+    const contact = newValue.contacts.find(
       (element) => element.username === data.username
-    ).online = data.online;
+    );
+
+    if (contact) contact.online = data.online;
 
     return newValue;
   });

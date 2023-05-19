@@ -5,7 +5,14 @@ import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
 async function getUser(username, extraProjection = []) {
-  const projection = ["username", "contactIds", "messageIds", "profilePicture"];
+  const projection = [
+    "username",
+    "contactIds",
+    "messageIds",
+    "profilePicture",
+    "requests",
+    "blocked",
+  ];
   if (extraProjection) {
     projection.push(...extraProjection);
   }
@@ -18,6 +25,14 @@ async function getUsersFromIdList(list) {
 
 async function addContact(username, contactId) {
   return User.updateOne({ username }, { $addToSet: { contactIds: contactId } });
+}
+
+async function addRequest(username, contactName) {
+  const user = await User.findOne({ username });
+  return User.updateOne(
+    { username: contactName },
+    { $push: { requests: user._id } }
+  );
 }
 
 async function getContactInfo(username) {
@@ -59,6 +74,7 @@ export default {
   getUser,
   getUsersFromIdList,
   addContact,
+  addRequest,
   getContactInfo,
   updateProfilePicture,
   updateUsersChannelIds,
