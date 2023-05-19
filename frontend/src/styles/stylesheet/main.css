@@ -392,11 +392,6 @@ form .channel-add-contact-list li:not(:last-child) {
 .contact-page .contact-top .contact-btns button:hover {
   background-color: #6d6647;
 }
-.contact-page .contact-top .profile-overview-btn {
-  width: 5em;
-  border-radius: 0.5em;
-  border: none;
-}
 .contact-page .contact-chat-container {
   height: 90%;
 }
@@ -778,6 +773,26 @@ header button {
     background-color: #232423;
   }
 }
+.contact-page .contact-top {
+  position: relative;
+}
+.contact-page .contact-top .profile-overview-btn {
+  background-color: transparent;
+  width: 8em;
+  border-radius: 0.5em;
+  z-index: 5;
+  border: none;
+}
+.contact-page .contact-top .slider {
+  position: absolute;
+  background-color: #3b5839;
+  border-radius: 0.5em;
+  z-index: 3;
+  width: 10em;
+  height: 2em;
+  transition: margin-left 0.25s;
+}
+
 * {
   margin: 0;
   padding: 0;

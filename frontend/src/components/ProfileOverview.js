@@ -94,6 +94,13 @@ export function ProfileOverview({ profile, setProfile }) {
             }`}
           </button>
         ))}
+        <div
+          className="slider"
+          style={{
+            marginLeft: `${
+              cat === "contacts" ? "-66%" : cat === "requests" ? "0%" : "66%"
+            }`,
+          }}></div>
       </div>
       <div className="contact-list-container">
         <ul className="contact-list">
