@@ -7,14 +7,14 @@
       background-color: transparent;
       width: 8em;
       border-radius: 0.5em;
-      z-index: 5;
+      z-index: 2;
       border: none;
     }
     .slider {
       position: absolute;
       background-color: $CG4;
       border-radius: 0.5em;
-      z-index: 3;
+      z-index: 1;
       width: 10em;
       height: 2em;
       transition: margin-left 0.25s;
