@@ -80,7 +80,9 @@
         margin-left: 0.5em;
         text-align: left;
       }
-      img {
+      .contact-picture {
+        background-size: cover;
+        background-position-y: center;
         width: 64px;
         height: 64px;
         border-radius: 5em;

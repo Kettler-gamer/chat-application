@@ -6,10 +6,14 @@ export function Header(props) {
     <header>
       {props.profile && (
         <>
-          <img
-            src={props.profile.profilePicture || "/images/profile-pic.webp"}
-            alt="profile"
-          />
+          <div
+            className="profile-picture"
+            style={{
+              backgroundImage: `url(${
+                props.profile.profilePicture || "/images/profile-pic.webp"
+              })`,
+            }}></div>
+
           <h2>{props.profile.username}</h2>
           <button onClick={() => navigate("/main/settings")}>Settings</button>
         </>

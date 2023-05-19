@@ -9,7 +9,9 @@ header {
   background-color: $CY5;
   color: $CY1;
   box-shadow: 0 0 25px black;
-  img {
+  .profile-picture {
+    background-size: cover;
+    background-position-y: center;
     width: 64px;
     height: 64px;
     border-radius: 5em;

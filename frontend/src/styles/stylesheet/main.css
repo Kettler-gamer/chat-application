@@ -185,7 +185,9 @@ form .channel-add-contact-list li:not(:last-child) {
   margin-left: 0.5em;
   text-align: left;
 }
-.contacts-section .contacts-list .list-item img {
+.contacts-section .contacts-list .list-item .contact-picture {
+  background-size: cover;
+  background-position-y: center;
   width: 64px;
   height: 64px;
   border-radius: 5em;
@@ -565,7 +567,9 @@ header {
   color: #ffce00;
   box-shadow: 0 0 25px black;
 }
-header img {
+header .profile-picture {
+  background-size: cover;
+  background-position-y: center;
   width: 64px;
   height: 64px;
   border-radius: 5em;

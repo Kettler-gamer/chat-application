@@ -23,10 +23,13 @@ export function ContactsList({
           setSelectedContact(contacts.indexOf(contact));
           setSelectedChannel(undefined);
         }}>
-        <img
-          src={contact.profilePicture || `/images/profile-pic.webp`}
-          alt="profile"
-        />
+        <div
+          className="contact-picture"
+          style={{
+            backgroundImage: `url(${
+              contact.profilePicture || `/images/profile-pic.webp`
+            })`,
+          }}></div>
         <div
           className="status"
           style={{
