@@ -53,6 +53,32 @@ export function ProfileOverview({ profile, setProfile }) {
     }
   }
 
+  async function onAcceptRequest(contact) {
+    const response = await fetchJson("/user", "PUT", {
+      contactName: contact.username,
+    });
+
+    if (response.status < 400) {
+      setProfile((oldValue) => {
+        const newValue = JSON.parse(JSON.stringify(oldValue));
+
+        newValue.requests = newValue.requests.filter(
+          (req) => req.username !== contact.username
+        );
+
+        newValue.contacts = [...newValue.contacts, contact];
+
+        return newValue;
+      });
+    } else {
+      console.log(await response.text());
+    }
+  }
+
+  async function onDeclineRequest() {
+    //
+  }
+
   return (
     <div className="contact-page">
       <div className="contact-top">
@@ -95,9 +121,24 @@ export function ProfileOverview({ profile, setProfile }) {
                         ? {}
                         : { display: "none" }
                     }>
-                    <li onClick={() => onRemoveContactClick(contact._id)}>
-                      <p>Remove</p>
-                    </li>
+                    {cat === "contacts" ? (
+                      <>
+                        <li onClick={() => onRemoveContactClick(contact._id)}>
+                          <p>Remove</p>
+                        </li>
+                      </>
+                    ) : cat === "requests" ? (
+                      <>
+                        <li onClick={() => onAcceptRequest(contact)}>
+                          <p>Accept</p>
+                        </li>
+                        <li onClick={() => onDeclineRequest(contact.username)}>
+                          <p>Decline</p>
+                        </li>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </ul>
                 </button>
               </div>

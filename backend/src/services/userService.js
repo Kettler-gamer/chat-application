@@ -70,6 +70,13 @@ async function removeContact(username, contactId) {
   );
 }
 
+async function removeRequest(username, contactId) {
+  return User.updateOne(
+    { username },
+    { $pull: { requests: new ObjectId(contactId) } }
+  );
+}
+
 export default {
   getUser,
   getUsersFromIdList,
@@ -80,4 +87,5 @@ export default {
   updateUsersChannelIds,
   updateUserPassword,
   removeContact,
+  removeRequest,
 };

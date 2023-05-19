@@ -2,29 +2,31 @@ import { isValidObjectId } from "mongoose";
 import userService from "../services/userService.js";
 import { onNewRequest } from "../io/events/request.js";
 
-function getProfile(req, res) {
+async function getProfile(req, res) {
   const { contactName } = req.query;
 
   if (contactName) return getContactInfo(contactName, res);
 
-  userService
-    .getUser(req.jwtPayload.username, ["channelIds"])
-    .then((user) => {
-      return {
-        user,
-        contacts: userService.getUsersFromIdList(user.contactIds),
-      };
-    })
-    .then((result) => {
-      result.contacts.then((contacts) => {
-        res.send({
-          username: result.user.username,
-          channelIds: result.user.channelIds,
-          profilePicture: result.user.profilePicture,
-          contacts,
-        });
-      });
-    });
+  const user = await userService.getUser(req.jwtPayload.username, [
+    "channelIds",
+  ]);
+
+  const result = {
+    contacts: await userService.getUsersFromIdList(user.contactIds),
+  };
+
+  if (user.requests && user.requests.length > 0)
+    result.requests = await userService.getUsersFromIdList(user.requests);
+
+  if (user.blocked && user.blocked.length > 0)
+    result.requests = await userService.getUsersFromIdList(user.blocked);
+
+  res.send({
+    username: user.username,
+    channelIds: user.channelIds,
+    profilePicture: user.profilePicture,
+    ...result,
+  });
 }
 
 async function addContact(req, res) {
@@ -44,9 +46,18 @@ async function addContact(req, res) {
       .status(201)
       .send({ message: "The contact was added!", contact: contactInfo });
 
-    const test = await userService.addRequest(username, contactName);
+    const requestResult = await userService.removeRequest(
+      username,
+      contact._id
+    );
 
-    onNewRequest(await userService.getContactInfo(username), contactName);
+    console.log(requestResult);
+
+    if (requestResult.modifiedCount === 0) {
+      await userService.addRequest(username, contactName);
+
+      onNewRequest(await userService.getContactInfo(username), contactName);
+    }
   } else if (result.matchedCount == 1) {
     res.status(400).send("This contact is already added!");
   } else {
