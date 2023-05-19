@@ -14,8 +14,22 @@ export function setUpSocketConnection(setProfile, setNotices) {
 
   newSocket.on("newMessage", (data) => onNewMessage(data, setNotices));
 
+  newSocket.on("request", (data) => onNewRequest(data, setProfile));
+
   info.socket = newSocket;
   window.socket = newSocket;
+}
+
+function onNewRequest(data, setProfile) {
+  setProfile((oldValue) => {
+    const newValue = JSON.parse(JSON.stringify(oldValue));
+
+    newValue.requests
+      ? (newValue.requests = [...newValue.requests, data])
+      : (newValue.requests = [data]);
+
+    return newValue;
+  });
 }
 
 function onNewMessage(data, setNotices) {

@@ -1,5 +1,6 @@
 import { isValidObjectId } from "mongoose";
 import userService from "../services/userService.js";
+import { onNewRequest } from "../io/events/request.js";
 
 function getProfile(req, res) {
   const { contactName } = req.query;
@@ -45,7 +46,7 @@ async function addContact(req, res) {
 
     const test = await userService.addRequest(username, contactName);
 
-    console.log(test);
+    onNewRequest(await userService.getContactInfo(username), contactName);
   } else if (result.matchedCount == 1) {
     res.status(400).send("This contact is already added!");
   } else {
