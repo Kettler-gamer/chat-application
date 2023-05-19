@@ -40,14 +40,15 @@ export function Profile(props) {
   return (
     <>
       <div className="picture-switch">
-        <img
-          src={
-            picture ||
-            props.profile?.profilePicture ||
-            "/images/profile-pic.webp"
-          }
-          alt="preview"
-        />
+        <div
+          className="profile-pic"
+          style={{
+            backgroundImage: `url(${
+              picture ||
+              props.profile?.profilePicture ||
+              "/images/profile-pic.webp"
+            })`,
+          }}></div>
         <label htmlFor="picture-upload">
           <p>Replace</p>
         </label>

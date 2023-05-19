@@ -660,8 +660,10 @@ header button {
   row-gap: 1em;
   padding: 0 25%;
 }
-.black-background .settings-page .option-settings .picture-switch img,
+.black-background .settings-page .option-settings .picture-switch .profile-pic,
 .black-background .settings-page .option-settings .picture-switch label {
+  background-size: cover;
+  background-position-y: center;
   width: 100px;
   height: 100px;
   border-radius: 5em;
