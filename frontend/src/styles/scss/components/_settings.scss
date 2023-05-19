@@ -76,6 +76,10 @@
         justify-content: center;
         row-gap: 1em;
         padding: 0 25%;
+        canvas {
+          border-radius: 20em;
+          border: 1px solid $CG4;
+        }
         .profile-pic,
         label {
           background-size: cover;

@@ -655,6 +655,10 @@ header button {
   row-gap: 1em;
   padding: 0 25%;
 }
+.black-background .settings-page .option-settings .picture-switch canvas {
+  border-radius: 20em;
+  border: 1px solid #3b5839;
+}
 .black-background .settings-page .option-settings .picture-switch .profile-pic,
 .black-background .settings-page .option-settings .picture-switch label {
   background-size: cover;
