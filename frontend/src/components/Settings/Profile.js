@@ -4,7 +4,8 @@ import { fetchJson } from "../../scripts/Fetch";
 const image = new Image();
 let trackMouse = false;
 let x = 0,
-  y = 0;
+  y = 0,
+  speed = 1;
 
 let slideMouse = false;
 
@@ -70,18 +71,16 @@ export function Profile(props) {
 
   function onMouseMove(e) {
     if (!trackMouse) return;
-    x += -e.movementX;
-    y += -e.movementY;
+    x += -e.movementX * speed;
+    y += -e.movementY * speed;
 
     x = Math.max(0, x);
     y = Math.max(0, y);
 
-    x = Math.min(image.width, x);
+    x = Math.min(image.width - resolution, x);
     y = Math.min(image.height - resolution, y);
 
-    const ctx = canvasRef.current.getContext("2d");
-    ctx.clearRect(0, 0, resolution, resolution);
-    ctx.drawImage(image, -x, -y);
+    drawImage();
   }
 
   function onSlideDown() {
@@ -90,6 +89,10 @@ export function Profile(props) {
 
   function onSlideUp() {
     slideMouse = false;
+    drawImage();
+  }
+
+  function drawImage() {
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, resolution, resolution);
     ctx.drawImage(image, -x, -y);
@@ -107,13 +110,16 @@ export function Profile(props) {
       return newValue;
     });
     calculateResolution();
+    calculateSpeed();
   }
 
   function calculateResolution() {
     setResolution(Math.floor(256 + ((1024 - 256) / 75) * slideVal));
-    const ctx = canvasRef.current.getContext("2d");
-    ctx.clearRect(0, 0, resolution, resolution);
-    ctx.drawImage(image, -x, -y);
+    drawImage();
+  }
+
+  function calculateSpeed() {
+    speed = Math.floor(1 + ((4 - 1) / 75) * slideVal);
   }
 
   return (
