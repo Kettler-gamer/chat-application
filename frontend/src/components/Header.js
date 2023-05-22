@@ -15,7 +15,9 @@ export function Header(props) {
             }}></div>
 
           <h2>{props.profile.username}</h2>
-          <button onClick={() => navigate("/main/settings")}>Settings</button>
+          <button onClick={() => navigate("/main/settings/profile")}>
+            Settings
+          </button>
         </>
       )}
     </header>
