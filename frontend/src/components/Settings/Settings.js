@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import { Profile } from "./Profile";
+import { Profile } from "./ProfileRoutes/Profile";
 import { Account } from "./Account";
 
 export function Settings(props) {

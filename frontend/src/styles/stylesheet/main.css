@@ -651,19 +651,22 @@ header button {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   row-gap: 1em;
-  padding: 0 25%;
+  margin: 0 auto;
+  width: 75%;
 }
 .black-background .settings-page .option-settings .picture-switch canvas {
   border-radius: 20em;
   border: 1px solid #3b5839;
+  width: 75%;
 }
 .black-background .settings-page .option-settings .picture-switch .resolution {
   display: flex;
-  justify-content: space-between;
   font-size: 1.5rem;
-  width: 120%;
+  justify-content: center;
+  width: 100%;
+  height: 1em;
 }
 .black-background .settings-page .option-settings .picture-switch .resolution .slider-container {
   width: 80%;
@@ -676,10 +679,6 @@ header button {
   width: 25%;
   z-index: 20;
   height: 100%;
-}
-.black-background .settings-page .option-settings .picture-switch .resolution p {
-  color: #ffce00;
-  width: 10%;
 }
 .black-background .settings-page .option-settings .picture-switch .profile-pic,
 .black-background .settings-page .option-settings .picture-switch label {

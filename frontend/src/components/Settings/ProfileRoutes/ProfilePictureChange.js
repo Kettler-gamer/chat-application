@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { fetchJson } from "../../scripts/Fetch";
+import { fetchJson } from "../../../scripts/Fetch";
 
 const image = new Image();
 let trackMouse = false;
@@ -9,7 +9,7 @@ let x = 0,
 
 let slideMouse = false;
 
-export function Profile(props) {
+export function ProfilePictureChange(props) {
   const [picture, setPicture] = useState(undefined);
   const [slideVal, setSlideVal] = useState(0);
   const [resolution, setResolution] = useState(256);
@@ -145,7 +145,6 @@ export function Profile(props) {
                   onMouseMove={onSlideMove}
                   style={{ marginLeft: `${slideVal}%` }}></div>
               </div>
-              <p>{resolution}</p>
             </div>
           </>
         ) : (
