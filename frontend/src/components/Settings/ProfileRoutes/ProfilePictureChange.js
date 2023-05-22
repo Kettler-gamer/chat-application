@@ -5,7 +5,8 @@ const image = new Image();
 let trackMouse = false;
 let x = 0,
   y = 0,
-  speed = 1;
+  speed = 1,
+  update = true;
 
 export function ProfilePictureChange(props) {
   const [picture, setPicture] = useState(undefined);
@@ -54,8 +55,10 @@ export function ProfilePictureChange(props) {
   function renderCanvas(imageUrl) {
     image.src = imageUrl;
     image.onload = () => {
-      const ctx = canvasRef.current.getContext("2d");
-      ctx.drawImage(image, 0, 0);
+      x = 0;
+      y = 0;
+      update = true;
+      requestAnimationFrame(drawImage.bind(this));
     };
   }
 
@@ -78,26 +81,29 @@ export function ProfilePictureChange(props) {
     x = Math.min(image.width - resolution, x);
     y = Math.min(image.height - resolution, y);
 
-    drawImage();
+    update = true;
   }
 
   function drawImage() {
-    const ctx = canvasRef.current.getContext("2d");
-    ctx.clearRect(0, 0, resolution, resolution);
-    ctx.drawImage(image, -x, -y);
+    if (update && canvasRef.current) {
+      update = false;
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.clearRect(0, 0, resolution, resolution);
+      ctx.drawImage(image, -x, -y);
+    }
+    requestAnimationFrame(drawImage.bind(this));
   }
 
   function onSlideMove(e) {
     setSlideVal(e.target.value);
-    setTimeout(() => {
-      calculateResolution();
-      calculateSpeed();
-    }, 50);
+    calculateResolution();
+    calculateSpeed();
   }
 
   function calculateResolution() {
-    setResolution(Math.floor(256 + ((1024 - 256) / 75) * slideVal));
-    drawImage();
+    const newRes = Math.floor(256 + ((1024 - 256) / 75) * slideVal);
+    setResolution(newRes);
+    update = true;
   }
 
   function calculateSpeed() {
@@ -113,6 +119,7 @@ export function ProfilePictureChange(props) {
               ref={canvasRef}
               width={resolution}
               height={resolution}
+              onChange={() => console.log("canvas change")}
               onMouseUp={onMouseUp}
               onMouseDown={onMouseDown}
               onMouseMove={onMouseMove}
@@ -124,7 +131,6 @@ export function ProfilePictureChange(props) {
               min={0}
               max={75}
               onChange={onSlideMove}
-              onMouseUp={drawImage}
             />
           </>
         ) : (
