@@ -2,24 +2,10 @@ import userService from "../services/userService.js";
 import messageService from "../services/messageService.js";
 import { onNewMessage } from "../io/events/message.js";
 import channelService from "../services/channelService.js";
-import { isValidObjectId } from "mongoose";
 
 async function getMessages(req, res) {
   const { username } = req.jwtPayload;
   const { contactName, channelId } = req.query;
-
-  if (!contactName && !channelId)
-    return res.status(400).send("You must provide contactName or channelId!");
-
-  if (channelId && !isValidObjectId(channelId))
-    return res.status(400).send("Invalid channel id!");
-
-  if (channelId) {
-    const channel = await channelService.getChannel(channelId, username);
-    if (!channel) {
-      return res.status(404).send("Channel not found!");
-    }
-  }
 
   userService
     .getUser(username)
@@ -40,15 +26,6 @@ async function getMessages(req, res) {
 function postMessage(req, res) {
   const { username } = req.jwtPayload;
   const { content, contactName, attachement, channelId } = req.body;
-
-  if (!content || (!contactName && !channelId))
-    return res.status(400).send("Not enough info!");
-
-  if (contactName && channelId)
-    return res.status(400).send("You must provide contactName OR channelId");
-
-  if (!contactName && !isValidObjectId(channelId))
-    return res.status(400).send("The object ID provided is invalid!");
 
   (contactName
     ? userService.getUser(contactName)

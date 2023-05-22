@@ -5,6 +5,7 @@ import messageController from "../controllers/messageController.js";
 import channelController from "../controllers/channelController.js";
 import userCheck from "../filter/userCheck.js";
 import checkToken from "../filter/jwtCheck.js";
+import messageFilter from "../filter/messageFilter.js";
 
 const router = express.Router();
 
@@ -28,8 +29,8 @@ router.patch("/blockUser", userController.blockUser);
 
 router
   .route("/message")
-  .get(messageController.getMessages)
-  .post(messageController.postMessage);
+  .get(messageFilter.getFilter, messageController.getMessages)
+  .post(messageFilter.postFilter, messageController.postMessage);
 
 router
   .route("/channel")
