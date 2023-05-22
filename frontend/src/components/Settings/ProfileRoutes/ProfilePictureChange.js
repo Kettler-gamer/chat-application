@@ -7,8 +7,6 @@ let x = 0,
   y = 0,
   speed = 1;
 
-let slideMouse = false;
-
 export function ProfilePictureChange(props) {
   const [picture, setPicture] = useState(undefined);
   const [slideVal, setSlideVal] = useState(0);
@@ -83,15 +81,6 @@ export function ProfilePictureChange(props) {
     drawImage();
   }
 
-  function onSlideDown() {
-    slideMouse = true;
-  }
-
-  function onSlideUp() {
-    slideMouse = false;
-    drawImage();
-  }
-
   function drawImage() {
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, resolution, resolution);
@@ -99,18 +88,11 @@ export function ProfilePictureChange(props) {
   }
 
   function onSlideMove(e) {
-    if (!slideMouse) return;
-    setSlideVal((oldValue) => {
-      let newValue = oldValue;
-      newValue += 0.45 * e.movementX;
-
-      newValue = Math.max(0, newValue);
-      newValue = Math.min(75, newValue);
-
-      return newValue;
-    });
-    calculateResolution();
-    calculateSpeed();
+    setSlideVal(e.target.value);
+    setTimeout(() => {
+      calculateResolution();
+      calculateSpeed();
+    }, 50);
   }
 
   function calculateResolution() {
@@ -135,17 +117,15 @@ export function ProfilePictureChange(props) {
               onMouseDown={onMouseDown}
               onMouseMove={onMouseMove}
             />
-            <div className="resolution">
-              <div className="slider-container">
-                <div
-                  className="slider"
-                  onMouseUp={onSlideUp}
-                  onMouseLeave={onSlideUp}
-                  onMouseDown={onSlideDown}
-                  onMouseMove={onSlideMove}
-                  style={{ marginLeft: `${slideVal}%` }}></div>
-              </div>
-            </div>
+            <input
+              className="res-slider"
+              type="range"
+              value={slideVal}
+              min={0}
+              max={75}
+              onChange={onSlideMove}
+              onMouseUp={drawImage}
+            />
           </>
         ) : (
           <div

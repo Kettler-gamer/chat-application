@@ -82,24 +82,22 @@
           border: 1px solid $CG4;
           width: 75%;
         }
-        .resolution {
-          display: flex;
-          font-size: 1.5rem;
-          justify-content: center;
-          width: 100%;
-          height: 1em;
-          .slider-container {
-            width: 80%;
-            background-color: $CY5;
-            border-radius: 1em;
-            .slider {
-              background-color: $CG4;
-              border-radius: 1em;
-              width: 25%;
-              z-index: 20;
-              height: 100%;
-            }
-          }
+        .res-slider {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 75%;
+          color: $CY4;
+          background: $CY5;
+          border-radius: 0.75em;
+          outline: none;
+        }
+        .res-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 4em;
+          height: 1.5em;
+          background-color: $CY1;
+          border-radius: 0.75em;
         }
         .profile-pic,
         label {
