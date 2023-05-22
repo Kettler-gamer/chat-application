@@ -123,4 +123,28 @@ async function removeContact(req, res) {
   res.status(200).send("The contact was removed!");
 }
 
-export default { getProfile, addContact, setProfilePicture, removeContact };
+async function blockUser(req, res) {
+  const { username } = req.jwtPayload;
+  const { contactName } = req.body;
+
+  if (!contactName) return res.status(400).send("Contact name not provided!");
+
+  const contact = await userService.getUser(contactName, []);
+
+  if (!contact) return res.status(400).send("User does not exist!");
+
+  const result = await userService.blockUser(username, contact);
+
+  if (result.modifiedCount === 0)
+    return res.status(400).send("Contact is already blocked!");
+
+  res.status(200).send("The contact is now blocked!");
+}
+
+export default {
+  getProfile,
+  addContact,
+  setProfilePicture,
+  removeContact,
+  blockUser,
+};

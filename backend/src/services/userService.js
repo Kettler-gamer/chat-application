@@ -77,6 +77,13 @@ async function removeRequest(username, contactId) {
   );
 }
 
+async function blockUser(username, contact) {
+  return User.updateOne(
+    { username, blocked: { $nin: [contact._id] } },
+    { $push: { blocked: contact._id } }
+  );
+}
+
 export default {
   getUser,
   getUsersFromIdList,
@@ -88,4 +95,5 @@ export default {
   updateUserPassword,
   removeContact,
   removeRequest,
+  blockUser,
 };
