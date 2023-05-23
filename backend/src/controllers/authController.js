@@ -5,9 +5,10 @@ import jwtUtil from "../util/jwtUtil.js";
 function login(req, res) {
   const { username, password } = req.body;
 
-  authService.comparePassword(username, password).then((match) => {
-    if (match) {
-      const jwtToken = jwtUtil.createToken({ username });
+  authService.comparePassword(username, password).then((info) => {
+    if (info.match) {
+      const jwtToken = jwtUtil.createToken({ username, userId: info.userId });
+      console.log(jwtToken);
       res.send({ jwtToken, message: "You logged in!" });
     } else {
       res.status(401).send("Incorrect username or password!");

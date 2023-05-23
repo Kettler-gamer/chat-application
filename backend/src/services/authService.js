@@ -15,9 +15,11 @@ async function addUser(user) {
 async function comparePassword(username, password) {
   const user = await User.findOne({ username });
 
-  if (!user) return false;
+  if (!user) return { match: false };
 
-  return bcrypt.compare(password, user.password);
+  const match = await bcrypt.compare(password, user.password);
+
+  return { match, userId: user._id };
 }
 
 export default { addUser, comparePassword };
