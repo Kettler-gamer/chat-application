@@ -46,7 +46,7 @@ export function Chat(props) {
   function scrollChatToBottom() {
     setTimeout(() => {
       const cont = document.querySelector(".chat-message-container");
-      cont.scrollTo(0, cont.scrollHeight);
+      cont?.scrollTo(0, cont.scrollHeight);
     }, 1);
   }
 
