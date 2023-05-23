@@ -2,6 +2,7 @@ import userService from "../services/userService.js";
 import messageService from "../services/messageService.js";
 import { onNewMessage } from "../io/events/message.js";
 import channelService from "../services/channelService.js";
+import { createError } from "../util/errorUtil.js";
 
 async function getMessages(req, res) {
   const { username } = req.jwtPayload;
@@ -24,7 +25,7 @@ async function getMessages(req, res) {
 }
 
 function postMessage(req, res) {
-  const { username } = req.jwtPayload;
+  const { username, userId } = req.jwtPayload;
   const { content, contactName, attachement, channelId } = req.body;
 
   (contactName
@@ -32,17 +33,21 @@ function postMessage(req, res) {
     : channelService.getChannel(channelId, username)
   )
     .then((contact) => {
-      if (contact) {
-        const info = {
-          author: username,
-          reciever: contactName || channelId,
-          content,
-          attachement,
-        };
-        return messageService.addMessage(info, contact);
-      } else {
-        res.status(404).send("Contact/Channel does not exist!");
-      }
+      if (!contact) throw createError(404, "Contact/Channel does not exist!");
+
+      if (contact.blocked?.includes(userId) || false)
+        throw createError(
+          400,
+          "The user you are trying to send a message to has blocked you!"
+        );
+
+      const info = {
+        author: username,
+        reciever: contactName || channelId,
+        content,
+        attachement,
+      };
+      return messageService.addMessage(info, contact);
     })
     .then((data) => {
       if (data.result.modifiedCount > 0) {
@@ -55,7 +60,11 @@ function postMessage(req, res) {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send("Server error!");
+      if (error.status) {
+        res.status(error.status).send(error.message);
+      } else {
+        res.status(500).send("Server error!");
+      }
     });
 }
 
