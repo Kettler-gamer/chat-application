@@ -8,7 +8,6 @@ function login(req, res) {
   authService.comparePassword(username, password).then((info) => {
     if (info.match) {
       const jwtToken = jwtUtil.createToken({ username, userId: info.userId });
-      console.log(jwtToken);
       res.send({ jwtToken, message: "You logged in!" });
     } else {
       res.status(401).send("Incorrect username or password!");

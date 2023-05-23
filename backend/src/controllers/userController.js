@@ -30,12 +30,17 @@ async function getProfile(req, res) {
 }
 
 async function addContact(req, res) {
-  const { username } = req.jwtPayload;
+  const { username, userId } = req.jwtPayload;
   const { contactName } = req.body;
 
   const contact = await userService.getUser(contactName);
 
   if (!contact) throw new Error("Contact not found!");
+
+  const isContactBlocked = contact.blocked?.includes(userId) || false;
+
+  if (isContactBlocked)
+    return res.status(400).send("The contact has blocked you!");
 
   const result = await userService.addContact(username, contact._id);
 
