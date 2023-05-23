@@ -19,7 +19,7 @@ async function getProfile(req, res) {
     result.requests = await userService.getUsersFromIdList(user.requests);
 
   if (user.blocked && user.blocked.length > 0)
-    result.requests = await userService.getUsersFromIdList(user.blocked);
+    result.blocked = await userService.getUsersFromIdList(user.blocked);
 
   res.send({
     username: user.username,
