@@ -1,4 +1,5 @@
 import { isValidObjectId } from "mongoose";
+import channelService from "../services/channelService.js";
 
 function postFilter(req, res, next) {
   const { content, contactName, channelId } = req.body;
@@ -16,6 +17,7 @@ function postFilter(req, res, next) {
 }
 
 async function getFilter(req, res, next) {
+  const { username } = req.jwtPayload;
   const { contactName, channelId } = req.query;
 
   if (!contactName && !channelId)
