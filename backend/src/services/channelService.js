@@ -13,7 +13,9 @@ function addChannel(users, name) {
 }
 
 function getChannel(channelId, username) {
-  return Channel.findOne({ _id: channelId, users: { $in: username } });
+  if (typeof username !== "string")
+    throw new Error("Username is not a string!");
+  return Channel.findOne({ _id: { $eq: channelId }, users: { $in: username } });
 }
 
 async function addUsersToChannel(channelId, users, username) {
@@ -45,7 +47,7 @@ async function removeUserFromChannel(username, channelId) {
     { $pull: { channelIds: new ObjectId(channelId) } }
   );
   const channelResult = await Channel.updateOne(
-    { _id: channelId },
+    { _id: { $eq: channelId } },
     { $pull: { users: username } }
   );
   return { channelResult, userResult };

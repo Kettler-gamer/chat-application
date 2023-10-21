@@ -6,13 +6,28 @@ import channelController from "../controllers/channelController.js";
 import userCheck from "../filter/userCheck.js";
 import checkToken from "../filter/jwtCheck.js";
 import messageFilter from "../filter/messageFilter.js";
+import {
+  defaultLimiter,
+  loginLimiter,
+  registerLimiter,
+} from "../util/rateLimiters.js";
 
 const router = express.Router();
 
-router.post("/auth/login", userCheck.checkUserInput, authController.login);
-router.put("/auth/register", userCheck.checkUserInput, authController.register);
+router.post(
+  "/auth/login",
+  userCheck.checkUserInput,
+  loginLimiter,
+  authController.login
+);
+router.put(
+  "/auth/register",
+  userCheck.checkUserInput,
+  registerLimiter,
+  authController.register
+);
 
-router.use(checkToken);
+router.use(defaultLimiter, checkToken);
 
 router.patch("/auth/changepassword", authController.changePassword);
 

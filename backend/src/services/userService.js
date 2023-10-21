@@ -16,7 +16,7 @@ async function getUser(username, extraProjection = []) {
   if (extraProjection) {
     projection.push(...extraProjection);
   }
-  return User.findOne({ username }, projection.join(" "));
+  return User.findOne({ username: { $eq: username } }, projection.join(" "));
 }
 
 async function getUsersFromIdList(list) {
@@ -30,16 +30,22 @@ async function addContact(username, contactId) {
 async function addRequest(username, contactName) {
   const user = await User.findOne({ username });
   return User.updateOne(
-    { username: contactName },
+    { username: { $eq: contactName } },
     { $push: { requests: user._id } }
   );
 }
 
 async function getContactInfo(username) {
-  return User.findOne({ username }, "username profilePicture");
+  return User.findOne(
+    { username: { $eq: username } },
+    "username profilePicture"
+  );
 }
 
 async function updateProfilePicture(username, profilePicture) {
+  if (typeof profilePicture !== "string")
+    throw new Error("picture not a string!");
+
   return User.updateOne({ username }, { profilePicture });
 }
 

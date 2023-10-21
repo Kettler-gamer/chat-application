@@ -13,7 +13,7 @@ async function getMessagesFromList(list, contactName) {
 
 async function getMessagesFromChannel(channelId) {
   return Message.find({
-    reciever: channelId,
+    reciever: { $eq: channelId },
   })
     .sort({ _id: -1 })
     .limit(10);

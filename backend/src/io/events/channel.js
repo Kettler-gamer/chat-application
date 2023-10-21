@@ -25,7 +25,7 @@ export function usersAddedToChannel(channel, users) {
 }
 
 export function onUserLeftChannel(channelId, username) {
-  Channel.findOne({ _id: channelId }).then((channel) => {
+  Channel.findOne({ _id: { $eq: channelId } }).then((channel) => {
     if (channel) {
       channel.users.forEach((user) => {
         if (sockets[user]) {

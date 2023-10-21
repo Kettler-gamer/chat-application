@@ -13,7 +13,7 @@ async function addUser(user) {
 }
 
 async function comparePassword(username, password) {
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username: { $eq: username } });
 
   if (!user) return { match: false };
 
